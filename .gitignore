@@ -53,3 +53,6 @@ next-env.d.ts
 
 # but do ship the env template
 !.env.example
+
+.vercel
+.env*
