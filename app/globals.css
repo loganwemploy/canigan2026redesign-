@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+/* ————————————————————————————————————————————————
+   Canigan Health Options — editorial "plate" design system
+   Cream paper, deep green ink, terracotta accents, petrol labels
+   ———————————————————————————————————————————————— */
+
+:root {
+  /* palette */
+  --cream: #f1eee5;
+  --cream-2: #f7f4eb;
+  --parch: #eae6d9;
+  --ink: #38422f;
+  --ink-soft: #68705c;
+  --petrol: #4a6178;
+  --terra: #c0512f;
+  --terra-deep: #a84428;
+  --sage: #93a78b;
+  --pine: #414c33;
+  --paper-white: #f6f3e8;
+  --hairline: rgba(56, 66, 47, 0.24);
+  --hairline-soft: rgba(56, 66, 47, 0.14);
+
+  /* shadcn tokens mapped to the palette */
+  --background: var(--cream);
+  --foreground: var(--ink);
+  --card: var(--cream-2);
+  --card-foreground: var(--ink);
+  --popover: var(--cream-2);
+  --popover-foreground: var(--ink);
+  --primary: var(--terra);
+  --primary-foreground: var(--paper-white);
+  --secondary: var(--parch);
+  --secondary-foreground: var(--ink);
+  --muted: var(--parch);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--parch);
+  --accent-foreground: var(--ink);
+  --destructive: #9f3520;
+  --destructive-foreground: var(--paper-white);
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--terra);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-cream: var(--cream);
+  --color-cream2: var(--cream-2);
+  --color-parch: var(--parch);
+  --color-ink: var(--ink);
+  --color-inksoft: var(--ink-soft);
+  --color-petrol: var(--petrol);
+  --color-terra: var(--terra);
+  --color-terradeep: var(--terra-deep);
+  --color-sage: var(--sage);
+  --color-pine: var(--pine);
+  --color-paper: var(--paper-white);
+
+  --font-sans: var(--font-pt-sans), "PT Sans", "Segoe UI", sans-serif;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --animate-accordion-down: accordion-down 0.24s ease-out;
+  --animate-accordion-up: accordion-up 0.24s ease-out;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  [role="checkbox"]:focus-visible {
+    outline: 2px solid var(--terra);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--terra);
+    color: var(--paper-white);
+  }
+}
+
+@layer utilities {
+  /* museum-plate serif italic display — open tracking for silver-fox readability */
+  .font-display {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.012em;
+    line-height: 1.28;
+  }
+  /* tracked small-caps label */
+  .label-caps {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-weight: 700;
+    font-size: 0.72rem;
+  }
+  /* faint dot-grid paper texture */
+  .dot-grid {
+    background-image: radial-gradient(rgba(56, 66, 47, 0.10) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+  }
+  .dot-grid-dark {
+    background-image: radial-gradient(rgba(246, 243, 232, 0.14) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+  }
+  /* dotted leader row: <span class="dot-leader" /> */
+  .dot-leader {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    letter-spacing: 0.55em;
+    color: var(--ink-soft);
+    opacity: 0.75;
+    font-size: 0.8rem;
+    line-height: 1;
+    user-select: none;
+  }
+  .hairline {
+    border-color: var(--hairline);
+  }
+  .hairline-soft {
+    border-color: var(--hairline-soft);
+  }
+}
