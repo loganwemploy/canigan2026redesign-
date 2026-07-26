@@ -3,6 +3,15 @@ import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
   images: {
+    // Next 16 blocks query strings on local images unless the pattern is listed,
+    // and declaring localPatterns opts every other local path out — so each
+    // directory the site optimizes from has to be named here.
+    localPatterns: [
+      { pathname: "/images/**", search: "" },
+      { pathname: "/media/**", search: "" },
+      // Cache-busted de-texted hero frame (see app/api/hero-image)
+      { pathname: "/api/hero-image", search: "?v=2" },
+    ],
     remotePatterns: [
       // Google Drive-hosted photography (see lib/drive.ts)
       { protocol: "https", hostname: "lh3.googleusercontent.com" },

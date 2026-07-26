@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     zooms: Zoom;
+    'zoom-rsvps': ZoomRsvp;
     'contact-submissions': ContactSubmission;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,6 +82,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     zooms: ZoomsSelect<false> | ZoomsSelect<true>;
+    'zoom-rsvps': ZoomRsvpsSelect<false> | ZoomRsvpsSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -199,7 +201,7 @@ export interface Media {
   };
 }
 /**
- * Edit the next Zoom here. The most recent active meeting powers the site Zoom section and hero invite button.
+ * Edit the next Zoom here. The most recent active meeting powers the site Zoom section and hero invite button. RSVPs for each meeting live under Zoom → Zoom RSVPs.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "zooms".
@@ -224,6 +226,32 @@ export interface Zoom {
    * Only the newest active meeting is shown on the public site.
    */
   active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Everyone who reserved a seat, newest first. Use the Meeting filter to see the guest list for one Zoom.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "zoom-rsvps".
+ */
+export interface ZoomRsvp {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  /**
+   * Including themself.
+   */
+  guests?: number | null;
+  /**
+   * Filter by this to pull up one meeting's guest list.
+   */
+  meeting?: (number | null) | Zoom;
+  meetingTitle?: string | null;
+  meetingDate?: string | null;
+  notes?: string | null;
+  reminder?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -281,6 +309,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'zooms';
         value: number | Zoom;
+      } | null)
+    | ({
+        relationTo: 'zoom-rsvps';
+        value: number | ZoomRsvp;
       } | null)
     | ({
         relationTo: 'contact-submissions';
@@ -414,6 +446,23 @@ export interface ZoomsSelect<T extends boolean = true> {
   zoomLength?: T;
   link?: T;
   active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "zoom-rsvps_select".
+ */
+export interface ZoomRsvpsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  guests?: T;
+  meeting?: T;
+  meetingTitle?: T;
+  meetingDate?: T;
+  notes?: T;
+  reminder?: T;
   updatedAt?: T;
   createdAt?: T;
 }

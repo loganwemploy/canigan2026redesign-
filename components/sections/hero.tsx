@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Video, ShieldCheck, FlaskConical, HeartHandshake } from "lucide-react";
 import { Reveal, Parallax } from "@/components/motion/reveal";
 import { DotLeader, Display } from "@/components/site/atoms";
+import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
@@ -21,8 +22,6 @@ export function Hero({
   meeting?: ZoomMeeting | null;
 }) {
   const src = resolveImage(data.image, FALLBACK_IMAGES.hero);
-  const zoomHref = meeting?.link || "#zoom";
-  const zoomExternal = zoomHref.startsWith("http");
 
   return (
     <section id="top" className="bg-sage p-2 sm:p-3">
@@ -35,7 +34,8 @@ export function Hero({
               fill
               priority
               sizes="100vw"
-              className="scale-105 object-cover object-[64%_18%] sm:object-[center_22%]"
+              // scale-105 keeps the blur's feathered edge outside the frame
+              className="scale-105 object-cover object-[64%_18%] blur-[3px] sm:object-[center_22%]"
             />
           </Parallax>
           <div className="absolute inset-0 bg-[#2e3a26]/35 mix-blend-multiply" />
@@ -55,20 +55,21 @@ export function Hero({
               </div>
 
               {meeting ? (
-                <a
-                  href={zoomHref}
-                  {...(zoomExternal ? { target: "_blank", rel: "noreferrer" } : {})}
-                  className="group inline-flex items-center gap-2 rounded-full border border-[var(--paper-white)]/35 bg-[#1f2a1a]/40 px-3.5 py-1.5 backdrop-blur-sm transition-colors hover:border-terra/70 hover:bg-[#1f2a1a]/60"
-                >
-                  <span className="relative flex size-2">
-                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-terra/70" />
-                    <span className="relative inline-flex size-2 rounded-full bg-terra" />
-                  </span>
-                  <span className="text-[0.66rem] font-bold tracking-[0.04em] text-[var(--paper-white)] sm:text-[0.72rem]">
-                    Next live Zoom · {meeting.date}
-                    {meeting.time ? ` · ${meeting.time}` : ""}
-                  </span>
-                </a>
+                <ZoomInviteDialog meeting={meeting}>
+                  <button
+                    type="button"
+                    className="group inline-flex items-center gap-2 rounded-full border border-[var(--paper-white)]/35 bg-[#1f2a1a]/40 px-3.5 py-1.5 backdrop-blur-sm transition-colors hover:border-terra/70 hover:bg-[#1f2a1a]/60"
+                  >
+                    <span className="relative flex size-2">
+                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-terra/70" />
+                      <span className="relative inline-flex size-2 rounded-full bg-terra" />
+                    </span>
+                    <span className="text-[0.66rem] font-bold tracking-[0.04em] text-[var(--paper-white)] sm:text-[0.72rem]">
+                      Next live Zoom · {meeting.date}
+                      {meeting.time ? ` · ${meeting.time}` : ""}
+                    </span>
+                  </button>
+                </ZoomInviteDialog>
               ) : null}
             </div>
           </Reveal>
@@ -97,18 +98,15 @@ export function Hero({
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
-              <Button
-                asChild
-                className="h-14 rounded-full bg-terra px-9 text-[0.78rem] font-bold tracking-[0.14em] uppercase text-paper shadow-[0_10px_30px_-8px_rgba(20,28,16,0.7)] hover:bg-terradeep focus-visible:ring-paper"
-              >
-                <a
-                  href={zoomHref}
-                  {...(zoomExternal ? { target: "_blank", rel: "noreferrer" } : {})}
+              <ZoomInviteDialog meeting={meeting}>
+                <Button
+                  type="button"
+                  className="h-14 rounded-full bg-terra px-9 text-[0.78rem] font-bold tracking-[0.14em] uppercase text-paper shadow-[0_10px_30px_-8px_rgba(20,28,16,0.7)] hover:bg-terradeep focus-visible:ring-paper"
                 >
                   <Video className="mr-2 size-4" aria-hidden />
                   Join Candy on Zoom
-                </a>
-              </Button>
+                </Button>
+              </ZoomInviteDialog>
 
               <div className="flex items-center gap-4 text-[0.72rem] font-bold tracking-[0.1em] uppercase text-[var(--paper-white)] sm:gap-5">
                 <a

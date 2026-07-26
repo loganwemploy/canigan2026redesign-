@@ -41,10 +41,11 @@ export const Zooms: CollectionConfig = {
     delete: ({ req }) => Boolean(req.user),
   },
   admin: {
+    group: "Zoom",
     useAsTitle: "title",
     defaultColumns: ["title", "date", "time", "active", "updatedAt"],
     description:
-      "Edit the next Zoom here. The most recent active meeting powers the site Zoom section and hero invite button.",
+      "Edit the next Zoom here. The most recent active meeting powers the site Zoom section and hero invite button. RSVPs for each meeting live under Zoom → Zoom RSVPs.",
     livePreview: {
       url: `${process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"}/#zoom`,
     },
@@ -81,6 +82,73 @@ export const Zooms: CollectionConfig = {
   ],
 };
 
+export const ZoomRsvps: CollectionConfig = {
+  slug: "zoom-rsvps",
+  labels: { singular: "Zoom RSVP", plural: "Zoom RSVPs" },
+  access: {
+    // The public RSVP form posts here; only Candy can read or clear them.
+    create: () => true,
+    read: ({ req }) => Boolean(req.user),
+    update: ({ req }) => Boolean(req.user),
+    delete: ({ req }) => Boolean(req.user),
+  },
+  admin: {
+    group: "Zoom",
+    useAsTitle: "name",
+    defaultColumns: ["name", "email", "phone", "guests", "meetingTitle", "meetingDate", "createdAt"],
+    description:
+      "Everyone who reserved a seat, newest first. Use the Meeting filter to see the guest list for one Zoom.",
+    pagination: { defaultLimit: 50 },
+  },
+  defaultSort: "-createdAt",
+  fields: [
+    {
+      type: "row",
+      fields: [
+        { name: "name", type: "text", required: true },
+        { name: "email", type: "email", required: true },
+      ],
+    },
+    {
+      type: "row",
+      fields: [
+        { name: "phone", type: "text" },
+        {
+          name: "guests",
+          label: "Seats",
+          type: "number",
+          defaultValue: 1,
+          min: 1,
+          admin: { description: "Including themself." },
+        },
+      ],
+    },
+    {
+      name: "meeting",
+      label: "Meeting",
+      type: "relationship",
+      relationTo: "zooms",
+      admin: { description: "Filter by this to pull up one meeting's guest list." },
+    },
+    // Snapshots so the RSVP still reads correctly after the meeting is edited.
+    {
+      type: "row",
+      fields: [
+        { name: "meetingTitle", label: "Meeting (at RSVP)", type: "text", admin: { readOnly: true } },
+        { name: "meetingDate", label: "Date (at RSVP)", type: "text", admin: { readOnly: true } },
+      ],
+    },
+    { name: "notes", label: "Questions for Candy", type: "textarea" },
+    {
+      name: "reminder",
+      label: "Wants a reminder before the call",
+      type: "checkbox",
+      defaultValue: true,
+    },
+  ],
+  timestamps: true,
+};
+
 export const ContactSubmissions: CollectionConfig = {
   slug: "contact-submissions",
   labels: { singular: "Contact Submission", plural: "Contact Submissions" },
@@ -91,6 +159,7 @@ export const ContactSubmissions: CollectionConfig = {
     delete: ({ req }) => Boolean(req.user),
   },
   admin: {
+    group: "Inbox",
     useAsTitle: "name",
     defaultColumns: ["name", "email", "createdAt"],
     description: "Messages sent through the 'Get in touch' form on the site.",

@@ -27,19 +27,21 @@ export function HomeLive({
   meeting: ZoomMeeting | null;
   serverURL: string;
 }) {
+  // Admin and site share an origin, so prefer the real one — that keeps Live Preview
+  // working on whatever port dev binds, not just the one in NEXT_PUBLIC_SERVER_URL.
+  // Not rendered into markup, so this cannot cause a hydration mismatch.
+  const previewOrigin = typeof window === "undefined" ? serverURL : window.location.origin;
+
   const { data: home } = useLivePreview<HomeData>({
     initialData: initialHome,
-    serverURL,
+    serverURL: previewOrigin,
     depth: 2,
   });
 
   return (
     <>
-      <RefreshRouteOnSave serverURL={serverURL} />
-      <SiteHeader
-        logo={FALLBACK_IMAGES.logo}
-        zoomHref={meeting?.link || "#zoom"}
-      />
+      <RefreshRouteOnSave />
+      <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} />
       <main className="bg-cream">
         <Hero data={home.hero} meeting={meeting} />
         <Assurance />

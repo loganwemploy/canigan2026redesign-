@@ -5,7 +5,7 @@ import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import sharp from "sharp";
 
-import { Users, Media, Zooms, ContactSubmissions } from "./cms/collections";
+import { Users, Media, Zooms, ZoomRsvps, ContactSubmissions } from "./cms/collections";
 import { Home } from "./cms/home-global";
 
 const filename = fileURLToPath(import.meta.url);
@@ -19,7 +19,7 @@ export default buildConfig({
       titleSuffix: "— Canigan Health Options",
     },
   },
-  collections: [Users, Media, Zooms, ContactSubmissions],
+  collections: [Users, Media, Zooms, ZoomRsvps, ContactSubmissions],
   globals: [Home],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "canigan-dev-secret",

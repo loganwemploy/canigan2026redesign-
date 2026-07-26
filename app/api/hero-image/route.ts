@@ -6,59 +6,99 @@ export const runtime = "nodejs";
 export const dynamic = "force-static";
 
 /**
- * The bundled hero photo (public/images/hero-candy-field.png, 2000×1429) is a
- * promo card with text baked in — "Canigan Health Options" top-left and Candy's
- * phone/email across the bottom — which collided with the on-page headline and
- * read as amateur.
+ * public/images/hero-candy-field.png is a promo card rather than a photograph:
+ * the 2000×1429 canvas has white margins, "Canigan Health Options" set in script
+ * across the sky beside Candy's face, and her phone/email in white over the field
+ * below. All three read as amateur behind the hero headline.
  *
- * The wordmark sits right beside Candy's face, so it can't simply be cropped
- * out. Instead we blur-patch the two text regions in place: each rectangle is
- * blurred into the surrounding sky/field and composited back with a feathered
- * (soft-edged) alpha mask so there are no visible seams. The result is a clean
- * full-bleed portrait of Candy.
+ * Measured against the source pixels:
+ *   photograph  x 92–1899,  y 143–1285
+ *   wordmark    x 150–1160, y 265–375   (dark script over the sky)
+ *   contact     y 1020–1185             (white type over the field)
+ *
+ * The margins and the contact band are cropped away. The wordmark can't be
+ * cropped — it sits beside her hair — so it is covered with real sky lifted from
+ * the right of her head at the *same* vertical range. Because the donor shares
+ * the y range, the sky's gradient and the horizon line already match, and only
+ * the right and bottom edges of the patch need to fade out.
  */
-// Regions are padded well beyond the text so the opaque core of each feathered
-// mask fully covers it, while the soft edges fall on clean sky / field.
-const REGIONS = [
-  // "Canigan Health Options" wordmark (top-left, beside her hair)
-  { left: 0, top: 95, width: 1265, height: 345 },
-  // phone / email contact band (lower third, full width across the field)
-  { left: 0, top: 890, width: 2000, height: 500 },
-] as const;
 
-const FEATHER = 80;
+/** Sky to the right of Candy's head; verified free of hair within these bounds. */
+const DONOR = { left: 1550, top: 143, width: 349, height: 302 } as const;
 
-/** A soft-edged alpha mask (white centre fading to transparent at the edges). */
-function featherMask(width: number, height: number): Buffer {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <rect x="${FEATHER}" y="${FEATHER}" width="${width - FEATHER * 2}" height="${
-      height - FEATHER * 2
-    }" fill="#fff"/>
-  </svg>`;
-  return Buffer.from(svg);
+/** Where that sky lands — wide and tall enough to clear the wordmark and fade. */
+const PATCH = { left: 92, top: 143, width: 1138, height: 302 } as const;
+
+/** The patch is fully opaque within this box, which contains the whole wordmark. */
+const SOLID = { width: 1078, height: 242 } as const;
+
+/** Length of the fade on the two edges that meet untouched sky. */
+const FADE = 60;
+
+/** The finished frame: the photograph, less its margins and the contact band. */
+const CROP = { left: 92, top: 143, width: 1808, height: 867 } as const;
+
+/** A one-directional black gradient, used to erase alpha via `dest-out`. */
+function fadeStrip(width: number, height: number, direction: "right" | "down"): Buffer {
+  const [x2, y2] = direction === "right" ? [width, 0] : [0, height];
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+      <defs>
+        <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${x2}" y2="${y2}">
+          <stop offset="0" stop-color="#000" stop-opacity="0" />
+          <stop offset="1" stop-color="#000" stop-opacity="1" />
+        </linearGradient>
+      </defs>
+      <rect width="${width}" height="${height}" fill="url(#g)" />
+    </svg>`,
+  );
+}
+
+/** Opaque over the wordmark, fading to nothing on the right and bottom edges. */
+function patchMask(): Promise<Buffer> {
+  return sharp({
+    create: { width: PATCH.width, height: PATCH.height, channels: 4, background: "#ffffff" },
+  })
+    .composite([
+      {
+        input: fadeStrip(FADE, PATCH.height, "right"),
+        left: SOLID.width,
+        top: 0,
+        blend: "dest-out",
+      },
+      {
+        input: fadeStrip(PATCH.width, FADE, "down"),
+        left: 0,
+        top: SOLID.height,
+        blend: "dest-out",
+      },
+    ])
+    .png()
+    .toBuffer();
 }
 
 export async function GET() {
   const file = path.join(process.cwd(), "public", "images", "hero-candy-field.png");
   const input = await readFile(file);
 
-  const patches = await Promise.all(
-    REGIONS.map(async (r) => {
-      const mask = await sharp(featherMask(r.width, r.height)).blur(FEATHER / 2).toBuffer();
-      const patch = await sharp(input)
-        .extract(r)
-        .blur(140)
-        .composite([{ input: mask, blend: "dest-in" }])
-        .png()
-        .toBuffer();
-      return { input: patch, left: r.left, top: r.top };
-    }),
-  );
+  const [sky, mask] = await Promise.all([
+    // Stretching 349px of sky across 1138px needs a touch of blur to hide the
+    // interpolation; the sky is near-uniform horizontally, so nothing is lost.
+    sharp(input).extract(DONOR).resize(PATCH.width, PATCH.height).blur(8).png().toBuffer(),
+    patchMask(),
+  ]);
 
-  const out = await sharp(input)
-    .composite(patches)
-    .jpeg({ quality: 86, mozjpeg: true })
+  const patch = await sharp(sky)
+    .composite([{ input: mask, blend: "dest-in" }])
+    .png()
     .toBuffer();
+
+  const patched = await sharp(input)
+    .composite([{ input: patch, left: PATCH.left, top: PATCH.top }])
+    .png()
+    .toBuffer();
+
+  const out = await sharp(patched).extract(CROP).jpeg({ quality: 88, mozjpeg: true }).toBuffer();
 
   return new Response(new Uint8Array(out), {
     headers: {

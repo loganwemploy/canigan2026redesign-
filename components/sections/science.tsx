@@ -67,7 +67,7 @@ export function Science({ data }: { data: HomeData["science"] }) {
         <Reveal variant="up" className="mt-8 md:mt-0 md:pb-10">
           <Button
             asChild
-            className="h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+            className="cta-long h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
           >
             <a href={ASSESSMENT_URL} target="_blank" rel="noreferrer">
               Explore the science — take the free quiz

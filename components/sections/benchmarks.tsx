@@ -135,7 +135,7 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
           </p>
           <Button
             asChild
-            className="mt-6 h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+            className="cta-long mt-6 h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
           >
             {external ? (
               <a href={data.cta.url} target="_blank" rel="noreferrer">

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowRight, Video, X } from "lucide-react";
+import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { ASSESSMENT_URL } from "@/cms/content";
 import type { ZoomMeeting } from "@/lib/home-types";
@@ -31,8 +32,6 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
   }, []);
 
   const shown = visible && !dismissed;
-  const zoomHref = meeting?.link || "#zoom";
-  const zoomExternal = zoomHref.startsWith("http");
 
   return (
     <div
@@ -44,7 +43,7 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
       <div className="mx-3 mb-3 rounded-[10px] border border-[var(--hairline)] bg-cream2/95 shadow-[0_-6px_30px_-12px_rgba(20,28,16,0.4)] backdrop-blur sm:mx-5">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <div className="min-w-0">
-            <p className="font-display text-[0.95rem] italic leading-[1.2] text-ink sm:text-[1.1rem]">
+            <p className="truncate font-display text-[0.95rem] italic leading-[1.2] text-ink sm:text-[1.1rem]">
               Pull up a chair with Candy
             </p>
             <p className="hidden text-[0.74rem] leading-tight text-petrol sm:block">
@@ -63,19 +62,16 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
             >
               Or take the free quiz
             </a>
-            <Button
-              asChild
-              className="h-11 rounded-full bg-terra px-5 text-[0.66rem] font-bold tracking-[0.14em] uppercase text-paper hover:bg-terradeep sm:px-7 sm:text-[0.7rem]"
-            >
-              <a
-                href={zoomHref}
-                {...(zoomExternal ? { target: "_blank", rel: "noreferrer" } : {})}
+            <ZoomInviteDialog meeting={meeting}>
+              <Button
+                type="button"
+                className="h-11 rounded-full bg-terra px-5 text-[0.66rem] font-bold tracking-[0.14em] uppercase text-paper hover:bg-terradeep sm:px-7 sm:text-[0.7rem]"
               >
                 <Video className="mr-1.5 size-4" aria-hidden />
                 Join Candy on Zoom
                 <ArrowRight className="ml-1.5 size-4" aria-hidden />
-              </a>
-            </Button>
+              </Button>
+            </ZoomInviteDialog>
             <button
               type="button"
               onClick={() => setDismissed(true)}

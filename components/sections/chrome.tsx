@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { DotRule } from "@/components/site/atoms";
+import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { ASSESSMENT_URL } from "@/cms/content";
+import type { ZoomMeeting } from "@/lib/home-types";
 
 /** Shared in-page navigation used by both the header and the footer. */
 const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
@@ -23,14 +25,13 @@ const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
  */
 export function SiteHeader({
   logo,
-  zoomHref = "#zoom",
+  meeting,
 }: {
   logo: string;
-  zoomHref?: string;
+  meeting?: ZoomMeeting | null;
 }) {
   const [shown, setShown] = useState(false);
   const [open, setOpen] = useState(false);
-  const zoomExternal = zoomHref.startsWith("http");
 
   useEffect(() => {
     const onScroll = () => {
@@ -41,9 +42,8 @@ export function SiteHeader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (!shown) setOpen(false);
-  }, [shown]);
+  // The masthead retracts over the hero, so the menu can only be open with it.
+  const menuOpen = shown && open;
 
   return (
     <header
@@ -80,32 +80,29 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              size="sm"
-              className="h-9 rounded-full bg-terra px-5 text-[0.6rem] font-bold tracking-[0.16em] uppercase text-paper hover:bg-terradeep"
-            >
-              <a
-                href={zoomHref}
-                {...(zoomExternal ? { target: "_blank", rel: "noreferrer" } : {})}
+            <ZoomInviteDialog meeting={meeting}>
+              <Button
+                type="button"
+                size="sm"
+                className="h-9 rounded-full bg-terra px-5 text-[0.6rem] font-bold tracking-[0.16em] uppercase text-paper hover:bg-terradeep"
               >
                 Join Candy on Zoom
-              </a>
-            </Button>
+              </Button>
+            </ZoomInviteDialog>
             <button
               type="button"
               className="grid size-9 place-items-center rounded-full border border-[var(--hairline)] text-ink lg:hidden"
-              aria-expanded={open}
+              aria-expanded={menuOpen}
               aria-controls="mobile-nav"
-              aria-label={open ? "Close menu" : "Open menu"}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
               onClick={() => setOpen((v) => !v)}
             >
-              {open ? <X className="size-4" /> : <Menu className="size-4" />}
+              {menuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
             </button>
           </div>
         </div>
 
-        {open ? (
+        {menuOpen ? (
           <nav
             id="mobile-nav"
             className="border-t border-[var(--hairline-soft)] px-5 py-4 lg:hidden"
@@ -125,14 +122,12 @@ export function SiteHeader({
                 </li>
               ))}
               <li>
-                <a
-                  href={zoomHref}
-                  {...(zoomExternal ? { target: "_blank", rel: "noreferrer" } : {})}
-                  className="label-caps block text-[0.62rem] text-terra"
-                  onClick={() => setOpen(false)}
-                >
-                  Join Candy on Zoom
-                </a>
+                <ZoomInviteDialog meeting={meeting}>
+                  {/* No menu-close on click — closing would unmount the dialog with it. */}
+                  <button type="button" className="label-caps block text-[0.62rem] text-terra">
+                    Join Candy on Zoom
+                  </button>
+                </ZoomInviteDialog>
               </li>
             </ul>
           </nav>

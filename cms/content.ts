@@ -252,13 +252,14 @@ export const zoomSeed: ZoomMeeting = {
 export const FALLBACK_IMAGES = {
   // De-texted crop of Candy's brand photo (see app/api/hero-image) — the raw
   // file has the wordmark + contact info baked in, which collided with the
-  // on-page headline. The route blur-patches that text out.
-  hero: "/api/hero-image",
+  // on-page headline. The response is immutably cached, so bump ?v when the
+  // route's crop or patch changes, or browsers keep the old frame for a year.
+  hero: "/api/hero-image?v=2",
   nutrition: "/images/wellness-bowl.jpg",
   opportunity: "/images/ambassador-program.png",
   // Sits under a 72% overlay, so the low-res Shaklee still reads perfectly here
   ambassador: SHAKLEE.productStill,
-  about: "/api/hero-image",
+  about: "/api/hero-image?v=2",
   logo: "/images/canigan-logo.png",
   spare: SHAKLEE.activeLifestyle,
 } as const;

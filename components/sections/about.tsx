@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowRight, Mail, Phone, Video } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { DotLeader, DotRule, Display, PlateLabel, Section } from "@/components/site/atoms";
+import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
@@ -116,15 +117,15 @@ export function About({
                   ))}
                 </div>
 
-                <Button
-                  asChild
-                  className="mt-7 h-11 w-full rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep sm:w-auto"
-                >
-                  <a href={meeting.link} target="_blank" rel="noreferrer">
+                <ZoomInviteDialog meeting={meeting}>
+                  <Button
+                    type="button"
+                    className="mt-7 h-11 w-full rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep sm:w-auto"
+                  >
                     <Video className="mr-2 size-4" aria-hidden />
                     Get the Zoom invite
-                  </a>
-                </Button>
+                  </Button>
+                </ZoomInviteDialog>
               </div>
             ) : (
               <p className="mt-6 max-w-[60ch] text-[0.82rem] leading-[1.85] text-[var(--paper-white)]/80">

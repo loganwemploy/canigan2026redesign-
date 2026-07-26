@@ -45,7 +45,7 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           <Reveal variant="up" delay={0.15} className="mt-10 flex">
             <Button
               asChild
-              className="h-10 self-start rounded-full bg-terra px-6 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+              className="cta-long h-10 self-start rounded-full bg-terra px-6 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
             >
               {isExternal ? (
                 <a href={data.ctaUrl} target="_blank" rel="noreferrer">

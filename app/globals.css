@@ -87,6 +87,8 @@
 
   --animate-accordion-down: accordion-down 0.24s ease-out;
   --animate-accordion-up: accordion-up 0.24s ease-out;
+  --animate-overlay-in: overlay-in 0.2s ease-out;
+  --animate-dialog-in: dialog-in 0.26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes accordion-down {
@@ -96,6 +98,14 @@
 @keyframes accordion-up {
   from { height: var(--radix-accordion-content-height); }
   to { height: 0; }
+}
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes dialog-in {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 @layer base {
@@ -169,5 +179,42 @@
   }
   .hairline-soft {
     border-color: var(--hairline-soft);
+  }
+}
+
+/* ————————————————————————————————————————————————
+   Scroll-reveal pre-hide.
+
+   Gated on `scripting: enabled` so the hide only applies where GSAP can
+   actually run. Without JavaScript — crawlers, print, blocked scripts — the
+   query never matches and the page renders fully visible instead of blank.
+   Browsers too old to know the feature also fail the match, which is the safe
+   direction. GSAP removes [data-reveal] on mount and drives it from there.
+   ———————————————————————————————————————————————— */
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  /* Long editorial CTA labels ("Find your plan — take the free assessment") must
+     wrap on narrow screens. shadcn's Button sets white-space: nowrap + a fixed
+     height, which pushes them past the edge of their card at phone widths. */
+  .cta-long {
+    white-space: normal;
+    height: auto;
+    min-height: 2.75rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    line-height: 1.35;
+    text-align: center;
+    max-width: 100%;
   }
 }
