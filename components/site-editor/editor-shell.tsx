@@ -11,6 +11,8 @@ import { SiteEditorProvider, useSiteEditor } from "@/components/site-editor/edit
 import { Editable } from "@/components/site-editor/editable";
 import { SiteHeader, SiteFooter } from "@/components/sections/chrome";
 import { Hero } from "@/components/sections/hero";
+import { Zoom } from "@/components/sections/zoom";
+import { Heritage } from "@/components/sections/heritage";
 import { Challenge } from "@/components/sections/challenge";
 import { Science } from "@/components/sections/science";
 import { Nutrition } from "@/components/sections/nutrition";
@@ -255,6 +257,14 @@ function EditorCanvas({
         >
           <Hero data={home.hero} meeting={meeting} />
         </Editable>
+        <Editable target={{ kind: "zoom", path: "title", label: "Zoom title", type: "text" }}>
+          <Zoom zoomSection={home.zoomSection} meeting={meeting} />
+        </Editable>
+        <Editable
+          target={{ kind: "home", path: "heritage.image", label: "Heritage timeline", type: "image" }}
+        >
+          <Heritage data={home.heritage} />
+        </Editable>
         <Editable
           target={{
             kind: "home",
@@ -321,9 +331,9 @@ function EditorCanvas({
           <GetStarted data={home.getStarted} />
         </Editable>
         <Editable
-          target={{ kind: "zoom", path: "title", label: "Zoom title", type: "text" }}
+          target={{ kind: "home", path: "about.image", label: "Photo of Candy", type: "image" }}
         >
-          <About about={home.about} zoomSection={home.zoomSection} meeting={meeting} />
+          <About about={home.about} />
         </Editable>
         <Editable
           target={{

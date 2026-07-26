@@ -6,6 +6,8 @@ import { SiteHeader, SiteFooter } from "@/components/sections/chrome";
 import { Hero } from "@/components/sections/hero";
 import { Assurance } from "@/components/sections/assurance";
 import { StickyCta } from "@/components/sections/sticky-cta";
+import { Zoom } from "@/components/sections/zoom";
+import { Heritage } from "@/components/sections/heritage";
 import { Challenge } from "@/components/sections/challenge";
 import { Science } from "@/components/sections/science";
 import { Nutrition } from "@/components/sections/nutrition";
@@ -45,6 +47,10 @@ export function HomeLive({
       <main className="bg-cream">
         <Hero data={home.hero} meeting={meeting} />
         <Assurance />
+        {/* The live Zoom is the strongest CTA, so it sits high rather than
+            near the footer; Heritage is the breath between it and the pitch. */}
+        <Zoom zoomSection={home.zoomSection} meeting={meeting} />
+        <Heritage data={home.heritage} />
         <Challenge data={home.challenge} />
         <Science data={home.science} />
         <Nutrition data={home.nutrition} />
@@ -52,7 +58,7 @@ export function HomeLive({
         <Benchmarks data={home.benchmarks} />
         <Business data={home.business} />
         <GetStarted data={home.getStarted} />
-        <About about={home.about} zoomSection={home.zoomSection} meeting={meeting} />
+        <About about={home.about} />
         <Contact data={home.contact} />
         <SiteFooter
           logo={FALLBACK_IMAGES.logo}

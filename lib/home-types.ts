@@ -93,6 +93,16 @@ export interface HomeData {
     plate: string;
     heading: string;
     note: string;
+    image?: ImageSlot;
+    imageCaption: string;
+  };
+  heritage: {
+    label: string;
+    plate: string;
+    heading: string;
+    body: string;
+    image?: ImageSlot;
+    imageAlt: string;
   };
   contact: {
     label: string;

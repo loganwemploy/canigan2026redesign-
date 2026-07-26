@@ -214,6 +214,17 @@ export const homeSeed: HomeData = {
     plate: "Pl. XXII",
     heading: "Pull up a chair — live wellness & business topics with Candy.",
     note: "New topics are announced regularly — product education for Members and sharing skills for Ambassadors. Can't make it live? Get in touch and Candy will catch you up.",
+    image: { driveUrl: "" },
+    imageCaption: "7 clinical studies + landmark research on nutrient status and biomarkers of health.",
+  },
+  heritage: {
+    label: "Wellness Is Where We've Been",
+    plate: "Pl. VII",
+    heading: "A century of firsts.",
+    body: "From the first multivitamin in the United States in 1915 to personalized nutrition today — the science behind what Candy shares has been a hundred years in the making.",
+    image: { driveUrl: "" },
+    imageAlt:
+      "Shaklee heritage timeline, 1915 to 2021: the first US multivitamin, Basic-H concentrated organic cleaner, the first plant-based soy protein, Pure Performance athletes, NASA missions, climate-neutral certification, YOUTH skincare, and Meology personalized nutrition.",
   },
   contact: {
     label: "Get In Touch",
@@ -255,7 +266,12 @@ export const FALLBACK_IMAGES = {
   // on-page headline. The response is immutably cached, so bump ?v when the
   // route's crop or patch changes, or browsers keep the old frame for a year.
   hero: "/api/hero-image?v=2",
-  nutrition: "/images/wellness-bowl.jpg",
+  nutrition: "/images/basic-h2-water.png",
+  // Google-thumbnail sources (554px / 353px wide) — deliberately rendered small
+  // and contained rather than full-bleed so they stay sharp. Swap via the CMS
+  // if higher-resolution originals turn up.
+  biomarkers: "/images/biomarkers-study.jpg",
+  heritage: "/images/shaklee-heritage-timeline.jpg",
   opportunity: "/images/ambassador-program.png",
   // Sits under a 72% overlay, so the low-res Shaklee still reads perfectly here
   ambassador: SHAKLEE.productStill,

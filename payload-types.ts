@@ -696,6 +696,34 @@ export interface Home {
     plate?: string | null;
     heading?: string | null;
     note?: string | null;
+    /**
+     * Paste a Google Drive share link, or upload a file. Drive link wins if both are set.
+     */
+    image?: {
+      driveUrl?: string | null;
+      upload?: (number | null) | Media;
+    };
+    imageCaption?: string | null;
+  };
+  /**
+   * The full-width pause between the Zoom invite and the rest of the page.
+   */
+  heritage?: {
+    label?: string | null;
+    plate?: string | null;
+    heading?: string | null;
+    body?: string | null;
+    /**
+     * Paste a Google Drive share link, or upload a file. Drive link wins if both are set.
+     */
+    image?: {
+      driveUrl?: string | null;
+      upload?: (number | null) | Media;
+    };
+    /**
+     * Describes the timeline for screen readers — the image carries real content, so keep this detailed.
+     */
+    imageAlt?: string | null;
   };
   contact?: {
     label?: string | null;
@@ -906,6 +934,28 @@ export interface HomeSelect<T extends boolean = true> {
         plate?: T;
         heading?: T;
         note?: T;
+        image?:
+          | T
+          | {
+              driveUrl?: T;
+              upload?: T;
+            };
+        imageCaption?: T;
+      };
+  heritage?:
+    | T
+    | {
+        label?: T;
+        plate?: T;
+        heading?: T;
+        body?: T;
+        image?:
+          | T
+          | {
+              driveUrl?: T;
+              upload?: T;
+            };
+        imageAlt?: T;
       };
   contact?:
     | T

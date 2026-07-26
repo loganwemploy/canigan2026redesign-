@@ -264,6 +264,38 @@ export const Home: GlobalConfig = {
                 { name: "plate", type: "text", defaultValue: homeSeed.zoomSection.plate },
                 { name: "heading", type: "textarea", defaultValue: homeSeed.zoomSection.heading },
                 { name: "note", type: "textarea", defaultValue: homeSeed.zoomSection.note },
+                imageSlot("image", "Supporting image"),
+                {
+                  name: "imageCaption",
+                  type: "textarea",
+                  defaultValue: homeSeed.zoomSection.imageCaption,
+                },
+              ],
+            },
+            {
+              name: "heritage",
+              label: "Heritage break",
+              type: "group",
+              admin: {
+                description:
+                  "The full-width pause between the Zoom invite and the rest of the page.",
+              },
+              fields: [
+                { name: "label", type: "text", defaultValue: homeSeed.heritage.label },
+                { name: "plate", type: "text", defaultValue: homeSeed.heritage.plate },
+                { name: "heading", type: "textarea", defaultValue: homeSeed.heritage.heading },
+                { name: "body", type: "textarea", defaultValue: homeSeed.heritage.body },
+                imageSlot("image", "Timeline image"),
+                {
+                  name: "imageAlt",
+                  label: "Timeline alt text",
+                  type: "textarea",
+                  defaultValue: homeSeed.heritage.imageAlt,
+                  admin: {
+                    description:
+                      "Describes the timeline for screen readers — the image carries real content, so keep this detailed.",
+                  },
+                },
               ],
             },
           ],
