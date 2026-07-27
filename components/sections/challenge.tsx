@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { PatternField } from "@/components/motion/effects";
 import { Display, Section } from "@/components/site/atoms";
 import { Button } from "@/components/ui/button";
 import type { HomeData } from "@/lib/home-types";
@@ -22,7 +23,8 @@ export function Challenge({ data }: { data: HomeData["challenge"] }) {
       <div className="relative overflow-hidden rounded-[10px] border border-[var(--hairline-soft)]">
         <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[560px]">
           <div className="relative border-b border-[var(--hairline-soft)] bg-cream2 md:border-b-0">
-            <div className="flex h-full flex-col items-center justify-center px-7 pt-16 pb-20 text-center sm:px-12 md:px-12 md:pt-16 md:pb-44 lg:px-16">
+            <PatternField />
+            <div className="relative flex h-full flex-col items-center justify-center px-7 pt-16 pb-20 text-center sm:px-12 md:px-12 md:pt-16 md:pb-44 lg:px-16">
               <Reveal variant="left" duration={1}>
                 <span className="label-caps block text-inksoft">{data.label}</span>
                 <Display
@@ -48,8 +50,9 @@ export function Challenge({ data }: { data: HomeData["challenge"] }) {
             </div>
           </div>
 
-          <div className="bg-parch">
-            <div className="flex h-full flex-col items-center justify-center px-7 pt-20 pb-16 text-center sm:px-12 md:px-12 md:pt-16 md:pb-44 lg:px-16">
+          <div className="relative bg-parch">
+            <PatternField />
+            <div className="relative flex h-full flex-col items-center justify-center px-7 pt-20 pb-16 text-center sm:px-12 md:px-12 md:pt-16 md:pb-44 lg:px-16">
               <Reveal variant="right" duration={1}>
                 <span className="label-caps inline-flex rounded-full bg-pine px-4 py-1.5 text-[0.6rem] text-paper">
                   {data.goalBadge}

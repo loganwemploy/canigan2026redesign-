@@ -218,3 +218,22 @@
     max-width: 100%;
   }
 }
+
+/* ————————————————————————————————————————————————
+   Hero focal point.
+   object-position percentages resolve against the OVERFLOW, not the image, so
+   centring Candy's face (at ~69% of the source width) needs ~77% on a phone,
+   where the crop is horizontal only. Desktop shows nearly the whole frame and
+   just needs a slight upward bias. Written as CSS because Tailwind's arbitrary
+   `object-[69%_20%]` did not generate a rule here.
+   ———————————————————————————————————————————————— */
+.hero-focal {
+  object-position: 77% 20%;
+}
+
+@media (min-width: 640px) {
+  .hero-focal {
+    object-position: 50% 20%;
+  }
+}
+

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
+import { Drift } from "@/components/motion/effects";
 import { DotLeader, DotRule, Section } from "@/components/site/atoms";
 import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
@@ -72,19 +73,19 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           duration={1.1}
           className="relative aspect-[4/3] w-full overflow-hidden bg-parch md:aspect-auto md:h-full"
         >
-          <div className="absolute inset-0">
+          <Drift className="absolute inset-0" amount={6}>
             <Image
               src={src}
               alt="Natural wellness products and fresh ingredients from Canigan Health Options"
               fill
               sizes="(min-width:768px) 45vw, 100vw"
-              className="object-cover"
+              className="scale-110 object-cover object-center"
             />
             <div
               aria-hidden
               className="pointer-events-none absolute top-[8%] left-1/2 aspect-square w-[130%] -translate-x-1/2 rounded-full border border-[var(--paper-white)]/30"
             />
-          </div>
+          </Drift>
         </Reveal>
       </div>
     </Section>

@@ -67,7 +67,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
             alt=""
             fill
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-[center_35%]"
           />
           <div aria-hidden className="absolute inset-0 bg-[#2e3a26]/72" />
           <div aria-hidden className="dot-grid-dark absolute inset-0 opacity-60" />

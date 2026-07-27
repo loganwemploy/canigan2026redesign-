@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { CountUp } from "@/components/motion/effects";
 import { DotRule, Display, Plate, Section } from "@/components/site/atoms";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,7 +44,7 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
 
   return (
     <Section id="benchmarks">
-      <Plate inner={false} className="px-6 py-10 sm:px-9 sm:py-12">
+      <Plate inner={false} className="dot-grid px-6 py-10 sm:px-9 sm:py-12">
         <Reveal variant="up">
           <div>
             <div className="flex items-center gap-4">
@@ -92,7 +93,7 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
                     {row.monthlyRange}
                   </TableCell>
                   <TableCell className={`${BODY_CELL} text-[0.86rem] font-bold text-ink`}>
-                    {row.avgMonthly}
+                    <CountUp value={row.avgMonthly} />
                   </TableCell>
                   <TableCell className={`${BODY_CELL} text-[0.78rem] text-inksoft`}>
                     {row.yearlyAverage}
@@ -115,7 +116,10 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
                 <ActiveMark active={row.active} />
               </div>
               <div className="mt-3 flex items-baseline gap-3">
-                <span className="font-display text-[1.6rem] leading-[1.2] text-terra">{row.avgMonthly}</span>
+                <CountUp
+                  value={row.avgMonthly}
+                  className="font-display text-[1.6rem] leading-[1.2] text-terra"
+                />
                 <span className="text-[0.88rem] text-inksoft">{row.yearlyAverage}</span>
               </div>
               <p className="mt-3 text-[0.9rem] leading-[1.8] text-petrol">{row.description}</p>

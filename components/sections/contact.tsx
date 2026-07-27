@@ -60,7 +60,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
 
   return (
     <Section id="contact">
-      <Plate inner={false} className="px-7 py-10 sm:px-10 sm:py-12">
+      <Plate inner={false} className="dot-grid px-7 py-10 sm:px-10 sm:py-12">
         <div className="grid gap-10 md:grid-cols-[0.85fr_1fr] md:gap-14">
           {/* ——— left: the plate caption ——— */}
           <Reveal variant="left">

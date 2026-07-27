@@ -2,9 +2,9 @@
 
 import { useLivePreview } from "@payloadcms/live-preview-react";
 import { RefreshRouteOnSave } from "@/components/site/refresh-on-save";
+import { ScrollProgress } from "@/components/motion/effects";
 import { SiteHeader, SiteFooter } from "@/components/sections/chrome";
 import { Hero } from "@/components/sections/hero";
-import { Assurance } from "@/components/sections/assurance";
 import { StickyCta } from "@/components/sections/sticky-cta";
 import { Zoom } from "@/components/sections/zoom";
 import { Heritage } from "@/components/sections/heritage";
@@ -43,10 +43,12 @@ export function HomeLive({
   return (
     <>
       <RefreshRouteOnSave />
+      <ScrollProgress />
       <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} />
       <main className="bg-cream">
         <Hero data={home.hero} meeting={meeting} />
-        <Assurance />
+        {/* Assurance removed: its three trust cards said the same thing as the
+            four Science cards, and on mobile that was ~430px of repetition. */}
         {/* The live Zoom is the strongest CTA, so it sits high rather than
             near the footer; Heritage is the breath between it and the pitch. */}
         <Zoom zoomSection={home.zoomSection} meeting={meeting} />

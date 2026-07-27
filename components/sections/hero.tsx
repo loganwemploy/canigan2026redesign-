@@ -34,12 +34,16 @@ export function Hero({
               fill
               priority
               sizes="100vw"
-              // scale-105 keeps the blur's feathered edge outside the frame
-              className="scale-105 object-cover object-[64%_18%] blur-[3px] sm:object-[center_22%]"
+              // 69% is where Candy's face sits in the 1808x867 source; on a phone
+              // the crop is horizontal only, so that keeps her centred in frame.
+              // scale-105 keeps the blur's feathered edge outside the frame.
+              className="hero-focal scale-105 object-cover blur-[1.5px]"
             />
           </Parallax>
-          <div className="absolute inset-0 bg-[#2e3a26]/35 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1f2a1a]/55 via-[#1f2a1a]/20 to-[#1f2a1a]/75" />
+          <div className="absolute inset-0 bg-[#2e3a26]/28 mix-blend-multiply" />
+          {/* Scrim is heaviest top and bottom, where the headline and the
+              welcome copy sit, and lightest across her face in the middle. */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1f2a1a]/60 via-[#1f2a1a]/12 to-[#1f2a1a]/78" />
         </div>
 
         <div className="pointer-events-none absolute inset-3 rounded-[6px] border border-[var(--paper-white)]/30 sm:inset-6" />

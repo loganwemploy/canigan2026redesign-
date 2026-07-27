@@ -60,7 +60,7 @@ export function About({ about }: { about: HomeData["about"] }) {
               alt="Candy, founder of Canigan Health Options"
               fill
               sizes="(min-width: 768px) 45vw, 100vw"
-              className="object-cover"
+              className="object-cover object-[62%_22%] md:object-[center_25%]"
             />
             <div className="pointer-events-none absolute inset-4 rounded-[6px] border border-[var(--paper-white)]/40" />
           </Reveal>
