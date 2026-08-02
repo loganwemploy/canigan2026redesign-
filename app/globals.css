@@ -228,7 +228,9 @@
    `object-[69%_20%]` did not generate a rule here.
    ———————————————————————————————————————————————— */
 .hero-focal {
-  object-position: 77% 20%;
+  /* 66% seats Candy in the right third of the phone crop, clear of the
+     left-aligned headline. 77% centres her but puts her face under the type. */
+  object-position: 66% 20%;
 }
 
 @media (min-width: 640px) {

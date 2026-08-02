@@ -110,20 +110,24 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
         {/* ---------- mobile cards ---------- */}
         <Reveal variant="up" stagger={0.07} className="space-y-3 md:hidden">
           {data.rows.map((row, i) => (
-            <div key={`${row.level}-${i}`} className="rounded-[8px] bg-parch p-5">
+            <div key={`${row.level}-${i}`} className="rounded-[8px] bg-parch px-5 py-4">
               <div className="flex items-start justify-between gap-4">
                 <h3 className="font-display text-[1.2rem] leading-[1.3] text-ink">{row.level}</h3>
                 <ActiveMark active={row.active} />
               </div>
-              <div className="mt-3 flex items-baseline gap-3">
+              {/* avg/mo carries the headline number; the range sits beside it as
+                  the qualifier. Printing monthlyRange again on its own line was
+                  the same figure twice. */}
+              <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <CountUp
                   value={row.avgMonthly}
                   className="font-display text-[1.6rem] leading-[1.2] text-terra"
                 />
-                <span className="text-[0.88rem] text-inksoft">{row.yearlyAverage}</span>
+                <span className="text-[0.78rem] text-inksoft">
+                  {row.monthlyRange} / mo · {row.yearlyAverage} yr
+                </span>
               </div>
-              <p className="mt-3 text-[0.9rem] leading-[1.8] text-petrol">{row.description}</p>
-              <p className="mt-2 text-[0.8rem] text-inksoft">{row.monthlyRange}</p>
+              <p className="mt-2.5 text-[0.88rem] leading-[1.75] text-petrol">{row.description}</p>
             </div>
           ))}
         </Reveal>

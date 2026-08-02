@@ -34,16 +34,21 @@ export function Hero({
               fill
               priority
               sizes="100vw"
-              // 69% is where Candy's face sits in the 1808x867 source; on a phone
-              // the crop is horizontal only, so that keeps her centred in frame.
+              // Focal point lives in CSS (.hero-focal) — object-position
+              // percentages resolve against the overflow, not the image, so the
+              // phone and desktop values are not interchangeable.
               // scale-105 keeps the blur's feathered edge outside the frame.
               className="hero-focal scale-105 object-cover blur-[1.5px]"
             />
           </Parallax>
           <div className="absolute inset-0 bg-[#2e3a26]/28 mix-blend-multiply" />
-          {/* Scrim is heaviest top and bottom, where the headline and the
-              welcome copy sit, and lightest across her face in the middle. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1f2a1a]/60 via-[#1f2a1a]/12 to-[#1f2a1a]/78" />
+          {/* Vertical scrim: heaviest top and bottom, where the headline and the
+              welcome copy sit, lightest through the middle. */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1f2a1a]/58 via-[#1f2a1a]/10 to-[#1f2a1a]/78" />
+          {/* Horizontal scrim, phones only. Candy sits in the right third there,
+              so this darkens the field the type runs over and leaves her face
+              clear. Desktop has room for both and doesn't need it. */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1f2a1a]/70 via-[#1f2a1a]/30 to-transparent sm:hidden" />
         </div>
 
         <div className="pointer-events-none absolute inset-3 rounded-[6px] border border-[var(--paper-white)]/30 sm:inset-6" />

@@ -44,7 +44,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
         <Reveal
           variant="curtain"
           duration={1.15}
-          className="relative aspect-[4/5] w-full sm:aspect-[16/10] md:aspect-[2.4/1]"
+          className="relative aspect-[5/4] w-full sm:aspect-[16/10] md:aspect-[2.4/1]"
         >
           <Image
             src={photo}
@@ -61,7 +61,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
         </Reveal>
 
         {/* ── BLOCK 3 · ambassador band ──────────────────────────────── */}
-        <div className="relative grid min-h-[420px] place-items-center overflow-hidden p-6 text-center sm:p-10">
+        <div className="relative grid min-h-[320px] place-items-center overflow-hidden p-7 text-center sm:min-h-[420px] sm:p-10">
           <Image
             src={ambPhoto}
             alt=""
@@ -77,7 +77,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
               <Display as="h3" className="text-[clamp(1.65rem,3vw,2.35rem)] text-paper">
                 {data.ambHeading}
               </Display>
-              <p className="mt-6 text-[0.95rem] leading-[1.95] text-[var(--paper-white)]/85">
+              <p className="mt-5 text-[0.92rem] leading-[1.85] text-[var(--paper-white)]/85 sm:mt-6 sm:text-[0.95rem] sm:leading-[1.95]">
                 {data.ambBody.split("\n").map((line, i) => (
                   <span key={i} className="block">
                     {line}
@@ -86,7 +86,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
               </p>
               <Button
                 asChild
-                className="mt-8 h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+                className="cta-long mt-6 h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep sm:mt-8"
               >
                 <a href="#contact">{data.ambCtaLabel}</a>
               </Button>

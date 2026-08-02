@@ -21,8 +21,9 @@ export function GetStarted({ data }: { data: HomeData["getStarted"] }) {
           </Display>
         </Reveal>
 
-        {/* deliberate void */}
-        <div aria-hidden className="min-h-[180px] md:min-h-[240px]" />
+        {/* Deliberate void. Generous on desktop where the plate has width to
+            balance it; on a phone that much dead height just reads as a bug. */}
+        <div aria-hidden className="min-h-[72px] sm:min-h-[140px] md:min-h-[240px]" />
 
         <DotRule />
 
