@@ -2,24 +2,31 @@
 
 /* ————————————————————————————————————————————————
    Canigan Health Options — editorial "plate" design system
-   Cream paper, deep green ink, terracotta accents, petrol labels
+   Warm paper, deep forest ink, lichen accents, moss labels
    ———————————————————————————————————————————————— */
 
 :root {
   /* palette */
-  --cream: #f2f6f5;
-  --cream-2: #ffffff;
-  --parch: #dff1eb;
-  --ink: #15171a;
-  --ink-soft: #68726f;
-  --petrol: #294c5c;
-  --terra: #d63b2d;
-  --terra-deep: #b92f23;
-  --sage: #bcebdd;
-  --pine: #15171a;
-  --paper-white: #ffffff;
-  --hairline: rgba(21, 23, 26, 0.2);
-  --hairline-soft: rgba(21, 23, 26, 0.1);
+  --cream: hsl(48 24% 96%);
+  --cream-2: hsl(48 28% 99%);
+  --parch: hsl(102 22% 91%);
+  --ink: hsl(148 19% 12%);
+  --ink-soft: hsl(143 10% 39%);
+  --petrol: hsl(151 23% 27%);
+  --forest: hsl(147 42% 27%);
+  --forest-deep: hsl(150 44% 18%);
+  --forest-bright: hsl(142 33% 41%);
+  --moss: hsl(88 25% 45%);
+  --lichen: hsl(83 25% 76%);
+  /* Legacy class aliases keep existing components stable while removing red. */
+  --terra: var(--forest);
+  --terra-deep: var(--forest-deep);
+  --sage: hsl(109 24% 82%);
+  --pine: hsl(151 33% 13%);
+  --paper-white: hsl(48 30% 99%);
+  --gateway-paper: hsl(48 24% 97%);
+  --hairline: hsl(148 19% 12% / 0.2);
+  --hairline-soft: hsl(148 19% 12% / 0.1);
 
   /* shadcn tokens mapped to the palette */
   --background: var(--cream);
@@ -36,7 +43,7 @@
   --muted-foreground: var(--ink-soft);
   --accent: var(--parch);
   --accent-foreground: var(--ink);
-  --destructive: #9f3520;
+  --destructive: hsl(24 32% 34%);
   --destructive-foreground: var(--paper-white);
   --border: var(--hairline);
   --input: var(--hairline);
@@ -76,6 +83,12 @@
   --color-sage: var(--sage);
   --color-pine: var(--pine);
   --color-paper: var(--paper-white);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-forest-bright: var(--forest-bright);
+  --color-moss: var(--moss);
+  --color-lichen: var(--lichen);
+  --color-gateway-paper: var(--gateway-paper);
 
   --font-sans: var(--font-pt-sans), "PT Sans", "Segoe UI", sans-serif;
   --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
@@ -157,14 +170,14 @@
   /* faint dot-grid paper texture */
   .dot-grid {
     background-image:
-      linear-gradient(rgba(21, 23, 26, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(21, 23, 26, 0.04) 1px, transparent 1px);
+      linear-gradient(hsl(148 19% 12% / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(148 19% 12% / 0.04) 1px, transparent 1px);
     background-size: 32px 32px;
   }
   .dot-grid-dark {
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+      linear-gradient(hsl(48 30% 99% / 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(48 30% 99% / 0.055) 1px, transparent 1px);
     background-size: 32px 32px;
   }
   /* dotted leader row: <span class="dot-leader" /> */
@@ -250,7 +263,7 @@
   aspect-ratio: 1;
   right: -22%;
   top: 2%;
-  border: 1px solid rgba(21, 23, 26, 0.17);
+  border: 1px solid hsl(148 19% 12% / 0.17);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -262,15 +275,71 @@
   aspect-ratio: 1;
   left: -44%;
   bottom: -28%;
-  border: 1px solid rgba(21, 23, 26, 0.14);
+  border: 1px solid hsl(148 19% 12% / 0.14);
   border-radius: 50%;
 }
 
 .task-card {
-  border: 1px solid rgba(21, 23, 26, 0.055);
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 22px 50px -30px rgba(8, 144, 108, 0.55);
+  border: 1px solid hsl(148 19% 12% / 0.055);
+  background: hsl(48 30% 99% / 0.96);
+  box-shadow: 0 22px 50px -30px hsl(147 42% 27% / 0.45);
   backdrop-filter: blur(14px);
+}
+
+/* URL-selected audience is reflected here as a declarative theme contract.
+   Content comes from the server route; data attributes only style that valid state. */
+.audience-shell {
+  --audience-accent: var(--forest);
+  --audience-soft: var(--parch);
+  --audience-display-scale: 1;
+}
+
+.audience-shell[data-audience="strong-after-weight-loss"] {
+  --audience-accent: hsl(148 44% 25%);
+  --audience-soft: hsl(106 25% 91%);
+}
+
+.audience-shell[data-audience="active-aging"] {
+  --audience-accent: hsl(139 33% 31%);
+  --audience-soft: hsl(75 29% 91%);
+  --audience-display-scale: 1.08;
+}
+
+.audience-shell[data-audience="midlife-vitality"] {
+  --audience-accent: hsl(154 37% 25%);
+  --audience-soft: hsl(118 19% 91%);
+}
+
+.audience-shell[data-audience="motherhood-nutrition"] {
+  --audience-accent: hsl(133 29% 31%);
+  --audience-soft: hsl(74 30% 93%);
+}
+
+.audience-shell[data-audience="share-and-save"] {
+  --audience-accent: hsl(151 43% 22%);
+  --audience-soft: hsl(95 22% 90%);
+}
+
+.audience-shell[data-audience] {
+  --forest: var(--audience-accent);
+  --parch: var(--audience-soft);
+}
+
+.audience-shell[data-text-scale="large"] main p,
+.audience-shell[data-text-scale="large"] main li,
+.audience-shell[data-text-scale="large"] main label {
+  font-size: calc(1em * var(--audience-display-scale));
+}
+
+[data-audience-gateway][data-phase="choosing"] [data-choice],
+[data-audience-gateway][data-phase="choosing"] [data-gateway-copy],
+[data-audience-gateway][data-phase="choosing"] [data-gateway-panel],
+[data-audience-gateway][data-phase="choosing"] [data-skip] {
+  opacity: 1;
+}
+
+[data-audience-gateway][data-phase="exiting"] {
+  cursor: progress;
 }
 
 .section-shell {

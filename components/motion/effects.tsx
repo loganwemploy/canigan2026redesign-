@@ -159,7 +159,7 @@ export function PatternField({
       className={cn("pointer-events-none absolute inset-0", className)}
       style={{
         backgroundImage: `radial-gradient(${
-          tone === "paper" ? "rgba(246,243,232,0.16)" : "rgba(56,66,47,0.13)"
+          tone === "paper" ? "hsl(48 30% 96% / 0.16)" : "hsl(96 17% 22% / 0.13)"
         } 1px, transparent 1.5px)`,
         backgroundSize: "26px 26px",
       }}

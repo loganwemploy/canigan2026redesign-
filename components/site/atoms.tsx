@@ -63,7 +63,7 @@ export function DotRule({ className, tone = "ink" }: { className?: string; tone?
       className={cn("h-px w-full", className)}
       style={{
         backgroundImage: `radial-gradient(circle, ${
-          tone === "paper" ? "rgba(246,243,232,0.55)" : "rgba(56,66,47,0.42)"
+          tone === "paper" ? "hsl(48 30% 96% / 0.55)" : "hsl(96 17% 22% / 0.42)"
         } 1px, transparent 1.2px)`,
         backgroundSize: "9px 1px",
         backgroundRepeat: "repeat-x",

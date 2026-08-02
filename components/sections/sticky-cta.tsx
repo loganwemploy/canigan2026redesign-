@@ -40,7 +40,7 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
         (shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0")
       }
     >
-      <div className="mx-3 mb-3 rounded-[10px] border border-[var(--hairline)] bg-cream2/95 shadow-[0_-6px_30px_-12px_rgba(20,28,16,0.4)] backdrop-blur sm:mx-5">
+      <div className="mx-3 mb-3 rounded-[10px] border border-[var(--hairline)] bg-cream2/95 shadow-[0_-6px_30px_-12px_hsl(151_33%_13%/0.4)] backdrop-blur sm:mx-5">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <div className="min-w-0">
             <p className="truncate font-display text-[0.95rem] italic leading-[1.2] text-ink sm:text-[1.1rem]">

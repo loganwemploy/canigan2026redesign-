@@ -7,5 +7,5 @@ export default async function HomePage() {
   const { home, meeting } = await getHome();
   const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
-  return <HomeLive home={home} meeting={meeting} serverURL={serverURL} />;
+  return <HomeLive home={home} meeting={meeting} serverURL={serverURL} showAudienceGateway />;
 }

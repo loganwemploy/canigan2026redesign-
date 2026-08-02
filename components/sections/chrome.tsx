@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { DotRule } from "@/components/site/atoms";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
@@ -14,7 +15,7 @@ const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
   { label: "Wellness", href: "#nutrition" },
   { label: "Science", href: "#science" },
   { label: "Opportunity", href: "#opportunity" },
-  { label: "Earnings", href: "#benchmarks" },
+  { label: "Program details", href: "#benchmarks" },
   { label: "About", href: "#about" },
 ];
 
@@ -25,9 +26,11 @@ const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
 export function SiteHeader({
   logo,
   meeting,
+  audienceLabel,
 }: {
   logo: string;
   meeting?: ZoomMeeting | null;
+  audienceLabel?: string;
 }) {
   const [shown, setShown] = useState(false);
   const [open, setOpen] = useState(false);
@@ -45,7 +48,7 @@ export function SiteHeader({
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-8">
-      <div className={`mx-auto max-w-[1440px] rounded-[30px] transition-all duration-300 ${shown || menuOpen ? "bg-white/95 shadow-[0_12px_40px_-26px_rgba(21,23,26,0.45)] backdrop-blur" : "bg-transparent"}`}>
+      <div className={`mx-auto max-w-[1440px] rounded-[30px] transition-all duration-300 ${shown || menuOpen ? "bg-white/95 shadow-[0_12px_40px_-26px_hsl(148_19%_12%/0.45)] backdrop-blur" : "bg-transparent"}`}>
         <div className="flex h-16 items-center justify-between px-4 sm:px-5">
           <a href="#top" aria-label="Canigan Health Options — back to top" className="flex items-center gap-2.5">
             <span className="relative block size-12 shrink-0 overflow-hidden rounded-full bg-white">
@@ -59,17 +62,17 @@ export function SiteHeader({
             </span>
             <span className="hidden leading-none sm:block">
               <strong className="block text-[1.05rem] tracking-[-0.04em] text-ink">Canigan Health</strong>
-              <span className="mt-1 block text-[0.58rem] font-bold uppercase tracking-[0.09em] text-[#0a9875]">Health Options</span>
+              <span className="mt-1 block text-[0.58rem] font-bold uppercase tracking-[0.09em] text-forest">Health Options</span>
             </span>
           </a>
 
-          <nav className="hidden rounded-full bg-white px-7 py-4 shadow-[0_8px_30px_-26px_rgba(21,23,26,0.5)] lg:flex lg:gap-8" aria-label="Section navigation">
+          <nav className="hidden rounded-full bg-white px-7 py-4 shadow-[0_8px_30px_-26px_hsl(148_19%_12%/0.5)] lg:flex lg:gap-8" aria-label="Section navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="text-sm font-bold text-ink/80 transition-colors hover:text-[#0a9875]"
+                className="text-sm font-bold text-ink/80 transition-colors hover:text-forest"
               >
                 {link.label}
               </a>
@@ -77,6 +80,7 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center gap-2">
+            {audienceLabel ? <Link href="/?choose=1" className="hidden rounded-full bg-parch px-4 py-2 text-xs font-bold text-forest xl:inline-flex">Focus: {audienceLabel}</Link> : null}
             <a href={ASSESSMENT_URL} target="_blank" rel="noreferrer" className="hidden h-11 items-center rounded-full border border-terra px-6 text-sm font-bold text-terra transition-colors hover:bg-white sm:inline-flex">Free quiz</a>
             <ZoomInviteDialog meeting={meeting}>
               <Button

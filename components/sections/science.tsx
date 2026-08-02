@@ -6,7 +6,7 @@ import { ASSESSMENT_URL } from "@/cms/content";
 import type { HomeData } from "@/lib/home-types";
 
 const ICONS = [FlaskConical, ShieldCheck, HeartPulse, Repeat2] as const;
-const TONES = ["bg-white text-ink", "bg-terra text-white", "bg-[#0a9875] text-white", "bg-[#294c5c] text-white"] as const;
+const TONES = ["bg-white text-ink", "bg-forest-deep text-white", "bg-forest text-white", "bg-petrol text-white"] as const;
 
 export function Science({ data }: { data: HomeData["science"] }) {
   return (

@@ -18,40 +18,54 @@ import { Business } from "@/components/sections/business";
 import { GetStarted } from "@/components/sections/get-started";
 import { About } from "@/components/sections/about";
 import { Contact } from "@/components/sections/contact";
+import { AudienceGateway } from "@/components/site/audience-gateway";
 import { ASSESSMENT_URL, FALLBACK_IMAGES } from "@/cms/content";
 import type { HomeData, ZoomMeeting } from "@/lib/home-types";
+import { AUDIENCES, personalizeHome, type AudienceKey } from "@/lib/audiences";
 
 export function HomeLive({
   home: initialHome,
   meeting,
   serverURL,
+  audienceKey,
+  showAudienceGateway = false,
 }: {
   home: HomeData;
   meeting: ZoomMeeting | null;
   serverURL: string;
+  audienceKey?: AudienceKey;
+  showAudienceGateway?: boolean;
 }) {
   // Admin and site share an origin, so prefer the real one — that keeps Live Preview
   // working on whatever port dev binds, not just the one in NEXT_PUBLIC_SERVER_URL.
   // Not rendered into markup, so this cannot cause a hydration mismatch.
   const previewOrigin = typeof window === "undefined" ? serverURL : window.location.origin;
 
-  const { data: home } = useLivePreview<HomeData>({
+  const { data: liveHome } = useLivePreview<HomeData>({
     initialData: initialHome,
     serverURL: previewOrigin,
     depth: 2,
   });
+  const audience = audienceKey ? AUDIENCES[audienceKey] : undefined;
+  const home = audienceKey ? personalizeHome(liveHome, audienceKey) : liveHome;
 
   return (
-    <>
+    <div
+      className="audience-shell"
+      data-audience={audience?.slug}
+      data-text-scale={audience?.largeText ? "large" : "standard"}
+      data-content-source={audience ? "server-route" : "default"}
+    >
+      {showAudienceGateway ? <AudienceGateway /> : null}
       <RefreshRouteOnSave />
       <ScrollProgress />
-      <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} />
+      <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} audienceLabel={audience?.navLabel} />
       <main className="overflow-hidden bg-cream">
         <div id="top">
           <About about={home.about} />
         </div>
-        <Challenge data={home.challenge} />
-        <Positioning />
+        <Challenge data={home.challenge} audience={audience} />
+        <Positioning audience={audience} />
         <Science data={home.science} />
         <Nutrition data={home.nutrition} />
         <Zoom zoomSection={home.zoomSection} meeting={meeting} />
@@ -60,7 +74,7 @@ export function HomeLive({
         <GetStarted data={home.getStarted} />
         <Business data={home.business} />
         <Heritage data={home.heritage} />
-        <Hero data={home.hero} meeting={meeting} sectionId="hero" />
+        <Hero data={home.hero} meeting={meeting} sectionId="hero" audience={audience} />
         <Contact data={home.contact} />
         <SiteFooter
           logo={FALLBACK_IMAGES.logo}
@@ -73,6 +87,6 @@ export function HomeLive({
         />
       </main>
       <StickyCta meeting={meeting} />
-    </>
+    </div>
   );
 }

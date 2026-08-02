@@ -1,0 +1,60 @@
+{
+  "project": "Canigan five-audience lead-generation system",
+  "confidenceThreshold": 0.85,
+  "frozenSurfaces": [
+    "About Me copy",
+    "About Me image",
+    "About Me section composition"
+  ],
+  "stories": [
+    {
+      "id": "R1",
+      "priority": 1,
+      "title": "Evidence and claims matrix",
+      "checks": ["claims.md contains primary sources", "unsafe medical and earnings claims are explicitly blocked"],
+      "complete": true
+    },
+    {
+      "id": "R2",
+      "priority": 2,
+      "title": "Five audience content models",
+      "checks": ["five distinct intents", "each has SEO metadata", "each has a primary lead CTA", "About Me is untouched"],
+      "complete": true
+    },
+    {
+      "id": "R3",
+      "priority": 3,
+      "title": "Indexable audience routes",
+      "checks": ["all five routes build", "invalid slugs return not found", "metadata is server-rendered"],
+      "complete": true
+    },
+    {
+      "id": "R4",
+      "priority": 4,
+      "title": "Logo and leaf audience gateway",
+      "checks": ["keyboard accessible", "reduced-motion safe", "session preference respected", "no SVG or emoji leaves"],
+      "complete": true
+    },
+    {
+      "id": "R5",
+      "priority": 5,
+      "title": "Persona copy and photo swaps",
+      "checks": ["layout remains stable", "hero and proof copy change", "CTA intent changes", "images have useful alt text"],
+      "complete": true
+    },
+    {
+      "id": "R6",
+      "priority": 6,
+      "title": "HSL forest visual system",
+      "checks": ["no red CTA tokens", "colors use HSL", "contrast remains accessible"],
+      "complete": true
+    },
+    {
+      "id": "R7",
+      "priority": 7,
+      "title": "Final claim and production validation",
+      "checks": ["production build passes", "claim scan passes", "route inventory contains all persona pages"],
+      "complete": true
+    }
+  ]
+}

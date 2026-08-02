@@ -39,7 +39,7 @@ export function Heritage({ data }: { data: HomeData["heritage"] }) {
           </Reveal>
 
           <Reveal variant="scale" className="min-w-0">
-            <div className="mx-auto w-full max-w-[353px] rounded-[8px] border border-[var(--hairline-soft)] bg-cream2 p-3 shadow-[0_18px_50px_-28px_rgba(20,28,16,0.55)]">
+            <div className="mx-auto w-full max-w-[353px] rounded-[8px] border border-[var(--hairline-soft)] bg-cream2 p-3 shadow-[0_18px_50px_-28px_hsl(151_33%_13%/0.55)]">
               <Image
                 src={timeline}
                 alt={data.imageAlt}

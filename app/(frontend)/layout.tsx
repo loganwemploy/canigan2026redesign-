@@ -19,13 +19,13 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Canigan Health Options — Live Healthier, Live Better, Earn More.",
+  title: "Canigan Health Options — Personal Wellness With Candy",
   description:
-    "A proven path to total body wellness and real financial flexibility, with Candy of Canigan Health Options.",
+    "Explore practical nutrition, healthy-aging, strength, Member savings, and product-sales guidance with Candy of Canigan Health Options.",
   openGraph: {
     title: "Canigan Health Options",
     description:
-      "Live healthier, live better, earn more — total body wellness and real financial flexibility.",
+      "Practical wellness guidance, thoughtful product options, and real follow-through with Candy.",
     type: "website",
   },
 };
