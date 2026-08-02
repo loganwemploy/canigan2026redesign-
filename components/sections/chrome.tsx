@@ -12,11 +12,10 @@ import type { ZoomMeeting } from "@/lib/home-types";
 /** Shared in-page navigation used by both the header and the footer. */
 const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
   { label: "Wellness", href: "#nutrition" },
+  { label: "Science", href: "#science" },
   { label: "Opportunity", href: "#opportunity" },
   { label: "Earnings", href: "#benchmarks" },
   { label: "About", href: "#about" },
-  { label: "Zoom", href: "#zoom" },
-  { label: "Free Assessment", href: ASSESSMENT_URL, external: true },
 ];
 
 /**
@@ -35,44 +34,42 @@ export function SiteHeader({
 
   useEffect(() => {
     const onScroll = () => {
-      setShown(window.scrollY > window.innerHeight * 0.85);
+      setShown(window.scrollY > 32);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // The masthead retracts over the hero, so the menu can only be open with it.
-  const menuOpen = shown && open;
+  const menuOpen = open;
 
   return (
-    <header
-      className={
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500 " +
-        (shown
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none -translate-y-full opacity-0")
-      }
-    >
-      <div className="border-b border-[var(--hairline-soft)] bg-cream2/92 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-5">
-          <a href="#top" aria-label="Canigan Health Options — back to top">
-            <Image
-              src={logo}
-              alt="Canigan Health Options"
-              width={132}
-              height={26}
-              className="h-6 w-auto object-contain"
-            />
+    <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-8">
+      <div className={`mx-auto max-w-[1440px] rounded-[30px] transition-all duration-300 ${shown || menuOpen ? "bg-white/95 shadow-[0_12px_40px_-26px_rgba(21,23,26,0.45)] backdrop-blur" : "bg-transparent"}`}>
+        <div className="flex h-16 items-center justify-between px-4 sm:px-5">
+          <a href="#top" aria-label="Canigan Health Options — back to top" className="flex items-center gap-2.5">
+            <span className="relative block size-12 shrink-0 overflow-hidden rounded-full bg-white">
+              <Image
+                src={logo}
+                alt=""
+                width={92}
+                height={92}
+                className="absolute left-1/2 top-0 h-[92px] w-[92px] max-w-none -translate-x-1/2 object-contain"
+              />
+            </span>
+            <span className="hidden leading-none sm:block">
+              <strong className="block text-[1.05rem] tracking-[-0.04em] text-ink">Canigan Health</strong>
+              <span className="mt-1 block text-[0.58rem] font-bold uppercase tracking-[0.09em] text-[#0a9875]">Health Options</span>
+            </span>
           </a>
 
-          <nav className="hidden gap-8 lg:flex" aria-label="Section navigation">
+          <nav className="hidden rounded-full bg-white px-7 py-4 shadow-[0_8px_30px_-26px_rgba(21,23,26,0.5)] lg:flex lg:gap-8" aria-label="Section navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="label-caps text-[0.58rem] text-inksoft transition-colors hover:text-ink"
+                className="text-sm font-bold text-ink/80 transition-colors hover:text-[#0a9875]"
               >
                 {link.label}
               </a>
@@ -80,13 +77,14 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center gap-2">
+            <a href={ASSESSMENT_URL} target="_blank" rel="noreferrer" className="hidden h-11 items-center rounded-full border border-terra px-6 text-sm font-bold text-terra transition-colors hover:bg-white sm:inline-flex">Free quiz</a>
             <ZoomInviteDialog meeting={meeting}>
               <Button
                 type="button"
                 size="sm"
-                className="h-9 rounded-full bg-terra px-5 text-[0.6rem] font-bold tracking-[0.16em] uppercase text-paper hover:bg-terradeep"
+                className="h-11 rounded-full bg-terra px-6 text-sm font-bold text-white hover:bg-terradeep"
               >
-                Join Candy on Zoom
+                Join live
               </Button>
             </ZoomInviteDialog>
             <button
@@ -105,7 +103,7 @@ export function SiteHeader({
         {menuOpen ? (
           <nav
             id="mobile-nav"
-            className="border-t border-[var(--hairline-soft)] px-5 py-4 lg:hidden"
+            className="rounded-b-[28px] border-t border-[var(--hairline-soft)] bg-white px-6 py-5 lg:hidden"
             aria-label="Mobile section navigation"
           >
             <ul className="space-y-3">
@@ -114,7 +112,7 @@ export function SiteHeader({
                   <a
                     href={link.href}
                     {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                    className="label-caps block text-[0.62rem] text-ink"
+                    className="block text-base font-bold text-ink"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -161,13 +159,15 @@ export function SiteFooter({
     <footer className="dot-grid-dark mx-3 mt-3 mb-3 rounded-[10px] bg-pine p-10 text-paper sm:mx-5 sm:mb-4 md:p-12">
       <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <Image
-            src={logo}
-            alt="Canigan Health Options"
-            width={150}
-            height={30}
-            className="h-7 w-auto object-contain opacity-90 brightness-0 invert"
-          />
+          <div className="inline-flex rounded-[24px] bg-white p-3">
+            <Image
+              src={logo}
+              alt="Canigan Health Options"
+              width={190}
+              height={190}
+              className="size-[150px] object-contain sm:size-[180px]"
+            />
+          </div>
           <p className="mt-5 max-w-[38ch] text-[0.8rem] leading-[1.8] text-[var(--paper-white)]/80">
             {tagline.split("\n").map((line, i) => (
               <span key={i} className="block">

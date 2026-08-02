@@ -7,19 +7,19 @@
 
 :root {
   /* palette */
-  --cream: #f1eee5;
-  --cream-2: #f7f4eb;
-  --parch: #eae6d9;
-  --ink: #38422f;
-  --ink-soft: #68705c;
-  --petrol: #4a6178;
-  --terra: #c0512f;
-  --terra-deep: #a84428;
-  --sage: #93a78b;
-  --pine: #414c33;
-  --paper-white: #f6f3e8;
-  --hairline: rgba(56, 66, 47, 0.24);
-  --hairline-soft: rgba(56, 66, 47, 0.14);
+  --cream: #f2f6f5;
+  --cream-2: #ffffff;
+  --parch: #dff1eb;
+  --ink: #15171a;
+  --ink-soft: #68726f;
+  --petrol: #294c5c;
+  --terra: #d63b2d;
+  --terra-deep: #b92f23;
+  --sage: #bcebdd;
+  --pine: #15171a;
+  --paper-white: #ffffff;
+  --hairline: rgba(21, 23, 26, 0.2);
+  --hairline-soft: rgba(21, 23, 26, 0.1);
 
   /* shadcn tokens mapped to the palette */
   --background: var(--cream);
@@ -41,7 +41,7 @@
   --border: var(--hairline);
   --input: var(--hairline);
   --ring: var(--terra);
-  --radius: 0.5rem;
+  --radius: 1.25rem;
 }
 
 @theme inline {
@@ -121,6 +121,7 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    transition: background-color 0.5s ease;
   }
   a:focus-visible,
   button:focus-visible,
@@ -139,28 +140,32 @@
 @layer utilities {
   /* museum-plate serif italic display — open tracking for silver-fox readability */
   .font-display {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 500;
-    letter-spacing: 0.012em;
-    line-height: 1.28;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.04;
   }
   /* tracked small-caps label */
   .label-caps {
     font-family: var(--font-sans);
     text-transform: uppercase;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.11em;
     font-weight: 700;
     font-size: 0.72rem;
   }
   /* faint dot-grid paper texture */
   .dot-grid {
-    background-image: radial-gradient(rgba(56, 66, 47, 0.10) 1px, transparent 1.4px);
-    background-size: 26px 26px;
+    background-image:
+      linear-gradient(rgba(21, 23, 26, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(21, 23, 26, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
   .dot-grid-dark {
-    background-image: radial-gradient(rgba(246, 243, 232, 0.14) 1px, transparent 1.4px);
-    background-size: 26px 26px;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
   /* dotted leader row: <span class="dot-leader" /> */
   .dot-leader {
@@ -239,3 +244,44 @@
   }
 }
 
+.zig-orbit {
+  position: absolute;
+  width: min(66vw, 940px);
+  aspect-ratio: 1;
+  right: -22%;
+  top: 2%;
+  border: 1px solid rgba(21, 23, 26, 0.17);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.zig-orbit::after {
+  content: "";
+  position: absolute;
+  width: 72%;
+  aspect-ratio: 1;
+  left: -44%;
+  bottom: -28%;
+  border: 1px solid rgba(21, 23, 26, 0.14);
+  border-radius: 50%;
+}
+
+.task-card {
+  border: 1px solid rgba(21, 23, 26, 0.055);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 22px 50px -30px rgba(8, 144, 108, 0.55);
+  backdrop-filter: blur(14px);
+}
+
+.section-shell {
+  margin-inline: auto;
+  width: min(100%, 1440px);
+}
+
+@media (max-width: 767px) {
+  .zig-orbit {
+    width: 135vw;
+    right: -72%;
+    top: 34%;
+  }
+}

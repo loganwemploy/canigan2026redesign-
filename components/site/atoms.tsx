@@ -85,7 +85,7 @@ export function Plate({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-cream2",
+        "relative overflow-hidden rounded-[24px] border border-[var(--hairline-soft)] bg-cream2",
         inner && "px-6 py-12 sm:px-10 sm:py-16",
         className,
       )}
@@ -113,7 +113,7 @@ export function Display({
   return (
     <Tag
       className={cn(
-        "font-display leading-[1.28] tracking-[0.012em] sm:leading-[1.26]",
+        "font-display leading-[1.04] tracking-[-0.045em]",
         className,
       )}
     >
@@ -140,8 +140,8 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("px-3 py-4 sm:px-5 sm:py-5", className)}>
-      {children}
+    <section id={id} className={cn("px-4 py-7 sm:px-8 sm:py-10 lg:px-10", className)}>
+      <div className="section-shell">{children}</div>
     </section>
   );
 }

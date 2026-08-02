@@ -275,7 +275,7 @@ export const FALLBACK_IMAGES = {
   opportunity: "/images/ambassador-program.png",
   // Sits under a 72% overlay, so the low-res Shaklee still reads perfectly here
   ambassador: SHAKLEE.productStill,
-  about: "/api/hero-image?v=2",
-  logo: "/images/canigan-logo.png",
+  about: "/images/canigan-health-logo.png",
+  logo: "/images/canigan-health-logo.png",
   spare: SHAKLEE.activeLifestyle,
 } as const;

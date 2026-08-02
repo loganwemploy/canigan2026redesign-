@@ -53,14 +53,14 @@ export function About({ about }: { about: HomeData["about"] }) {
 
           <Reveal
             variant="right"
-            className="relative aspect-[4/3] min-h-[240px] md:aspect-auto md:min-h-[380px]"
+            className="relative aspect-square min-h-[300px] bg-white md:aspect-auto md:min-h-[520px]"
           >
             <Image
               src={portrait}
-              alt="Candy, founder of Canigan Health Options"
+              alt="Canigan Health Options logo featuring Candy"
               fill
               sizes="(min-width: 768px) 45vw, 100vw"
-              className="object-cover object-[62%_22%] md:object-[center_25%]"
+              className="object-contain p-5 sm:p-8 md:p-10"
             />
             <div className="pointer-events-none absolute inset-4 rounded-[6px] border border-[var(--paper-white)]/40" />
           </Reveal>

@@ -1,153 +1,88 @@
 import Image from "next/image";
-import { Video, ShieldCheck, FlaskConical, HeartHandshake } from "lucide-react";
-import { Reveal, Parallax } from "@/components/motion/reveal";
-import { DotLeader, Display } from "@/components/site/atoms";
+import { ArrowRight, Check, FlaskConical, HeartPulse, Sparkles, Video } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
 import type { HomeData, ZoomMeeting } from "@/lib/home-types";
 
-const TRUST_POINTS = [
-  { icon: ShieldCheck, label: "100% money-back guarantee" },
-  { icon: FlaskConical, label: "70 years of clinical science" },
-  { icon: HeartHandshake, label: "Free & no obligation" },
+const TASKS = [
+  { time: "Today", title: "Health quiz completed", detail: "Your goals are mapped", icon: HeartPulse, tone: "bg-[#c8eee4]" },
+  { time: "Next", title: "Personal plan ready", detail: "Simple daily recommendations", icon: FlaskConical, tone: "bg-[#cce6f3]" },
+  { time: "Ongoing", title: "Candy follows through", detail: "Real guidance from a real person", icon: Sparkles, tone: "bg-[#f7e6e2]" },
 ] as const;
 
 export function Hero({
   data,
   meeting,
+  sectionId = "top",
 }: {
   data: HomeData["hero"];
   meeting?: ZoomMeeting | null;
+  sectionId?: string;
 }) {
   const src = resolveImage(data.image, FALLBACK_IMAGES.hero);
+  const titleLines = data.title.split("\n").filter(Boolean);
 
   return (
-    <section id="top" className="bg-sage p-2 sm:p-3">
-      <div className="relative overflow-hidden rounded-[14px]">
-        <div className="relative aspect-[9/14] w-full sm:aspect-[16/10] lg:aspect-[1470/880]">
-          <Parallax className="absolute inset-0" amount={36}>
-            <Image
-              src={src}
-              alt="Candy of Canigan Health Options standing in a golden field at sunset"
-              fill
-              priority
-              sizes="100vw"
-              // Focal point lives in CSS (.hero-focal) — object-position
-              // percentages resolve against the overflow, not the image, so the
-              // phone and desktop values are not interchangeable.
-              // scale-105 keeps the blur's feathered edge outside the frame.
-              className="hero-focal scale-105 object-cover blur-[1.5px]"
-            />
-          </Parallax>
-          <div className="absolute inset-0 bg-[#2e3a26]/28 mix-blend-multiply" />
-          {/* Vertical scrim: heaviest top and bottom, where the headline and the
-              welcome copy sit, lightest through the middle. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1f2a1a]/58 via-[#1f2a1a]/10 to-[#1f2a1a]/78" />
-          {/* Horizontal scrim, phones only. Candy sits in the right third there,
-              so this darkens the field the type runs over and leaves her face
-              clear. Desktop has room for both and doesn't need it. */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1f2a1a]/70 via-[#1f2a1a]/30 to-transparent sm:hidden" />
-        </div>
-
-        <div className="pointer-events-none absolute inset-3 rounded-[6px] border border-[var(--paper-white)]/30 sm:inset-6" />
-
-        <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-9 lg:p-11">
-          <Reveal variant="fade" duration={1.1}>
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="label-caps text-[0.6rem] text-[var(--paper-white)] sm:text-[0.68rem]">
-                  {data.brand}
-                </span>
-                <span className="font-display text-[0.72rem] italic text-terra">{data.plate}</span>
-              </div>
-
-              {meeting ? (
-                <ZoomInviteDialog meeting={meeting}>
-                  <button
-                    type="button"
-                    className="group inline-flex items-center gap-2 rounded-full border border-[var(--paper-white)]/35 bg-[#1f2a1a]/40 px-3.5 py-1.5 backdrop-blur-sm transition-colors hover:border-terra/70 hover:bg-[#1f2a1a]/60"
-                  >
-                    <span className="relative flex size-2">
-                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-terra/70" />
-                      <span className="relative inline-flex size-2 rounded-full bg-terra" />
-                    </span>
-                    <span className="text-[0.66rem] font-bold tracking-[0.04em] text-[var(--paper-white)] sm:text-[0.72rem]">
-                      Next live Zoom · {meeting.date}
-                      {meeting.time ? ` · ${meeting.time}` : ""}
-                    </span>
-                  </button>
-                </ZoomInviteDialog>
-              ) : null}
-            </div>
-          </Reveal>
-
-          <div className="flex-1 pt-4 sm:pt-6">
-            <Reveal variant="curtain" duration={1.25} delay={0.12}>
-              <Display
-                as="h1"
-                className="max-w-[16ch] text-[clamp(2.3rem,7.4vw,5rem)] text-[var(--paper-white)] drop-shadow-[0_2px_20px_rgba(20,28,16,0.45)]"
-              >
-                {data.title}
-              </Display>
-            </Reveal>
-            <Reveal variant="fade" delay={0.5}>
-              <DotLeader count={11} tone="paper" className="mt-3 block" />
-            </Reveal>
+    <section id={sectionId} className="relative min-h-[900px] overflow-hidden bg-cream px-5 pb-16 pt-32 sm:px-9 lg:px-10 lg:pt-40">
+      <div className="zig-orbit" aria-hidden />
+      <div className="section-shell relative grid min-h-[700px] items-center gap-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8">
+        <Reveal variant="up" className="relative z-10 max-w-[680px] lg:pt-20">
+          <div className="inline-flex items-center gap-2 text-[0.9rem] font-bold text-inksoft">
+            <Sparkles className="size-4" aria-hidden />
+            Personalized wellness with a human guide
           </div>
 
-          <Reveal variant="up" delay={0.35} className="space-y-4">
-            <p className="max-w-[46ch] text-[0.86rem] font-semibold leading-[1.65] text-[var(--paper-white)] sm:text-[0.92rem]">
-              {data.welcome.split("\n").map((line, i) => (
-                <span key={i} className="block">
-                  {line}
-                </span>
-              ))}
-            </p>
+          <h1 className="mt-8 text-[clamp(3.25rem,6.1vw,6rem)] font-bold leading-[0.94] tracking-[-0.065em] text-ink">
+            {titleLines.map((line, index) => (
+              <span key={line} className={index === 0 ? "block" : "mt-2 block text-[#0a9875]"}>
+                {line}
+              </span>
+            ))}
+          </h1>
 
-            <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
-              <ZoomInviteDialog meeting={meeting}>
-                <Button
-                  type="button"
-                  className="h-14 rounded-full bg-terra px-9 text-[0.78rem] font-bold tracking-[0.14em] uppercase text-paper shadow-[0_10px_30px_-8px_rgba(20,28,16,0.7)] hover:bg-terradeep focus-visible:ring-paper"
-                >
-                  <Video className="mr-2 size-4" aria-hidden />
-                  Join Candy on Zoom
-                </Button>
-              </ZoomInviteDialog>
+          <p className="mt-8 max-w-[56ch] text-[1.02rem] leading-7 text-ink/85 sm:text-[1.1rem] sm:leading-8">
+            {data.welcome.replace(/\n/g, " ")}
+          </p>
 
-              <div className="flex items-center gap-4 text-[0.72rem] font-bold tracking-[0.1em] uppercase text-[var(--paper-white)] sm:gap-5">
-                <a
-                  href={data.primaryCta.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline-offset-4 hover:underline"
-                >
-                  {data.primaryCta.label}
-                </a>
-                <span aria-hidden className="text-[var(--paper-white)]/40">
-                  /
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Button asChild className="h-14 rounded-full bg-terra px-9 text-base font-bold text-white hover:bg-terradeep">
+              <a href={data.primaryCta.url} target="_blank" rel="noreferrer">
+                Start your free plan <ArrowRight className="ml-2 size-4" aria-hidden />
+              </a>
+            </Button>
+            <ZoomInviteDialog meeting={meeting}>
+              <Button type="button" variant="outline" className="h-14 rounded-full border-terra bg-transparent px-9 text-base font-bold text-terra hover:bg-white">
+                <Video className="mr-2 size-4" aria-hidden />
+                Join Candy live
+              </Button>
+            </ZoomInviteDialog>
+          </div>
+        </Reveal>
+
+        <Reveal variant="fade" delay={0.15} duration={1.1} className="relative z-10 min-h-[470px] lg:min-h-[640px]">
+          <div className="absolute left-[13%] top-[7%] size-[270px] overflow-hidden rounded-full border-[10px] border-white shadow-[0_35px_80px_-42px_rgba(21,23,26,0.55)] sm:size-[350px] lg:left-[18%] lg:size-[410px]">
+            <Image src={src} alt="Candy of Canigan Health Options" fill priority sizes="(min-width:1024px) 410px, 350px" className="hero-focal object-cover" />
+          </div>
+
+          <div className="absolute inset-x-0 bottom-0 space-y-4 sm:left-[12%] sm:right-auto sm:w-[78%] lg:left-[4%] lg:w-[92%]">
+            {TASKS.map(({ time, title, detail, icon: Icon, tone }, index) => (
+              <div key={title} className={`task-card ml-auto flex w-[92%] items-center gap-4 rounded-[22px] p-4 sm:w-[78%] sm:p-5 ${index === 1 ? "mr-[8%]" : index === 2 ? "mr-0 opacity-85" : "mr-[19%]"}`}>
+                <span className={`grid size-14 shrink-0 place-items-center rounded-xl ${tone}`}>
+                  <Icon className="size-5 text-petrol" aria-hidden />
                 </span>
-                <a href={data.secondaryCta.url} className="underline-offset-4 hover:underline">
-                  {data.secondaryCta.label}
-                </a>
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs font-bold text-[#0a9875]">{time}</span>
+                  <p className="mt-0.5 truncate text-base font-bold tracking-[-0.025em] text-ink">{title}</p>
+                  <p className="mt-1 truncate text-xs text-inksoft">{detail}</p>
+                </div>
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#36aa89] text-white"><Check className="size-4" aria-hidden /></span>
               </div>
-            </div>
-
-            <ul className="flex flex-wrap gap-x-6 gap-y-2 pt-1">
-              {TRUST_POINTS.map(({ icon: Icon, label }) => (
-                <li
-                  key={label}
-                  className="inline-flex items-center gap-2 text-[0.72rem] font-semibold text-[var(--paper-white)]/85"
-                >
-                  <Icon className="size-3.5 text-terra" aria-hidden />
-                  {label}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

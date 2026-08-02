@@ -9,6 +9,7 @@ import { StickyCta } from "@/components/sections/sticky-cta";
 import { Zoom } from "@/components/sections/zoom";
 import { Heritage } from "@/components/sections/heritage";
 import { Challenge } from "@/components/sections/challenge";
+import { Positioning } from "@/components/sections/positioning";
 import { Science } from "@/components/sections/science";
 import { Nutrition } from "@/components/sections/nutrition";
 import { Opportunity } from "@/components/sections/opportunity";
@@ -45,22 +46,21 @@ export function HomeLive({
       <RefreshRouteOnSave />
       <ScrollProgress />
       <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} />
-      <main className="bg-cream">
-        <Hero data={home.hero} meeting={meeting} />
-        {/* Assurance removed: its three trust cards said the same thing as the
-            four Science cards, and on mobile that was ~430px of repetition. */}
-        {/* The live Zoom is the strongest CTA, so it sits high rather than
-            near the footer; Heritage is the breath between it and the pitch. */}
-        <Zoom zoomSection={home.zoomSection} meeting={meeting} />
-        <Heritage data={home.heritage} />
+      <main className="overflow-hidden bg-cream">
+        <div id="top">
+          <About about={home.about} />
+        </div>
         <Challenge data={home.challenge} />
+        <Positioning />
         <Science data={home.science} />
         <Nutrition data={home.nutrition} />
+        <Zoom zoomSection={home.zoomSection} meeting={meeting} />
         <Opportunity data={home.opportunity} />
         <Benchmarks data={home.benchmarks} />
-        <Business data={home.business} />
         <GetStarted data={home.getStarted} />
-        <About about={home.about} />
+        <Business data={home.business} />
+        <Heritage data={home.heritage} />
+        <Hero data={home.hero} meeting={meeting} sectionId="hero" />
         <Contact data={home.contact} />
         <SiteFooter
           logo={FALLBACK_IMAGES.logo}
