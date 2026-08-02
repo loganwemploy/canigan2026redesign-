@@ -86,7 +86,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
               </p>
               <Button
                 asChild
-                className="cta-long mt-6 h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep sm:mt-8"
+                className="cta-long mt-6 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:mt-8"
               >
                 <a href="#contact">{data.ambCtaLabel}</a>
               </Button>

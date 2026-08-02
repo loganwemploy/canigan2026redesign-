@@ -23,7 +23,7 @@ export function PlateLabel({
         {label}
       </span>
       {plate ? (
-        <span className="font-display text-[0.72rem] not-italic tracking-wide text-terra">
+        <span className="font-display text-[0.88rem] not-italic tracking-normal text-terra">
           <span className="italic">{plate}</span>
         </span>
       ) : null}
@@ -113,7 +113,7 @@ export function Display({
   return (
     <Tag
       className={cn(
-        "font-display leading-[1.04] tracking-[-0.045em]",
+        "font-display leading-[1.1] tracking-[-0.025em]",
         className,
       )}
     >

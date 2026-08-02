@@ -15,9 +15,9 @@ import type { HomeData } from "@/lib/home-types";
 type Status = "idle" | "sending" | "sent" | "error";
 
 const FIELD =
-  "rounded-[6px] border-[var(--hairline)] bg-cream2 text-[0.85rem] text-ink shadow-none focus-visible:border-terra focus-visible:ring-terra placeholder:text-inksoft/60";
+  "rounded-[8px] border-[var(--hairline)] bg-cream2 text-base text-ink shadow-none focus-visible:border-terra focus-visible:ring-terra placeholder:text-inksoft/80";
 
-const FIELD_LABEL = "label-caps text-[0.58rem] text-petrol";
+const FIELD_LABEL = "text-base font-bold text-petrol";
 
 function slugify(value: string) {
   return (
@@ -68,7 +68,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
             <Display as="h2" className="mt-7 text-[clamp(1.65rem,2.8vw,2.2rem)] text-ink">
               {data.heading}
             </Display>
-            <p className="mt-6 text-[0.95rem] leading-[1.95] text-petrol">
+            <p className="mt-6 text-[1.05rem] leading-[1.8] text-petrol">
               {data.blurb.split("\n").map((line, i) => (
                 <span key={i} className="block">
                   {line}
@@ -86,7 +86,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                 className="flex flex-col items-center justify-center gap-3 rounded-[8px] border border-[var(--hairline-soft)] bg-parch p-8 text-center"
               >
                 <Check className="size-5 text-pine" />
-                <p className="max-w-[38ch] text-[0.9rem] leading-[1.7] text-ink">
+                <p className="max-w-[38ch] text-base leading-[1.7] text-ink">
                   {data.successMessage.split("\n").map((line, i) => (
                     <span key={i} className="block">
                       {line}
@@ -108,7 +108,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="Your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
 
@@ -125,7 +125,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
 
@@ -141,7 +141,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="(000) 000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
 
@@ -153,7 +153,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     {data.personas.map((p) => {
                       const id = slugify(p.label);
                       return (
-                        <div key={p.label} className="flex items-center gap-2">
+                        <div key={p.label} className="flex min-h-12 items-center gap-3">
                           <Checkbox
                             id={id}
                             checked={personas.includes(p.label)}
@@ -162,7 +162,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                           />
                           <Label
                             htmlFor={id}
-                            className="cursor-pointer text-[0.78rem] font-normal text-ink"
+                            className="min-h-12 cursor-pointer items-center text-base font-normal leading-7 text-ink"
                           >
                             {p.label}
                           </Label>
@@ -191,12 +191,12 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                   <Button
                     type="submit"
                     disabled={status === "sending"}
-                    className="h-11 rounded-full bg-terra px-8 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+                    className="h-12 rounded-full bg-terra px-8 text-base font-bold text-paper hover:bg-terradeep"
                   >
                     {status === "sending" ? "Sending…" : "Send to Candy"}
                   </Button>
                   {status === "error" ? (
-                    <p role="alert" className="text-[0.78rem] text-destructive">
+                    <p role="alert" className="text-base text-destructive">
                       Something went wrong — please call or email Candy directly.
                     </p>
                   ) : null}

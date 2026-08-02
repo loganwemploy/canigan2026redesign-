@@ -61,8 +61,8 @@ export function Zoom({
 
                   <div className="mt-5 grid gap-2">
                     {meetingRows.map((row) => (
-                      <div key={row.label} className="flex gap-3 text-[0.88rem] sm:text-[0.92rem]">
-                        <span className="label-caps w-[62px] shrink-0 text-[0.62rem] text-terra">
+                      <div key={row.label} className="flex gap-3 text-base">
+                        <span className="w-[82px] shrink-0 text-base font-bold text-terra">
                           {row.label}
                         </span>
                         <span className="text-[var(--paper-white)]/90">{row.value}</span>
@@ -73,7 +73,7 @@ export function Zoom({
                   <ZoomInviteDialog meeting={meeting}>
                     <Button
                       type="button"
-                      className="cta-long mt-7 h-11 w-full rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep sm:w-auto"
+                      className="cta-long mt-7 h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:w-auto"
                     >
                       <Video className="mr-2 size-4" aria-hidden />
                       Get the Zoom invite
@@ -81,19 +81,19 @@ export function Zoom({
                   </ZoomInviteDialog>
                 </div>
 
-                <p className="mt-6 max-w-[60ch] text-[0.72rem] leading-[1.7] text-[var(--paper-white)]/65">
+                <p className="mt-6 max-w-[60ch] text-[0.9rem] leading-[1.75] text-[var(--paper-white)]/82">
                   {note}
                 </p>
               </>
             ) : (
               <>
-                <p className="mt-6 max-w-[60ch] text-[0.85rem] leading-[1.85] text-[var(--paper-white)]/80">
+                <p className="mt-6 max-w-[60ch] text-base leading-[1.75] text-[var(--paper-white)]/90">
                   {note}
                 </p>
                 <Button
                   asChild
                   variant="outline"
-                  className="cta-long mt-7 h-11 w-full rounded-full border-[var(--paper-white)]/55 bg-transparent px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-[var(--paper-white)] hover:bg-[var(--paper-white)] hover:text-ink sm:w-auto"
+                  className="cta-long mt-7 h-12 w-full rounded-full border-[var(--paper-white)]/70 bg-transparent px-7 text-base font-bold text-[var(--paper-white)] hover:bg-[var(--paper-white)] hover:text-ink sm:w-auto"
                 >
                   <a href="#contact">
                     Ask Candy about the next session
@@ -120,7 +120,7 @@ export function Zoom({
                   className="h-auto w-full object-cover"
                 />
               </div>
-              <figcaption className="mt-3 text-[0.7rem] leading-[1.6] text-[var(--paper-white)]/60">
+              <figcaption className="mt-3 text-[0.9rem] leading-[1.7] text-[var(--paper-white)]/82">
                 {zoomSection.imageCaption}
               </figcaption>
             </figure>

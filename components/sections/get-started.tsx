@@ -39,7 +39,7 @@ export function GetStarted({ data }: { data: HomeData["getStarted"] }) {
                 <span className="font-display block text-[2.1rem] leading-none text-terra">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="label-caps mt-3 block text-[0.68rem] text-petrol">
+                <span className="mt-3 block text-base font-bold leading-7 text-petrol">
                   {step.label}
                 </span>
                 {i !== lastIndex ? (
@@ -56,7 +56,7 @@ export function GetStarted({ data }: { data: HomeData["getStarted"] }) {
                 <span className="font-display block text-[2.1rem] leading-none text-terra">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="label-caps mt-3 block text-[0.68rem] text-petrol">
+                <span className="mt-3 block text-base font-bold leading-7 text-petrol">
                   {step.label}
                 </span>
                 {i !== lastIndex ? (
@@ -70,7 +70,7 @@ export function GetStarted({ data }: { data: HomeData["getStarted"] }) {
         <Reveal variant="up" className="mt-10">
           <Button
             asChild
-            className="h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+            className="h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
           >
             <a href={data.primaryCta.url} target="_blank" rel="noreferrer">
               {data.primaryCta.label}

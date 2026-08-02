@@ -17,10 +17,11 @@ function validStoredAudience(value: string | null): value is AudienceKey {
   return value !== null && AUDIENCE_KEYS.includes(value as AudienceKey);
 }
 
-export function AudienceGateway() {
+export function AudienceGateway({ phone }: { phone: string }) {
   const scope = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<GatewayPhase>("booting");
   const [selected, setSelected] = useState<AudienceKey | "all" | "none">("none");
+  const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
 
   useEffect(() => {
     const forceChooser = new URLSearchParams(window.location.search).get("choose") === "1";
@@ -66,12 +67,12 @@ export function AudienceGateway() {
 
       const timeline = gsap.timeline({ defaults: { ease: "power3.out" }, onComplete: () => setPhase("choosing") });
       timeline
-        .fromTo("[data-gateway-botanical]", { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.05 })
-        .to("[data-gateway-botanical]", { opacity: 0.28, scale: 1.025, duration: 0.55, delay: 0.5 })
-        .fromTo("[data-gateway-panel]", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55 }, "-=0.35")
-        .fromTo("[data-gateway-copy]", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45 }, "-=0.34")
-        .fromTo("[data-choice]", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.48, stagger: 0.07 }, "-=0.18")
-        .fromTo("[data-skip]", { opacity: 0 }, { opacity: 1, duration: 0.35 }, "-=0.15");
+        .fromTo("[data-gateway-botanical]", { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.65 })
+        .to("[data-gateway-botanical]", { opacity: 0.24, scale: 1.015, duration: 0.3, delay: 0.12 })
+        .fromTo("[data-gateway-panel]", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, "-=0.2")
+        .fromTo("[data-gateway-copy]", { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, "-=0.25")
+        .fromTo("[data-choice]", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.04 }, "-=0.16")
+        .fromTo("[data-skip]", { opacity: 0 }, { opacity: 1, duration: 0.2 }, "-=0.1");
     },
     { scope, dependencies: [phase] },
   );
@@ -144,24 +145,24 @@ export function AudienceGateway() {
           type="button"
           onClick={closeGateway}
           className="ml-auto grid size-11 place-items-center rounded-full border border-forest/25 bg-white/80 text-forest backdrop-blur hover:bg-white"
-          aria-label="Skip audience selection"
+          aria-label="Close this question and show the full site"
         >
           <X className="size-4" aria-hidden />
         </button>
 
-        <div className="mx-auto flex w-full max-w-[1120px] flex-1 flex-col items-center justify-end py-8 text-center sm:justify-center sm:pt-[26vh]">
+        <div className="mx-auto flex w-full max-w-[1120px] flex-1 flex-col items-center justify-end py-8 text-center sm:justify-center sm:pt-[20vh]">
           <div data-gateway-panel className="w-full rounded-[28px] border border-forest/15 bg-[hsl(48_28%_99%/0.93)] p-5 opacity-0 shadow-[0_34px_90px_-55px_hsl(150_44%_18%/0.6)] backdrop-blur-xl sm:p-8">
           <div data-gateway-copy className="opacity-0">
-            <p className="label-caps text-forest">Choose what matters today</p>
-            <h2 id="audience-gateway-title" className="mt-4 text-[clamp(2rem,4.2vw,4rem)] font-bold leading-[0.98] tracking-[-0.055em]">
-              Let the site meet you where you are.
+            <p className="label-caps text-forest">Choose what you would like help with</p>
+            <h2 id="audience-gateway-title" className="mt-4 text-[clamp(2rem,4.2vw,3.8rem)] font-bold leading-[1.06] tracking-[-0.03em]">
+              Which best describes you?
             </h2>
-            <p id="audience-gateway-description" className="mx-auto mt-4 max-w-[62ch] text-sm leading-6 text-inksoft sm:text-base">
-              Pick a focus. The layout stays familiar while the guidance, imagery, and next step become more relevant.
+            <p id="audience-gateway-description" className="mx-auto mt-4 max-w-[58ch] text-lg leading-8 text-inksoft">
+              Choose one option. We will show the information that is most useful to you. You can change this later.
             </p>
           </div>
 
-          <div className="mt-8 grid w-full gap-2.5 md:grid-cols-5" data-choice-grid>
+          <div className="mt-8 grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-3" data-choice-grid>
             {AUDIENCE_KEYS.map((key) => {
               const profile = AUDIENCES[key];
               return (
@@ -176,19 +177,22 @@ export function AudienceGateway() {
                   onFocus={() => setSelected(key)}
                   onBlur={() => setSelected("none")}
                   onClick={() => rememberAudience(key)}
-                  className="group flex min-h-[156px] flex-col rounded-[18px] border border-forest/20 bg-white/82 p-4 text-left opacity-0 shadow-[0_20px_55px_-42px_hsl(147_42%_16%/0.5)] backdrop-blur-sm transition-[border-color,background-color,transform] duration-200 hover:-translate-y-1 hover:border-forest/55 hover:bg-white focus-visible:-translate-y-1 data-[active=true]:border-forest/55 data-[active=true]:bg-white"
+                  className="group flex min-h-[172px] cursor-pointer flex-col rounded-[18px] border-2 border-forest/25 bg-white/90 p-5 text-left opacity-0 shadow-[0_20px_55px_-42px_hsl(147_42%_16%/0.5)] backdrop-blur-sm transition-[border-color,background-color] duration-200 hover:border-forest hover:bg-white focus-visible:border-forest data-[active=true]:border-forest data-[active=true]:bg-white"
                 >
-                  <span className="text-sm font-bold leading-5 text-ink">{profile.chooserTitle}</span>
-                  <span className="mt-2 text-xs leading-5 text-inksoft">{profile.chooserBody}</span>
-                  <ArrowRight className="mt-auto size-4 text-forest transition-transform group-hover:translate-x-1" aria-hidden />
+                  <span className="text-lg font-bold leading-7 text-ink">{profile.chooserTitle}</span>
+                  <span className="mt-2 text-base leading-7 text-inksoft">{profile.chooserBody}</span>
+                  <ArrowRight className="mt-auto size-5 text-forest" aria-hidden />
                 </a>
               );
             })}
           </div>
 
-          <button data-skip type="button" onClick={closeGateway} className="mt-6 text-sm font-bold text-forest underline decoration-forest/35 underline-offset-4 opacity-0 hover:decoration-forest">
-            Show me everything instead
+          <button data-skip type="button" onClick={closeGateway} className="mt-6 min-h-12 cursor-pointer text-base font-bold text-forest underline decoration-forest/35 underline-offset-4 opacity-0 hover:decoration-forest">
+            Skip this question and show the full site
           </button>
+          <a href={telHref} className="mt-2 inline-flex min-h-12 items-center text-base font-bold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+            Not sure? Call Candy at {phone}
+          </a>
           </div>
         </div>
       </div>

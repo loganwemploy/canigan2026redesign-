@@ -39,15 +39,15 @@ export function Hero({
             {audience?.heroEyebrow ?? "Personalized wellness with a human guide"}
           </div>
 
-          <h1 className="mt-8 text-[clamp(3.25rem,6.1vw,6rem)] font-bold leading-[0.94] tracking-[-0.065em] text-ink">
+          <h2 className="mt-8 text-[clamp(3rem,6.1vw,5.6rem)] font-bold leading-[1.02] tracking-[-0.035em] text-ink">
             {titleLines.map((line, index) => (
               <span key={line} className={index === 0 ? "block" : "mt-2 block text-forest"}>
                 {line}
               </span>
             ))}
-          </h1>
+          </h2>
 
-          <p className="mt-8 max-w-[56ch] text-[1.02rem] leading-7 text-ink/85 sm:text-[1.1rem] sm:leading-8">
+          <p className="mt-8 max-w-[54ch] text-[1.08rem] leading-8 text-ink/95 sm:text-[1.15rem] sm:leading-9">
             {data.welcome.replace(/\n/g, " ")}
           </p>
 
@@ -89,9 +89,9 @@ export function Hero({
                   <Icon className="size-5 text-petrol" aria-hidden />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <span className="text-xs font-bold text-forest">{time}</span>
-                  <p className="mt-0.5 truncate text-base font-bold tracking-[-0.025em] text-ink">{title}</p>
-                  <p className="mt-1 truncate text-xs text-inksoft">{detail}</p>
+                  <span className="text-sm font-bold text-forest">{time}</span>
+                  <p className="mt-0.5 text-lg font-bold tracking-[-0.015em] text-ink">{title}</p>
+                  <p className="mt-1 text-base leading-6 text-inksoft">{detail}</p>
                 </div>
                 <span className="grid size-7 shrink-0 place-items-center rounded-full bg-forest-bright text-white"><Check className="size-4" aria-hidden /></span>
               </div>

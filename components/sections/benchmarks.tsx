@@ -33,13 +33,13 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
       <Plate inner={false} className="dot-grid px-6 py-10 sm:px-9 sm:py-12">
         <Reveal variant="up">
           <div className="flex items-center gap-4">
-            <span className="label-caps whitespace-nowrap text-[0.62rem] text-ink">Current program details</span>
+            <span className="label-caps whitespace-nowrap text-[0.82rem] text-ink">Current program details</span>
             <DotRule className="flex-1" />
           </div>
           <Display as="h2" className="mt-6 max-w-[28ch] text-[clamp(1.85rem,3vw,2.45rem)] text-ink">
             Savings and sales terms, without the income theater.
           </Display>
-          <p className="mt-4 max-w-[68ch] text-sm leading-7 text-inksoft">
+          <p className="mt-4 max-w-[68ch] text-base leading-8 text-inksoft">
             These are program mechanics—not typical earnings, a forecast, or a promise. Candy will confirm the current official terms before you choose.
           </p>
         </Reveal>
@@ -48,22 +48,22 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
           {PROGRAM_DETAILS.map((detail) => (
             <article key={detail.label} data-program-detail className="flex min-h-[250px] flex-col rounded-[18px] border border-[var(--hairline-soft)] bg-cream2 p-6">
               <span className="text-[clamp(2rem,3.5vw,3.25rem)] font-bold tracking-[-0.055em] text-forest">{detail.value}</span>
-              <h3 className="mt-2 text-sm font-bold text-ink">{detail.label}</h3>
-              <p className="mt-5 text-sm leading-7 text-petrol">{detail.body}</p>
+              <h3 className="mt-2 text-lg font-bold text-ink">{detail.label}</h3>
+              <p className="mt-5 text-base leading-8 text-petrol">{detail.body}</p>
               <Check className="mt-auto size-4 text-forest" aria-hidden />
             </article>
           ))}
         </Reveal>
 
         <Reveal variant="fade" className="mt-8 block">
-          <p className="max-w-[78ch] text-[0.78rem] leading-[1.8] italic text-inksoft">
+          <p className="max-w-[74ch] text-[0.9rem] leading-[1.75] italic text-inksoft">
             Member value and Ambassador compensation are separate. Product points are not cash. Ambassador earnings depend on qualifying customer product sales, expenses, skill, and effort and are not guaranteed. Terms can change.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Button asChild className="h-11 rounded-full bg-terra px-7 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-paper hover:bg-terradeep">
+            <Button asChild className="h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep">
               <a href="#contact">Review my options with Candy</a>
             </Button>
-            <a href="https://images.shaklee.com/ShakleeCompPlanENG.pdf" target="_blank" rel="noreferrer" className="inline-flex h-11 items-center rounded-full border border-forest/25 px-5 text-xs font-bold text-forest hover:bg-white">
+            <a href="https://images.shaklee.com/ShakleeCompPlanENG.pdf" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center rounded-full border border-forest/30 px-5 text-base font-bold text-forest hover:bg-white">
               Official compensation summary <ArrowUpRight className="ml-2 size-3.5" aria-hidden />
             </a>
           </div>

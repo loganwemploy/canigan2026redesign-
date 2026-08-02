@@ -67,7 +67,7 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             aria-label="Close"
-            className="absolute top-4 right-4 grid size-9 place-items-center rounded-full border border-[var(--hairline)] bg-cream2 text-inksoft transition-colors hover:text-ink focus-visible:ring-2 focus-visible:ring-terra focus-visible:outline-none"
+            className="absolute top-4 right-4 grid size-12 cursor-pointer place-items-center rounded-full border border-[var(--hairline)] bg-cream2 text-ink transition-colors hover:bg-parch focus-visible:ring-3 focus-visible:ring-terra focus-visible:outline-none"
           >
             <XIcon className="size-4" />
           </DialogPrimitive.Close>
@@ -94,7 +94,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-[0.86rem] leading-[1.75] text-petrol", className)}
+      className={cn("text-base leading-[1.75] text-petrol", className)}
       {...props}
     />
   )

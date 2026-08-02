@@ -29,7 +29,7 @@ export function Heritage({ data }: { data: HomeData["heritage"] }) {
 
             <DotRule className="mt-7 max-w-[280px]" />
 
-            <p className="mt-7 max-w-[46ch] text-[0.95rem] leading-[2] text-petrol">
+            <p className="mt-7 max-w-[46ch] text-[1.05rem] leading-[1.8] text-petrol">
               {data.body.split("\n").map((line, i) => (
                 <span key={i} className="block">
                   {line}

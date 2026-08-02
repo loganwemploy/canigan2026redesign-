@@ -14,8 +14,8 @@ export function Challenge({ data, audience }: { data: HomeData["challenge"]; aud
     <Section id="challenge" className="bg-white py-20 sm:py-28 lg:py-36">
       <Reveal variant="up" className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-24">
         <div>
-          <span className="text-sm font-bold text-inksoft">01 / A better starting point</span>
-          <h2 className="mt-6 max-w-[12ch] text-[clamp(2.8rem,5vw,5.5rem)] font-bold leading-[0.96] tracking-[-0.06em] text-ink">
+          <span className="text-base font-bold text-inksoft">Step 1 · A better starting point</span>
+          <h2 className="mt-6 max-w-[14ch] text-[clamp(2.6rem,5vw,5.2rem)] font-bold leading-[1.04] tracking-[-0.035em] text-ink">
             {audience?.challengeTitle ?? "You don't need more wellness noise."}
           </h2>
         </div>
@@ -24,13 +24,13 @@ export function Challenge({ data, audience }: { data: HomeData["challenge"]; aud
           <p className="max-w-[54ch] text-xl leading-8 text-ink/80">{data.body.replace(/\n/g, " ")}</p>
           <div className="mt-12 grid gap-8 md:grid-cols-2">
             <div>
-              <span className="inline-flex rounded-full bg-ink px-4 py-2 text-xs font-bold text-white">Before Canigan</span>
+              <span className="inline-flex min-h-12 items-center rounded-full bg-ink px-5 py-2 text-base font-bold text-white">Before Canigan</span>
               <ul className="mt-6 space-y-5">
-                {oldWay.map((item) => <li key={item} className="flex gap-3 text-base text-ink/75"><X className="mt-0.5 size-5 shrink-0" aria-hidden />{item}</li>)}
+                {oldWay.map((item) => <li key={item} className="flex gap-3 text-base text-ink/90"><X className="mt-0.5 size-5 shrink-0" aria-hidden />{item}</li>)}
               </ul>
             </div>
             <div>
-              <span className="inline-flex rounded-full bg-forest px-4 py-2 text-xs font-bold text-white">With Canigan</span>
+              <span className="inline-flex min-h-12 items-center rounded-full bg-forest px-5 py-2 text-base font-bold text-white">With Canigan</span>
               <ul className="mt-6 space-y-5">
                 {caniganWay.map((item) => <li key={item} className="flex gap-3 text-base font-semibold text-forest"><Check className="mt-0.5 size-5 shrink-0" aria-hidden />{item}</li>)}
               </ul>

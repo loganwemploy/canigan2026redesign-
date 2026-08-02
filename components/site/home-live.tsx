@@ -53,14 +53,16 @@ export function HomeLive({
     <div
       className="audience-shell"
       data-audience={audience?.slug}
-      data-text-scale={audience?.largeText ? "large" : "standard"}
+      data-text-scale="silver-fox"
       data-content-source={audience ? "server-route" : "default"}
     >
-      {showAudienceGateway ? <AudienceGateway /> : null}
+      {showAudienceGateway ? <AudienceGateway phone={home.about.phone} /> : null}
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <RefreshRouteOnSave />
       <ScrollProgress />
-      <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} audienceLabel={audience?.navLabel} />
-      <main className="overflow-hidden bg-cream">
+      <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} audienceLabel={audience?.navLabel} phone={home.about.phone} />
+      <main id="main-content" tabIndex={-1} className="overflow-hidden bg-cream outline-none">
+        <h1 className="sr-only">Canigan Health Options — personal wellness guidance with Candy</h1>
         <div id="top">
           <About about={home.about} />
         </div>

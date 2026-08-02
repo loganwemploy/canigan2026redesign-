@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { DotRule } from "@/components/site/atoms";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
@@ -12,11 +12,10 @@ import type { ZoomMeeting } from "@/lib/home-types";
 
 /** Shared in-page navigation used by both the header and the footer. */
 const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
-  { label: "Wellness", href: "#nutrition" },
-  { label: "Science", href: "#science" },
-  { label: "Opportunity", href: "#opportunity" },
-  { label: "Program details", href: "#benchmarks" },
-  { label: "About", href: "#about" },
+  { label: "Health plans", href: "#nutrition" },
+  { label: "Why trust it", href: "#science" },
+  { label: "Save or earn", href: "#opportunity" },
+  { label: "About Candy", href: "#about" },
 ];
 
 /**
@@ -27,10 +26,12 @@ export function SiteHeader({
   logo,
   meeting,
   audienceLabel,
+  phone,
 }: {
   logo: string;
   meeting?: ZoomMeeting | null;
   audienceLabel?: string;
+  phone?: string;
 }) {
   const [shown, setShown] = useState(false);
   const [open, setOpen] = useState(false);
@@ -45,13 +46,14 @@ export function SiteHeader({
   }, []);
 
   const menuOpen = open;
+  const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : null;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-8">
-      <div className={`mx-auto max-w-[1440px] rounded-[30px] transition-all duration-300 ${shown || menuOpen ? "bg-white/95 shadow-[0_12px_40px_-26px_hsl(148_19%_12%/0.45)] backdrop-blur" : "bg-transparent"}`}>
-        <div className="flex h-16 items-center justify-between px-4 sm:px-5">
+      <div className={`mx-auto max-w-[1440px] rounded-[30px] bg-white/96 backdrop-blur transition-shadow duration-300 ${shown || menuOpen ? "shadow-[0_12px_40px_-26px_hsl(148_19%_12%/0.45)]" : "shadow-[0_8px_26px_-24px_hsl(148_19%_12%/0.4)]"}`}>
+        <div className="flex h-20 items-center justify-between px-4 sm:px-5">
           <a href="#top" aria-label="Canigan Health Options — back to top" className="flex items-center gap-2.5">
-            <span className="relative block size-12 shrink-0 overflow-hidden rounded-full bg-white">
+            <span className="relative block size-14 shrink-0 overflow-hidden rounded-full bg-white">
               <Image
                 src={logo}
                 alt=""
@@ -61,18 +63,18 @@ export function SiteHeader({
               />
             </span>
             <span className="hidden leading-none sm:block">
-              <strong className="block text-[1.05rem] tracking-[-0.04em] text-ink">Canigan Health</strong>
-              <span className="mt-1 block text-[0.58rem] font-bold uppercase tracking-[0.09em] text-forest">Health Options</span>
+              <strong className="block text-[1.08rem] tracking-[-0.02em] text-ink">Canigan Health</strong>
+              <span className="mt-1 block text-[0.82rem] font-bold tracking-normal text-forest">Health Options</span>
             </span>
           </a>
 
-          <nav className="hidden rounded-full bg-white px-7 py-4 shadow-[0_8px_30px_-26px_hsl(148_19%_12%/0.5)] lg:flex lg:gap-8" aria-label="Section navigation">
+          <nav className="hidden rounded-full bg-white px-5 py-2 shadow-[0_8px_30px_-26px_hsl(148_19%_12%/0.5)] lg:flex lg:gap-2" aria-label="Section navigation">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="text-sm font-bold text-ink/80 transition-colors hover:text-forest"
+                className="inline-flex min-h-12 items-center rounded-full px-3 text-base font-bold text-ink transition-colors hover:bg-parch hover:text-forest"
               >
                 {link.label}
               </a>
@@ -80,20 +82,24 @@ export function SiteHeader({
           </nav>
 
           <div className="flex items-center gap-2">
-            {audienceLabel ? <Link href="/?choose=1" className="hidden rounded-full bg-parch px-4 py-2 text-xs font-bold text-forest xl:inline-flex">Focus: {audienceLabel}</Link> : null}
-            <a href={ASSESSMENT_URL} target="_blank" rel="noreferrer" className="hidden h-11 items-center rounded-full border border-terra px-6 text-sm font-bold text-terra transition-colors hover:bg-white sm:inline-flex">Free quiz</a>
+            {audienceLabel ? <Link href="/?choose=1" className="hidden min-h-12 items-center rounded-full bg-parch px-4 py-2 text-base font-bold text-forest xl:inline-flex">Change what I need</Link> : null}
+            {telHref ? <a href={telHref} className="inline-flex min-h-12 items-center rounded-full border border-terra px-4 text-base font-bold text-terra transition-colors hover:bg-parch sm:px-5">
+              <Phone className="mr-2 size-5" aria-hidden />
+              <span className="hidden sm:inline">Call Candy</span>
+              <span className="sm:hidden">Call</span>
+            </a> : null}
             <ZoomInviteDialog meeting={meeting}>
               <Button
                 type="button"
                 size="sm"
-                className="h-11 rounded-full bg-terra px-6 text-sm font-bold text-white hover:bg-terradeep"
+                className="hidden h-12 rounded-full bg-terra px-5 text-base font-bold text-white hover:bg-terradeep md:inline-flex"
               >
-                Join live
+                Join Candy live
               </Button>
             </ZoomInviteDialog>
             <button
               type="button"
-              className="grid size-9 place-items-center rounded-full border border-[var(--hairline)] text-ink lg:hidden"
+              className="grid size-12 cursor-pointer place-items-center rounded-full border border-[var(--hairline)] text-ink lg:hidden"
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -116,7 +122,7 @@ export function SiteHeader({
                   <a
                     href={link.href}
                     {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                    className="block text-base font-bold text-ink"
+                    className="flex min-h-12 items-center rounded-lg px-2 text-lg font-bold text-ink hover:bg-parch"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
@@ -124,9 +130,31 @@ export function SiteHeader({
                 </li>
               ))}
               <li>
+                <a
+                  href={ASSESSMENT_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-12 items-center rounded-lg px-2 text-lg font-bold text-ink hover:bg-parch"
+                  onClick={() => setOpen(false)}
+                >
+                  Take the free health quiz
+                </a>
+              </li>
+              {audienceLabel ? (
+                <li>
+                  <Link
+                    href="/?choose=1"
+                    className="flex min-h-12 items-center rounded-lg px-2 text-lg font-bold text-forest hover:bg-parch"
+                    onClick={() => setOpen(false)}
+                  >
+                    Change what I need help with
+                  </Link>
+                </li>
+              ) : null}
+              <li>
                 <ZoomInviteDialog meeting={meeting}>
                   {/* No menu-close on click — closing would unmount the dialog with it. */}
-                  <button type="button" className="label-caps block text-[0.62rem] text-terra">
+                  <button type="button" className="min-h-12 cursor-pointer text-lg font-bold text-terra">
                     Join Candy on Zoom
                   </button>
                 </ZoomInviteDialog>
@@ -172,7 +200,7 @@ export function SiteFooter({
               className="size-[150px] object-contain sm:size-[180px]"
             />
           </div>
-          <p className="mt-5 max-w-[38ch] text-[0.8rem] leading-[1.8] text-[var(--paper-white)]/80">
+          <p className="mt-5 max-w-[38ch] text-base leading-[1.75] text-[var(--paper-white)]/90">
             {tagline.split("\n").map((line, i) => (
               <span key={i} className="block">
                 {line}
@@ -182,14 +210,14 @@ export function SiteFooter({
         </div>
 
         <div>
-          <span className="label-caps text-[0.58rem] text-terra">Explore</span>
+          <span className="label-caps text-[0.82rem] text-sage">Explore</span>
           <ul className="mt-4 space-y-2">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                  className="text-[0.8rem] text-[var(--paper-white)]/85 transition-colors hover:text-paper"
+                  className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
                 >
                   {link.label}
                 </a>
@@ -199,12 +227,12 @@ export function SiteFooter({
         </div>
 
         <div>
-          <span className="label-caps text-[0.58rem] text-terra">Reach Candy</span>
+          <span className="label-caps text-[0.82rem] text-sage">Reach Candy</span>
           <ul className="mt-4 space-y-2">
             <li>
               <a
                 href={telHref}
-                className="text-[0.8rem] text-[var(--paper-white)]/85 transition-colors hover:text-paper"
+                className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
               >
                 {phone}
               </a>
@@ -212,7 +240,7 @@ export function SiteFooter({
             <li>
               <a
                 href={`mailto:${email}`}
-                className="break-words text-[0.8rem] text-[var(--paper-white)]/85 transition-colors hover:text-paper"
+                className="inline-flex min-h-12 items-center break-words text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
               >
                 {email}
               </a>
@@ -222,7 +250,7 @@ export function SiteFooter({
                 href={assessmentUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-[0.8rem] text-[var(--paper-white)]/85 transition-colors hover:text-paper"
+                className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
               >
                 Free health assessment
               </a>
@@ -230,7 +258,7 @@ export function SiteFooter({
             <li>
               <a
                 href="#start"
-                className="text-[0.8rem] text-[var(--paper-white)]/85 transition-colors hover:text-paper"
+                className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
               >
                 Get started
               </a>
@@ -241,7 +269,7 @@ export function SiteFooter({
 
       <DotRule tone="paper" className="my-9" />
 
-      <div className="space-y-3 text-[0.68rem] leading-[1.7] text-[var(--paper-white)]/55">
+      <div className="space-y-4 text-[0.88rem] leading-[1.75] text-[var(--paper-white)]/78">
         <p>{incomeDisclaimer}</p>
         <p>{healthDisclaimer}</p>
         <p suppressHydrationWarning>{`© ${new Date().getFullYear()} Canigan Health Options. All rights reserved.`}</p>

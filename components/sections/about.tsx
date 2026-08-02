@@ -23,7 +23,7 @@ export function About({ about }: { about: HomeData["about"] }) {
               {about.heading}
             </Display>
 
-            <p className="mt-7 max-w-[58ch] text-[0.95rem] leading-[2] text-petrol">
+            <p className="mt-7 max-w-[58ch] text-[1.05rem] leading-[1.8] text-petrol">
               {about.body.split("\n").map((line, i) => (
                 <span key={i} className="block">
                   {line}
@@ -36,14 +36,14 @@ export function About({ about }: { about: HomeData["about"] }) {
             <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
               <a
                 href={telHref}
-                className="inline-flex items-center gap-2 text-[0.78rem] font-bold text-terra hover:text-terradeep"
+                className="inline-flex min-h-12 items-center gap-2 text-base font-bold text-terra hover:text-terradeep"
               >
                 <Phone className="size-3.5" aria-hidden />
                 {about.phone}
               </a>
               <a
                 href={`mailto:${about.email}`}
-                className="inline-flex items-center gap-2 text-[0.78rem] font-bold text-terra hover:text-terradeep"
+                className="inline-flex min-h-12 items-center gap-2 text-base font-bold text-terra hover:text-terradeep"
               >
                 <Mail className="size-3.5" aria-hidden />
                 {about.email}

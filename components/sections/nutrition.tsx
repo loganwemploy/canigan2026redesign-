@@ -28,7 +28,7 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
                 </h3>
                 <DotLeader count={9} className="mt-1.5 block" />
                 {column.paragraphs.map((paragraph, j) => (
-                  <p key={j} className="mt-5 text-[0.9rem] leading-[1.9] text-petrol">
+                  <p key={j} className="mt-5 text-base leading-[1.75] text-petrol">
                     {paragraph.text.split("\n").map((line, k) => (
                       <span key={k} className="block">
                         {line}
@@ -46,7 +46,7 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           <Reveal variant="up" delay={0.15} className="mt-10 flex">
             <Button
               asChild
-              className="cta-long h-10 self-start rounded-full bg-terra px-6 text-[0.65rem] font-bold tracking-[0.18em] uppercase text-paper hover:bg-terradeep"
+              className="cta-long h-12 self-start rounded-full bg-terra px-6 text-base font-bold text-paper hover:bg-terradeep"
             >
               {isExternal ? (
                 <a href={data.ctaUrl} target="_blank" rel="noreferrer">
@@ -61,8 +61,8 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           <div className="mt-8">
             <DotRule />
             <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-              <span className="label-caps text-[0.6rem] text-petrol">{data.strip}</span>
-              <span className="font-display text-[0.72rem] text-terra">{data.plate}</span>
+              <span className="text-base font-bold text-petrol">{data.strip}</span>
+              <span className="font-display text-[0.88rem] text-terra">{data.plate}</span>
             </div>
           </div>
         </div>

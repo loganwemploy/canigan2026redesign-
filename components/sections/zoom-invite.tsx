@@ -21,9 +21,9 @@ import type { ZoomMeeting } from "@/lib/home-types";
 type Status = "idle" | "sending" | "sent" | "error";
 
 const FIELD =
-  "rounded-[6px] border-[var(--hairline)] bg-parch text-[0.85rem] text-ink shadow-none focus-visible:border-terra focus-visible:ring-terra placeholder:text-inksoft/60";
+  "rounded-[8px] border-[var(--hairline)] bg-parch text-base text-ink shadow-none focus-visible:border-terra focus-visible:ring-terra placeholder:text-inksoft/80";
 
-const FIELD_LABEL = "label-caps text-[0.56rem] text-petrol";
+const FIELD_LABEL = "text-base font-bold text-petrol";
 
 /**
  * The Zoom call-to-action opens this modal rather than jumping straight to Zoom,
@@ -98,11 +98,11 @@ export function ZoomInviteDialog({
 
       <DialogContent>
         <div className="border-b border-[var(--hairline-soft)] bg-pine px-6 py-6 text-paper sm:px-8">
-          <span className="label-caps text-[0.56rem] text-terra">Join Candy live on Zoom</span>
+          <span className="text-base font-bold text-terra">Join Candy live on Zoom</span>
           <DialogTitle className="mt-3 pr-10 text-[1.4rem] text-paper sm:text-[1.55rem]">
             {meeting?.title ?? "Live wellness & business sessions with Candy"}
           </DialogTitle>
-          <DialogDescription className="mt-2 text-[0.84rem] text-[var(--paper-white)]/80">
+          <DialogDescription className="mt-2 text-base text-[var(--paper-white)]/90">
             {meeting
               ? "Free to attend, no obligation. Join the live link or reserve a seat and Candy will send the details."
               : "A new session is being scheduled. Reserve a seat and Candy will email you the invite as soon as it's set."}
@@ -113,9 +113,9 @@ export function ZoomInviteDialog({
           {details.length ? (
             <dl className="mb-6 grid gap-2.5 rounded-[8px] border border-[var(--hairline-soft)] bg-parch px-4 py-4">
               {details.map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex items-center gap-3 text-[0.88rem]">
+                <div key={label} className="flex items-center gap-3 text-base">
                   <Icon className="size-4 shrink-0 text-terra" aria-hidden />
-                  <dt className="label-caps w-[54px] shrink-0 text-[0.54rem] text-petrol">
+                  <dt className="w-[76px] shrink-0 text-base font-bold text-petrol">
                     {label}
                   </dt>
                   <dd className="font-semibold text-ink">{value}</dd>
@@ -130,13 +130,13 @@ export function ZoomInviteDialog({
               className="flex flex-col items-center gap-3 rounded-[8px] border border-[var(--hairline-soft)] bg-parch p-6 text-center"
             >
               <Check className="size-5 text-pine" aria-hidden />
-              <p className="max-w-[38ch] text-[0.9rem] leading-[1.7] text-ink">
+              <p className="max-w-[38ch] text-base leading-[1.75] text-ink">
                 Your seat is reserved — Candy will be in touch with the details before the call.
               </p>
               {meeting?.link ? (
                 <Button
                   asChild
-                  className="mt-1 h-11 rounded-full bg-terra px-7 text-[0.66rem] font-bold tracking-[0.16em] uppercase text-paper hover:bg-terradeep"
+                  className="mt-1 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
                 >
                   <a href={meeting.link} target="_blank" rel="noreferrer">
                     <Video className="mr-2 size-4" aria-hidden />
@@ -147,7 +147,7 @@ export function ZoomInviteDialog({
               <DialogClose asChild>
                 <button
                   type="button"
-                  className="text-[0.72rem] font-bold tracking-[0.1em] uppercase text-inksoft underline-offset-4 hover:text-ink hover:underline"
+                  className="min-h-12 text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline"
                 >
                   Close
                 </button>
@@ -167,7 +167,7 @@ export function ZoomInviteDialog({
                     placeholder="Your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -182,7 +182,7 @@ export function ZoomInviteDialog({
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -197,7 +197,7 @@ export function ZoomInviteDialog({
                     placeholder="(000) 000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -212,7 +212,7 @@ export function ZoomInviteDialog({
                     inputMode="numeric"
                     value={guests}
                     onChange={(e) => setGuests(e.target.value)}
-                    className={cn(FIELD, "h-11")}
+                    className={cn(FIELD, "h-12")}
                   />
                 </div>
               </div>
@@ -232,7 +232,7 @@ export function ZoomInviteDialog({
                 />
               </div>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex min-h-12 items-center gap-3">
                 <Checkbox
                   id="rsvp-reminder"
                   checked={reminder}
@@ -241,7 +241,7 @@ export function ZoomInviteDialog({
                 />
                 <Label
                   htmlFor="rsvp-reminder"
-                  className="cursor-pointer text-[0.8rem] font-normal text-ink"
+                  className="min-h-12 cursor-pointer items-center text-base font-normal leading-7 text-ink"
                 >
                   Send me a reminder before the call
                 </Label>
@@ -251,21 +251,21 @@ export function ZoomInviteDialog({
                 <Button
                   type="submit"
                   disabled={status === "sending"}
-                  className="h-12 rounded-full bg-terra px-8 text-[0.68rem] font-bold tracking-[0.16em] uppercase text-paper hover:bg-terradeep"
+                  className="h-12 rounded-full bg-terra px-8 text-base font-bold text-paper hover:bg-terradeep"
                 >
                   {status === "sending" ? "Reserving…" : "Reserve my seat"}
                 </Button>
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="text-[0.72rem] font-bold tracking-[0.1em] uppercase text-inksoft underline-offset-4 hover:text-ink hover:underline"
+                  className="min-h-12 text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline"
                 >
                   Back
                 </button>
               </div>
 
               {status === "error" ? (
-                <p role="alert" className="text-[0.78rem] text-destructive">
+                <p role="alert" className="text-base text-destructive">
                   Something went wrong — please call or email Candy directly.
                 </p>
               ) : null}
@@ -275,7 +275,7 @@ export function ZoomInviteDialog({
               {meeting?.link ? (
                 <Button
                   asChild
-                  className="h-12 w-full rounded-full bg-terra px-7 text-[0.7rem] font-bold tracking-[0.16em] uppercase text-paper hover:bg-terradeep"
+                  className="h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
                 >
                   <a href={meeting.link} target="_blank" rel="noreferrer">
                     <Video className="mr-2 size-4" aria-hidden />
@@ -288,12 +288,12 @@ export function ZoomInviteDialog({
                 type="button"
                 variant="outline"
                 onClick={() => setShowForm(true)}
-                className="h-12 w-full rounded-full border-[var(--hairline)] bg-transparent px-7 text-[0.7rem] font-bold tracking-[0.16em] uppercase text-ink hover:bg-parch"
+                className="h-12 w-full rounded-full border-[var(--hairline)] bg-transparent px-7 text-base font-bold text-ink hover:bg-parch"
               >
                 RSVP & save my seat
               </Button>
 
-              <p className="pt-1 text-center text-[0.74rem] leading-[1.6] text-inksoft">
+              <p className="pt-1 text-center text-[0.9rem] leading-[1.7] text-inksoft">
                 Can&apos;t make it live? RSVP anyway and Candy will follow up with a recap.
               </p>
             </div>

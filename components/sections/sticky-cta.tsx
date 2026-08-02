@@ -43,10 +43,10 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
       <div className="mx-3 mb-3 rounded-[10px] border border-[var(--hairline)] bg-cream2/95 shadow-[0_-6px_30px_-12px_hsl(151_33%_13%/0.4)] backdrop-blur sm:mx-5">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <div className="min-w-0">
-            <p className="truncate font-display text-[0.95rem] italic leading-[1.2] text-ink sm:text-[1.1rem]">
+            <p className="font-display text-base leading-[1.3] text-ink sm:text-[1.1rem]">
               Pull up a chair with Candy
             </p>
-            <p className="hidden text-[0.74rem] leading-tight text-petrol sm:block">
+            <p className="hidden text-[0.9rem] leading-snug text-petrol sm:block">
               {meeting
                 ? `Next live Zoom · ${meeting.date}${meeting.time ? ` · ${meeting.time}` : ""} — save your seat.`
                 : "Join Candy live for wellness & business topics — free Zoom invite."}
@@ -58,14 +58,14 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
               href={ASSESSMENT_URL}
               target="_blank"
               rel="noreferrer"
-              className="hidden text-[0.62rem] font-bold tracking-[0.12em] uppercase text-inksoft underline-offset-4 hover:text-ink hover:underline sm:inline"
+              className="hidden min-h-12 items-center text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline sm:inline-flex"
             >
               Or take the free quiz
             </a>
             <ZoomInviteDialog meeting={meeting}>
               <Button
                 type="button"
-                className="h-11 rounded-full bg-terra px-5 text-[0.66rem] font-bold tracking-[0.14em] uppercase text-paper hover:bg-terradeep sm:px-7 sm:text-[0.7rem]"
+                className="h-12 rounded-full bg-terra px-5 text-base font-bold text-paper hover:bg-terradeep sm:px-7"
               >
                 <Video className="mr-1.5 size-4" aria-hidden />
                 Join Candy on Zoom
@@ -75,8 +75,8 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
             <button
               type="button"
               onClick={() => setDismissed(true)}
-              aria-label="Dismiss"
-              className="grid size-9 shrink-0 place-items-center rounded-full border border-[var(--hairline)] text-inksoft transition-colors hover:text-ink"
+              aria-label="Close the Zoom invitation"
+              className="grid size-12 shrink-0 cursor-pointer place-items-center rounded-full border border-[var(--hairline)] text-ink transition-colors hover:bg-parch"
             >
               <X className="size-4" />
             </button>

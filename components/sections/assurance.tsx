@@ -36,7 +36,7 @@ export function Assurance() {
                   <p className="font-display text-[1.05rem] italic leading-[1.3] text-ink">
                     {title}
                   </p>
-                  <p className="mt-2 text-[0.82rem] leading-[1.7] text-petrol">{body}</p>
+                  <p className="mt-2 text-base leading-[1.7] text-petrol">{body}</p>
                 </div>
               </li>
             ))}

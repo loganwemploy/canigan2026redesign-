@@ -26,7 +26,6 @@ export interface AudienceProfile {
   positioningLead: string;
   positioningAccent: string;
   heroImageAlt: string;
-  largeText?: boolean;
   content: Pick<HomeData, "hero" | "challenge" | "science" | "nutrition" | "opportunity" | "getStarted" | "contact" | "footer">;
 }
 
@@ -168,7 +167,6 @@ export const AUDIENCES: Record<AudienceKey, AudienceProfile> = {
     positioningLead: "The goal is not to chase youth.",
     positioningAccent: "It is to protect the life you want to keep living.",
     heroImageAlt: "Candy, an active older wellness guide",
-    largeText: true,
     content: {
       hero: {
         brand: "Canigan Health Options", plate: "Active Aging", title: "Stay capable.\nStay curious.\nStay in your life.",
