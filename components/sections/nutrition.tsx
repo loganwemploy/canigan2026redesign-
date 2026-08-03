@@ -76,7 +76,7 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           <Drift className="absolute inset-0" amount={6}>
             <Image
               src={src}
-              alt="Natural wellness products and fresh ingredients from Canigan Health Options"
+              alt="Women enjoying nutritious food, outdoor exercise, and a quiet wellness moment"
               fill
               sizes="(min-width:768px) 45vw, 100vw"
               className="scale-110 object-cover object-center"
