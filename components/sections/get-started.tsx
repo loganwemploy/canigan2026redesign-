@@ -12,7 +12,7 @@ export function GetStarted({ data }: { data: HomeData["getStarted"] }) {
     <Section id="start">
       <Plate inner={false} className="dot-grid px-7 py-10 sm:px-10 sm:py-12">
         <Reveal variant="up">
-          <PlateLabel label={data.label} plate={data.plate} />
+          <PlateLabel label={data.label} />
           <Display
             as="h2"
             className="mt-7 max-w-[40ch] text-[clamp(1.65rem,2.9vw,2.2rem)] leading-[1.38] text-ink"

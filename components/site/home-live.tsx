@@ -8,6 +8,7 @@ import { Hero } from "@/components/sections/hero";
 import { StickyCta } from "@/components/sections/sticky-cta";
 import { Zoom } from "@/components/sections/zoom";
 import { Heritage } from "@/components/sections/heritage";
+import { SocialUpdates } from "@/components/sections/social-updates";
 import { Challenge } from "@/components/sections/challenge";
 import { Positioning } from "@/components/sections/positioning";
 import { Science } from "@/components/sections/science";
@@ -66,6 +67,8 @@ export function HomeLive({
         <div id="top">
           <About about={home.about} />
         </div>
+        <Heritage data={home.heritage} />
+        <SocialUpdates />
         <Challenge data={home.challenge} audience={audience} />
         <Positioning audience={audience} />
         <Science data={home.science} />
@@ -75,7 +78,6 @@ export function HomeLive({
         <Benchmarks data={home.benchmarks} />
         <GetStarted data={home.getStarted} />
         <Business data={home.business} />
-        <Heritage data={home.heritage} />
         <Hero data={home.hero} meeting={meeting} sectionId="hero" audience={audience} />
         <Contact data={home.contact} />
         <SiteFooter

@@ -14,7 +14,7 @@ export function About({ about }: { about: HomeData["about"] }) {
     <Section id="about">
         <div className="grid overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-cream2 md:grid-cols-[1fr_0.8fr]">
           <Reveal variant="left" className="p-7 sm:p-10 lg:p-12">
-            <PlateLabel label={about.label} plate={about.plate} />
+            <PlateLabel label={about.label} />
 
             <Display
               as="h2"

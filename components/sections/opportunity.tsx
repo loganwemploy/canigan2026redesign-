@@ -17,7 +17,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
         <div className="bg-cream2 px-6 pt-8 pb-7 sm:px-10 sm:pt-10 sm:pb-9">
           <div className="grid gap-8 md:grid-cols-[1.35fr_1fr] md:items-start md:gap-10">
             <Reveal variant="up" duration={0.95}>
-              <PlateLabel label={data.label} plate={data.plate} />
+              <PlateLabel label={data.label} />
               <DotLeader count={16} className="mt-3 block" />
               <Display
                 as="h2"
@@ -86,7 +86,7 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
               </p>
               <Button
                 asChild
-                className="cta-long mt-6 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:mt-8"
+                className="mt-6 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:mt-8"
               >
                 <a href="#contact">{data.ambCtaLabel}</a>
               </Button>

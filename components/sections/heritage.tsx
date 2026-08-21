@@ -21,7 +21,7 @@ export function Heritage({ data }: { data: HomeData["heritage"] }) {
       <div className="dot-grid overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-parch px-6 py-16 sm:px-10 sm:py-24 md:py-32">
         <div className="mx-auto grid max-w-[1100px] gap-12 md:grid-cols-[1fr_auto] md:items-center md:gap-16">
           <Reveal variant="up" className="min-w-0">
-            <PlateLabel label={data.label} plate={data.plate} />
+            <PlateLabel label={data.label} />
 
             <Display as="h2" className="mt-6 text-[clamp(1.8rem,4vw,2.9rem)] text-ink">
               {data.heading}

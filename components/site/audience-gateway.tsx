@@ -140,29 +140,39 @@ export function AudienceGateway({ phone }: { phone: string }) {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(48_24%_97%/0.04),hsl(48_24%_97%/0.36))]" />
       </div>
 
-      <div className="relative mx-auto flex min-h-full w-full max-w-[1320px] flex-col px-5 py-8 sm:px-9 lg:px-12">
-        <button
-          type="button"
-          onClick={closeGateway}
-          className="ml-auto grid size-11 place-items-center rounded-full border border-forest/25 bg-white/80 text-forest backdrop-blur hover:bg-white"
-          aria-label="Close this question and show the full site"
-        >
-          <X className="size-4" aria-hidden />
-        </button>
+      <div className="relative mx-auto flex min-h-full w-full max-w-[1320px] flex-col px-4 py-4 sm:px-9 sm:py-5 lg:px-12">
+        <div className="ml-auto flex items-center gap-2">
+          <button
+            data-skip
+            type="button"
+            onClick={closeGateway}
+            className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-forest/30 bg-white/90 px-4 text-sm font-bold text-forest opacity-0 shadow-sm backdrop-blur hover:bg-white sm:text-base"
+          >
+            Skip and show the full site
+          </button>
+          <button
+            type="button"
+            onClick={closeGateway}
+            className="grid size-11 place-items-center rounded-full border border-forest/25 bg-white/80 text-forest backdrop-blur hover:bg-white"
+            aria-label="Close this question and show the full site"
+          >
+            <X className="size-4" aria-hidden />
+          </button>
+        </div>
 
-        <div className="mx-auto flex w-full max-w-[1120px] flex-1 flex-col items-center justify-end py-8 text-center sm:justify-center sm:pt-[20vh]">
-          <div data-gateway-panel className="w-full rounded-[28px] border border-forest/15 bg-[hsl(48_28%_99%/0.93)] p-5 opacity-0 shadow-[0_34px_90px_-55px_hsl(150_44%_18%/0.6)] backdrop-blur-xl sm:p-8">
+        <div className="mx-auto flex w-full max-w-[1120px] flex-1 flex-col items-center justify-start py-4 text-center sm:py-6 lg:py-8">
+          <div data-gateway-panel className="w-full rounded-[28px] border border-forest/15 bg-[hsl(48_28%_99%/0.93)] p-4 opacity-0 shadow-[0_34px_90px_-55px_hsl(150_44%_18%/0.6)] backdrop-blur-xl sm:p-6 lg:p-7">
           <div data-gateway-copy className="opacity-0">
             <p className="label-caps text-forest">Choose what you would like help with</p>
-            <h2 id="audience-gateway-title" className="mt-4 text-[clamp(2rem,4.2vw,3.8rem)] font-bold leading-[1.06] tracking-[-0.03em]">
+            <h2 id="audience-gateway-title" className="mt-2 text-[clamp(1.8rem,3.5vw,3.15rem)] font-bold leading-[1.06] tracking-[-0.03em] sm:mt-3">
               Which best describes you?
             </h2>
-            <p id="audience-gateway-description" className="mx-auto mt-4 max-w-[58ch] text-lg leading-8 text-inksoft">
+            <p id="audience-gateway-description" className="sr-only mx-auto mt-3 max-w-[58ch] text-lg leading-7 text-inksoft sm:not-sr-only">
               Choose one option. We will show the information that is most useful to you. You can change this later.
             </p>
           </div>
 
-          <div className="mt-8 grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-3" data-choice-grid>
+          <div className="mt-5 grid w-full grid-cols-2 gap-2 sm:mt-6 sm:gap-3 md:grid-cols-3" data-choice-grid>
             {AUDIENCE_KEYS.map((key) => {
               const profile = AUDIENCES[key];
               return (
@@ -177,20 +187,17 @@ export function AudienceGateway({ phone }: { phone: string }) {
                   onFocus={() => setSelected(key)}
                   onBlur={() => setSelected("none")}
                   onClick={() => rememberAudience(key)}
-                  className="group flex min-h-[172px] cursor-pointer flex-col rounded-[18px] border-2 border-forest/25 bg-white/90 p-5 text-left opacity-0 shadow-[0_20px_55px_-42px_hsl(147_42%_16%/0.5)] backdrop-blur-sm transition-[border-color,background-color] duration-200 hover:border-forest hover:bg-white focus-visible:border-forest data-[active=true]:border-forest data-[active=true]:bg-white"
+                  className="group flex min-h-[126px] cursor-pointer flex-col rounded-[18px] border-2 border-forest/25 bg-white/90 p-4 text-left opacity-0 shadow-[0_20px_55px_-42px_hsl(147_42%_16%/0.5)] backdrop-blur-sm transition-[border-color,background-color] duration-200 hover:border-forest hover:bg-white focus-visible:border-forest md:min-h-[154px] md:p-5 lg:min-h-[160px]"
                 >
-                  <span className="text-lg font-bold leading-7 text-ink">{profile.chooserTitle}</span>
-                  <span className="mt-2 text-base leading-7 text-inksoft">{profile.chooserBody}</span>
-                  <ArrowRight className="mt-auto size-5 text-forest" aria-hidden />
+                  <span className="text-base font-bold leading-6 text-ink sm:text-lg sm:leading-7">{profile.chooserTitle}</span>
+                  <span className="sr-only mt-2 text-base leading-7 text-inksoft md:not-sr-only">{profile.chooserBody}</span>
+                  <ArrowRight className="mt-auto hidden size-5 text-forest md:block" aria-hidden />
                 </a>
               );
             })}
           </div>
 
-          <button data-skip type="button" onClick={closeGateway} className="mt-6 min-h-12 cursor-pointer text-base font-bold text-forest underline decoration-forest/35 underline-offset-4 opacity-0 hover:decoration-forest">
-            Skip this question and show the full site
-          </button>
-          <a href={telHref} className="mt-2 inline-flex min-h-12 items-center text-base font-bold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink">
+          <a href={telHref} className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink sm:text-base">
             Not sure? Call Candy at {phone}
           </a>
           </div>

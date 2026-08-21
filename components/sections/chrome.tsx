@@ -19,8 +19,7 @@ const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
 ];
 
 /**
- * Fixed masthead that stays out of the way over the hero photograph and
- * slides down once the reader has scrolled roughly one screen.
+ * Sticky masthead that remains available without covering the first section.
  */
 export function SiteHeader({
   logo,
@@ -49,17 +48,17 @@ export function SiteHeader({
   const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : null;
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-8">
+    <header className="sticky inset-x-0 top-0 z-50 px-4 py-3 sm:px-8">
       <div className={`mx-auto max-w-[1440px] rounded-[30px] bg-white/96 backdrop-blur transition-shadow duration-300 ${shown || menuOpen ? "shadow-[0_12px_40px_-26px_hsl(148_19%_12%/0.45)]" : "shadow-[0_8px_26px_-24px_hsl(148_19%_12%/0.4)]"}`}>
-        <div className="flex h-20 items-center justify-between px-4 sm:px-5">
+        <div className="flex min-h-20 items-center justify-between px-4 sm:min-h-24 sm:px-5">
           <a href="#top" aria-label="Canigan Health Options — back to top" className="flex items-center gap-2.5">
-            <span className="relative block size-14 shrink-0 overflow-hidden rounded-full bg-white">
+            <span className="relative block size-16 shrink-0 sm:size-[92px]">
               <Image
                 src={logo}
-                alt=""
-                width={92}
-                height={92}
-                className="absolute left-1/2 top-0 h-[92px] w-[92px] max-w-none -translate-x-1/2 object-contain"
+                alt="Canigan Health Options"
+                fill
+                sizes="(min-width: 640px) 92px, 64px"
+                className="object-contain"
               />
             </span>
             <span className="hidden leading-none sm:block">

@@ -223,22 +223,6 @@
   }
 }
 
-@layer utilities {
-  /* Long editorial CTA labels ("Find your plan — take the free assessment") must
-     wrap on narrow screens. shadcn's Button sets white-space: nowrap + a fixed
-     height, which pushes them past the edge of their card at phone widths. */
-  .cta-long {
-    white-space: normal;
-    height: auto;
-    min-height: 2.75rem;
-    padding-top: 0.7rem;
-    padding-bottom: 0.7rem;
-    line-height: 1.35;
-    text-align: center;
-    max-width: 100%;
-  }
-}
-
 /* ————————————————————————————————————————————————
    Hero focal point.
    object-position percentages resolve against the OVERFLOW, not the image, so

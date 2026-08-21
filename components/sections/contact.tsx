@@ -64,7 +64,7 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
         <div className="grid gap-10 md:grid-cols-[0.85fr_1fr] md:gap-14">
           {/* ——— left: the plate caption ——— */}
           <Reveal variant="left">
-            <PlateLabel label={data.label} plate={data.plate} />
+            <PlateLabel label={data.label} />
             <Display as="h2" className="mt-7 text-[clamp(1.65rem,2.8vw,2.2rem)] text-ink">
               {data.heading}
             </Display>

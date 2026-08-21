@@ -41,7 +41,7 @@ export function Zoom({
         <div className="grid gap-10 md:grid-cols-[1fr_0.66fr] md:items-start md:gap-12">
           {/* invitation */}
           <Reveal variant="up" className="min-w-0">
-            <PlateLabel label={zoomSection.label} plate={zoomSection.plate} tone="paper" />
+            <PlateLabel label={zoomSection.label} tone="paper" />
 
             <Display
               as="h2"
@@ -73,7 +73,7 @@ export function Zoom({
                   <ZoomInviteDialog meeting={meeting}>
                     <Button
                       type="button"
-                      className="cta-long mt-7 h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:w-auto"
+                      className="mt-7 h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:w-auto"
                     >
                       <Video className="mr-2 size-4" aria-hidden />
                       Get the Zoom invite
@@ -93,7 +93,7 @@ export function Zoom({
                 <Button
                   asChild
                   variant="outline"
-                  className="cta-long mt-7 h-12 w-full rounded-full border-[var(--paper-white)]/70 bg-transparent px-7 text-base font-bold text-[var(--paper-white)] hover:bg-[var(--paper-white)] hover:text-ink sm:w-auto"
+                  className="mt-7 h-12 w-full rounded-full border-[var(--paper-white)]/70 bg-transparent px-7 text-base font-bold text-[var(--paper-white)] hover:bg-[var(--paper-white)] hover:text-ink sm:w-auto"
                 >
                   <a href="#contact">
                     Ask Candy about the next session

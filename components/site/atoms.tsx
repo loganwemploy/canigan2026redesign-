@@ -1,14 +1,12 @@
 import { cn } from "@/lib/utils";
 
-/** Tracked all-caps section label, optionally followed by a terracotta plate mark. */
+/** Tracked all-caps section label. */
 export function PlateLabel({
   label,
-  plate,
   className,
   tone = "ink",
 }: {
   label: string;
-  plate?: string | null;
   className?: string;
   tone?: "ink" | "paper";
 }) {
@@ -22,11 +20,6 @@ export function PlateLabel({
       >
         {label}
       </span>
-      {plate ? (
-        <span className="font-display text-[0.88rem] not-italic tracking-normal text-terra">
-          <span className="italic">{plate}</span>
-        </span>
-      ) : null}
     </div>
   );
 }
