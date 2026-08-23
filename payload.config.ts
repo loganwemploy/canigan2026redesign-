@@ -20,6 +20,10 @@ const dirname = path.dirname(filename);
  */
 const postgresUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
 
+if (process.env.VERCEL && !postgresUrl) {
+  throw new Error("DATABASE_URL or POSTGRES_URL must be configured for Vercel deployments.");
+}
+
 const db = postgresUrl
   ? postgresAdapter({ pool: { connectionString: postgresUrl } })
   : sqliteAdapter({ client: { url: process.env.DATABASE_URI || "file:./canigan.db" } });
