@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { X, Save, ExternalLink, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,6 @@ import {
   ZOOM_EDITOR_FIELDS,
   getByPath,
   setByPath,
-  type EditorTarget,
 } from "@/lib/editor-fields";
 import type { HomeData, ZoomMeeting } from "@/lib/home-types";
 
@@ -53,24 +52,32 @@ function EditPanel({
   const [status, setStatus] = useState<Status>("idle");
   const [draft, setDraft] = useState("");
   const [driveUrl, setDriveUrl] = useState("");
+  const [lastSelectionKey, setLastSelectionKey] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!selected) return;
-    if (selected.type === "image" && selected.kind === "home") {
+  // Reset the form fields when a different block is selected. Adjusting state
+  // during render (guarded by the previous selection) avoids the cascading
+  // renders that a setState-in-effect would cause.
+  const selectionKey = selected ? `${selected.kind}:${selected.path}:${selected.type}` : null;
+  if (selectionKey !== lastSelectionKey) {
+    setLastSelectionKey(selectionKey);
+    setStatus("idle");
+    setDriveUrl("");
+    if (!selected) {
+      setDraft("");
+    } else if (selected.type === "image" && selected.kind === "home") {
       const slot = getByPath(home, selected.path) as { driveUrl?: string } | undefined;
       setDriveUrl(slot?.driveUrl ?? "");
       setDraft("");
-      return;
-    }
-    if (selected.kind === "home") {
+    } else if (selected.kind === "home") {
       const value = getByPath(home, selected.path);
       setDraft(typeof value === "string" ? value : "");
     } else if (meeting) {
       const value = getByPath(meeting, selected.path);
       setDraft(typeof value === "string" || typeof value === "boolean" ? String(value) : "");
+    } else {
+      setDraft("");
     }
-    setStatus("idle");
-  }, [selected, home, meeting]);
+  }
 
   async function save() {
     if (!selected) return;
