@@ -1,6 +1,9 @@
+"use client";
+
 import { ArrowUpRight, Check } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { DotRule, Display, Plate, Section } from "@/components/site/atoms";
+import { DotRule, Plate, Section } from "@/components/site/atoms";
+import { CmsDisplay, CmsText } from "@/components/site-editor/inline-edit";
 import { Button } from "@/components/ui/button";
 import type { HomeData } from "@/lib/home-types";
 
@@ -36,12 +39,18 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
             <span className="label-caps whitespace-nowrap text-[0.82rem] text-ink">Current program details</span>
             <DotRule className="flex-1" />
           </div>
-          <Display as="h2" className="mt-6 max-w-[28ch] text-[clamp(1.85rem,3vw,2.45rem)] text-ink">
-            Savings and sales terms, without the income theater.
-          </Display>
-          <p className="mt-4 max-w-[68ch] text-base leading-8 text-inksoft">
-            These are program mechanics—not typical earnings, a forecast, or a promise. Candy will confirm the current official terms before you choose.
-          </p>
+          <CmsDisplay as="h2" kind="home" path="benchmarks.heading" className="mt-6 max-w-[28ch] text-[clamp(1.85rem,3vw,2.45rem)] text-ink">
+            {data.heading}
+          </CmsDisplay>
+          <CmsText
+            kind="home"
+            path="benchmarks.disclaimer"
+            multiline
+            as="p"
+            className="mt-4 max-w-[68ch] text-base leading-8 text-inksoft"
+          >
+            {data.disclaimer}
+          </CmsText>
         </Reveal>
 
         <Reveal variant="up" stagger={0.08} className="mt-10 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -61,7 +70,9 @@ export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Button asChild className="h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep">
-              <a href="#contact">Review my options with Candy</a>
+              <a href={data.cta.url}>
+                <CmsText kind="home" path="benchmarks.cta.label">{data.cta.label}</CmsText>
+              </a>
             </Button>
             <a href="https://images.shaklee.com/ShakleeCompPlanENG.pdf" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center rounded-full border border-forest/30 px-5 text-base font-bold text-forest hover:bg-white">
               Official compensation summary <ArrowUpRight className="ml-2 size-3.5" aria-hidden />

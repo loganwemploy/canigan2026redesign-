@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
-import { PlateLabel, DotLeader, Display, Section } from "@/components/site/atoms";
+import { DotLeader, Section } from "@/components/site/atoms";
+import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
 import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
@@ -17,22 +20,30 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
         <div className="bg-cream2 px-6 pt-8 pb-7 sm:px-10 sm:pt-10 sm:pb-9">
           <div className="grid gap-8 md:grid-cols-[1.35fr_1fr] md:items-start md:gap-10">
             <Reveal variant="up" duration={0.95}>
-              <PlateLabel label={data.label} />
+              <CmsPlateLabel kind="home" path="opportunity.label" label={data.label} />
               <DotLeader count={16} className="mt-3 block" />
-              <Display
+              <CmsDisplay
+                kind="home"
+                path="opportunity.heading"
                 as="h2"
                 className="mt-7 max-w-[18ch] text-[clamp(1.85rem,7.2vw,2.4rem)] text-pine md:max-w-[20ch] md:text-[clamp(2.05rem,4.2vw,3.2rem)]"
               >
                 {data.heading}
-              </Display>
+              </CmsDisplay>
             </Reveal>
 
             <Reveal variant="right" delay={0.12} duration={0.95} className="md:pt-10 md:text-right">
               <div>
                 {data.bullets.map((bullet, i) => (
-                  <p key={i} className="text-[0.95rem] leading-[2] text-ink">
+                  <CmsText
+                    key={i}
+                    kind="home"
+                    path={`opportunity.bullets.${i}.text`}
+                    as="p"
+                    className="text-[0.95rem] leading-[2] text-ink"
+                  >
                     {bullet.text}
-                  </p>
+                  </CmsText>
                 ))}
                 <DotLeader count={8} className="mt-3 block md:ml-auto" />
               </div>
@@ -74,21 +85,25 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
 
           <Reveal variant="up" delay={0.1} duration={0.95} className="relative z-10 max-w-[62ch]">
             <div>
-              <Display as="h3" className="text-[clamp(1.65rem,3vw,2.35rem)] text-paper">
+              <CmsDisplay kind="home" path="opportunity.ambHeading" as="h3" className="text-[clamp(1.65rem,3vw,2.35rem)] text-paper">
                 {data.ambHeading}
-              </Display>
-              <p className="mt-5 text-[0.92rem] leading-[1.85] text-[var(--paper-white)]/85 sm:mt-6 sm:text-[0.95rem] sm:leading-[1.95]">
-                {data.ambBody.split("\n").map((line, i) => (
-                  <span key={i} className="block">
-                    {line}
-                  </span>
-                ))}
-              </p>
+              </CmsDisplay>
+              <CmsText
+                kind="home"
+                path="opportunity.ambBody"
+                multiline
+                as="p"
+                className="mt-5 text-[0.92rem] leading-[1.85] text-[var(--paper-white)]/85 sm:mt-6 sm:text-[0.95rem] sm:leading-[1.95]"
+              >
+                {data.ambBody}
+              </CmsText>
               <Button
                 asChild
                 className="mt-6 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:mt-8"
               >
-                <a href="#contact">{data.ambCtaLabel}</a>
+                <a href="#contact">
+                  <CmsText kind="home" path="opportunity.ambCtaLabel">{data.ambCtaLabel}</CmsText>
+                </a>
               </Button>
             </div>
           </Reveal>

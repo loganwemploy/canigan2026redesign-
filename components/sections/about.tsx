@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { Mail, Phone } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { DotRule, Display, PlateLabel, Section } from "@/components/site/atoms";
+import { DotRule, Section } from "@/components/site/atoms";
+import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
 import type { HomeData } from "@/lib/home-types";
@@ -14,22 +17,26 @@ export function About({ about }: { about: HomeData["about"] }) {
     <Section id="about">
         <div className="grid overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-cream2 md:grid-cols-[1fr_0.8fr]">
           <Reveal variant="left" className="p-7 sm:p-10 lg:p-12">
-            <PlateLabel label={about.label} />
+            <CmsPlateLabel kind="home" path="about.label" label={about.label} />
 
-            <Display
+            <CmsDisplay
+              kind="home"
+              path="about.heading"
               as="h2"
               className="mt-7 text-[clamp(1.65rem,2.9vw,2.25rem)] text-ink"
             >
               {about.heading}
-            </Display>
+            </CmsDisplay>
 
-            <p className="mt-7 max-w-[58ch] text-[1.05rem] leading-[1.8] text-petrol">
-              {about.body.split("\n").map((line, i) => (
-                <span key={i} className="block">
-                  {line}
-                </span>
-              ))}
-            </p>
+            <CmsText
+              kind="home"
+              path="about.body"
+              multiline
+              as="p"
+              className="mt-7 max-w-[58ch] text-[1.05rem] leading-[1.8] text-petrol"
+            >
+              {about.body}
+            </CmsText>
 
             <DotRule className="mt-8 max-w-[62ch]" />
 
@@ -39,14 +46,14 @@ export function About({ about }: { about: HomeData["about"] }) {
                 className="inline-flex min-h-12 items-center gap-2 text-base font-bold text-terra hover:text-terradeep"
               >
                 <Phone className="size-3.5" aria-hidden />
-                {about.phone}
+                <CmsText kind="home" path="about.phone">{about.phone}</CmsText>
               </a>
               <a
                 href={`mailto:${about.email}`}
                 className="inline-flex min-h-12 items-center gap-2 text-base font-bold text-terra hover:text-terradeep"
               >
                 <Mail className="size-3.5" aria-hidden />
-                {about.email}
+                <CmsText kind="home" path="about.email">{about.email}</CmsText>
               </a>
             </div>
           </Reveal>

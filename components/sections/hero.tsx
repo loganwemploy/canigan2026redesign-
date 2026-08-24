@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, Check, FlaskConical, HeartPulse, Sparkles, Video } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
+import { CmsText } from "@/components/site-editor/inline-edit";
+import { useSiteEditor } from "@/components/site-editor/editor-context";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
 import type { HomeData, ZoomMeeting } from "@/lib/home-types";
@@ -28,6 +32,7 @@ export function Hero({
   const src = resolveImage(data.image, FALLBACK_IMAGES.hero);
   const titleLines = data.title.split("\n").filter(Boolean);
   const tasks = audience?.heroTasks ?? TASKS;
+  const { enabled } = useSiteEditor();
 
   return (
     <section id={sectionId} className="relative min-h-[900px] overflow-hidden bg-cream px-5 pb-16 pt-32 sm:px-9 lg:px-10 lg:pt-40">
@@ -40,26 +45,41 @@ export function Hero({
           </div>
 
           <h2 className="mt-8 text-[clamp(3rem,6.1vw,5.6rem)] font-bold leading-[1.02] tracking-[-0.035em] text-ink">
-            {titleLines.map((line, index) => (
-              <span key={line} className={index === 0 ? "block" : "mt-2 block text-forest"}>
-                {line}
-              </span>
-            ))}
+            {enabled ? (
+              <CmsText kind="home" path="hero.title" multiline as="span">
+                {data.title}
+              </CmsText>
+            ) : (
+              titleLines.map((line, index) => (
+                <span key={line} className={index === 0 ? "block" : "mt-2 block text-forest"}>
+                  {line}
+                </span>
+              ))
+            )}
           </h2>
 
-          <p className="mt-8 max-w-[54ch] text-[1.08rem] leading-8 text-ink/95 sm:text-[1.15rem] sm:leading-9">
-            {data.welcome.replace(/\n/g, " ")}
-          </p>
+          <CmsText
+            kind="home"
+            path="hero.welcome"
+            multiline
+            as="p"
+            className="mt-8 max-w-[54ch] text-[1.08rem] leading-8 text-ink/95 sm:text-[1.15rem] sm:leading-9"
+          >
+            {data.welcome}
+          </CmsText>
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button asChild className="h-14 rounded-full bg-terra px-9 text-base font-bold text-white hover:bg-terradeep">
               <a href={data.primaryCta.url} target="_blank" rel="noreferrer">
-                {data.primaryCta.label} <ArrowRight className="ml-2 size-4" aria-hidden />
+                <CmsText kind="home" path="hero.primaryCta.label">{data.primaryCta.label}</CmsText>{" "}
+                <ArrowRight className="ml-2 inline size-4" aria-hidden />
               </a>
             </Button>
             {audience ? (
               <Button asChild variant="outline" className="h-14 rounded-full border-terra bg-transparent px-9 text-base font-bold text-terra hover:bg-white">
-                <a href={data.secondaryCta.url}>{data.secondaryCta.label}</a>
+                <a href={data.secondaryCta.url}>
+                  <CmsText kind="home" path="hero.secondaryCta.label">{data.secondaryCta.label}</CmsText>
+                </a>
               </Button>
             ) : (
               <ZoomInviteDialog meeting={meeting}>

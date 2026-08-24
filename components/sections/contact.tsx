@@ -3,7 +3,8 @@
 import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { PlateLabel, DotLeader, Plate, Display, Section } from "@/components/site/atoms";
+import { DotLeader, DotRule, Plate, Section } from "@/components/site/atoms";
+import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -64,17 +65,19 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
         <div className="grid gap-10 md:grid-cols-[0.85fr_1fr] md:gap-14">
           {/* ——— left: the plate caption ——— */}
           <Reveal variant="left">
-            <PlateLabel label={data.label} />
-            <Display as="h2" className="mt-7 text-[clamp(1.65rem,2.8vw,2.2rem)] text-ink">
+            <CmsPlateLabel kind="home" path="contact.label" label={data.label} />
+            <CmsDisplay as="h2" kind="home" path="contact.heading" className="mt-7 text-[clamp(1.65rem,2.8vw,2.2rem)] text-ink">
               {data.heading}
-            </Display>
-            <p className="mt-6 text-[1.05rem] leading-[1.8] text-petrol">
-              {data.blurb.split("\n").map((line, i) => (
-                <span key={i} className="block">
-                  {line}
-                </span>
-              ))}
-            </p>
+            </CmsDisplay>
+            <CmsText
+              kind="home"
+              path="contact.blurb"
+              multiline
+              as="p"
+              className="mt-6 text-[1.05rem] leading-[1.8] text-petrol"
+            >
+              {data.blurb}
+            </CmsText>
             <DotLeader count={10} className="mt-6 block" />
           </Reveal>
 

@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight, FlaskConical, HeartPulse, Repeat2, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { Section } from "@/components/site/atoms";
 import { Button } from "@/components/ui/button";
+import { CmsText } from "@/components/site-editor/inline-edit";
 import { ASSESSMENT_URL } from "@/cms/content";
 import type { HomeData } from "@/lib/home-types";
 
@@ -13,12 +16,28 @@ export function Science({ data }: { data: HomeData["science"] }) {
     <Section id="science" className="pb-20 sm:pb-28">
       <Reveal variant="up" className="mb-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
         <div>
-          <span className="text-base font-bold text-inksoft">Step 2 · {data.label}</span>
-          <h2 className="mt-5 max-w-[16ch] text-[clamp(2.5rem,4.5vw,4.6rem)] font-bold leading-[1.06] tracking-[-0.035em] text-ink">
+          <span className="text-base font-bold text-inksoft">
+            Step 2 · <CmsText kind="home" path="science.label">{data.label}</CmsText>
+          </span>
+          <CmsText
+            kind="home"
+            path="science.title"
+            multiline
+            as="h2"
+            className="mt-5 max-w-[16ch] text-[clamp(2.5rem,4.5vw,4.6rem)] font-bold leading-[1.06] tracking-[-0.035em] text-ink"
+          >
             {data.title}
-          </h2>
+          </CmsText>
         </div>
-        <p className="max-w-[52ch] text-xl leading-9 text-ink/90 lg:justify-self-end">{data.heading}</p>
+        <CmsText
+          kind="home"
+          path="science.heading"
+          multiline
+          as="p"
+          className="max-w-[52ch] text-xl leading-9 text-ink/90 lg:justify-self-end"
+        >
+          {data.heading}
+        </CmsText>
       </Reveal>
 
       <Reveal variant="up" stagger={0.1} className="grid gap-4 md:grid-cols-2">
@@ -31,8 +50,23 @@ export function Science({ data }: { data: HomeData["science"] }) {
                 <span className="text-base font-bold opacity-80">0{index + 1}</span>
               </div>
               <div className="mt-auto max-w-[38rem]">
-                <h3 className="text-[clamp(1.7rem,3vw,3rem)] font-bold leading-[1.08] tracking-[-0.025em]">{card.title}</h3>
-                <p className="mt-5 max-w-[50ch] text-base leading-7 opacity-80">{card.body.replace(/\n/g, " ")}</p>
+                <CmsText
+                  kind="home"
+                  path={`science.cards.${index}.title`}
+                  as="h3"
+                  className="text-[clamp(1.7rem,3vw,3rem)] font-bold leading-[1.08] tracking-[-0.025em]"
+                >
+                  {card.title}
+                </CmsText>
+                <CmsText
+                  kind="home"
+                  path={`science.cards.${index}.body`}
+                  multiline
+                  as="p"
+                  className="mt-5 max-w-[50ch] text-base leading-7 opacity-80"
+                >
+                  {card.body}
+                </CmsText>
               </div>
             </article>
           );

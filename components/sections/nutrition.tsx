@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
 import { Drift } from "@/components/motion/effects";
 import { DotLeader, DotRule, Section } from "@/components/site/atoms";
 import { Button } from "@/components/ui/button";
+import { CmsText } from "@/components/site-editor/inline-edit";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
 import type { HomeData } from "@/lib/home-types";
@@ -23,18 +26,26 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           >
             {data.columns.map((column, i) => (
               <div key={i}>
-                <h3 className="font-display text-[1.45rem] leading-[1.3] text-ink">
+                <CmsText
+                  kind="home"
+                  path={`nutrition.columns.${i}.heading`}
+                  as="h3"
+                  className="font-display text-[1.45rem] leading-[1.3] text-ink"
+                >
                   {column.heading}
-                </h3>
+                </CmsText>
                 <DotLeader count={9} className="mt-1.5 block" />
                 {column.paragraphs.map((paragraph, j) => (
-                  <p key={j} className="mt-5 text-base leading-[1.75] text-petrol">
-                    {paragraph.text.split("\n").map((line, k) => (
-                      <span key={k} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </p>
+                  <CmsText
+                    key={j}
+                    kind="home"
+                    path={`nutrition.columns.${i}.paragraphs.${j}.text`}
+                    multiline
+                    as="p"
+                    className="mt-5 text-base leading-[1.75] text-petrol"
+                  >
+                    {paragraph.text}
+                  </CmsText>
                 ))}
               </div>
             ))}
@@ -50,10 +61,12 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
             >
               {isExternal ? (
                 <a href={data.ctaUrl} target="_blank" rel="noreferrer">
-                  {data.ctaLabel}
+                  <CmsText kind="home" path="nutrition.ctaLabel">{data.ctaLabel}</CmsText>
                 </a>
               ) : (
-                <a href={data.ctaUrl}>{data.ctaLabel}</a>
+                <a href={data.ctaUrl}>
+                  <CmsText kind="home" path="nutrition.ctaLabel">{data.ctaLabel}</CmsText>
+                </a>
               )}
             </Button>
           </Reveal>
@@ -61,8 +74,12 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
           <div className="mt-8">
             <DotRule />
             <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-              <span className="text-base font-bold text-petrol">{data.strip}</span>
-              <span className="font-display text-[0.88rem] text-terra">{data.plate}</span>
+              <CmsText kind="home" path="nutrition.strip" className="text-base font-bold text-petrol">
+                {data.strip}
+              </CmsText>
+              <CmsText kind="home" path="nutrition.plate" className="font-display text-[0.88rem] text-terra">
+                {data.plate}
+              </CmsText>
             </div>
           </div>
         </div>

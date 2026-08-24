@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, Phone, X } from "lucide-react";
 import { DotRule } from "@/components/site/atoms";
+import { CmsText } from "@/components/site-editor/inline-edit";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { ASSESSMENT_URL } from "@/cms/content";
@@ -199,13 +200,15 @@ export function SiteFooter({
               className="size-[150px] object-contain sm:size-[180px]"
             />
           </div>
-          <p className="mt-5 max-w-[38ch] text-base leading-[1.75] text-[var(--paper-white)]/90">
-            {tagline.split("\n").map((line, i) => (
-              <span key={i} className="block">
-                {line}
-              </span>
-            ))}
-          </p>
+          <CmsText
+            kind="home"
+            path="footer.tagline"
+            multiline
+            as="p"
+            className="mt-5 max-w-[38ch] text-base leading-[1.75] text-[var(--paper-white)]/90"
+          >
+            {tagline}
+          </CmsText>
         </div>
 
         <div>
@@ -269,8 +272,12 @@ export function SiteFooter({
       <DotRule tone="paper" className="my-9" />
 
       <div className="space-y-4 text-[0.88rem] leading-[1.75] text-[var(--paper-white)]/78">
-        <p>{incomeDisclaimer}</p>
-        <p>{healthDisclaimer}</p>
+        <CmsText kind="home" path="footer.incomeDisclaimer" multiline as="p">
+          {incomeDisclaimer}
+        </CmsText>
+        <CmsText kind="home" path="footer.healthDisclaimer" multiline as="p">
+          {healthDisclaimer}
+        </CmsText>
         <p suppressHydrationWarning>{`© ${new Date().getFullYear()} Canigan Health Options. All rights reserved.`}</p>
       </div>
     </footer>

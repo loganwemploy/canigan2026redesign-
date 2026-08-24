@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, Video } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { DotLeader, Display, PlateLabel, Section } from "@/components/site/atoms";
+import { DotLeader, Section } from "@/components/site/atoms";
+import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
 import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
@@ -29,35 +32,37 @@ export function Zoom({
       ]
     : [];
 
-  const note = zoomSection.note.split("\n").map((line, i) => (
-    <span key={i} className="block">
-      {line}
-    </span>
-  ));
+  const note = zoomSection.note;
 
   return (
     <Section id="zoom">
       <div className="dot-grid-dark relative overflow-hidden rounded-[10px] bg-pine p-6 text-paper sm:p-10 md:p-12">
         <div className="grid gap-10 md:grid-cols-[1fr_0.66fr] md:items-start md:gap-12">
-          {/* invitation */}
           <Reveal variant="up" className="min-w-0">
-            <PlateLabel label={zoomSection.label} tone="paper" />
+            <CmsPlateLabel kind="home" path="zoomSection.label" label={zoomSection.label} tone="paper" />
 
-            <Display
+            <CmsDisplay
+              kind="home"
+              path="zoomSection.heading"
               as="h2"
               className="mt-6 max-w-[22ch] text-[clamp(1.5rem,2.9vw,2.2rem)] text-paper"
             >
               {zoomSection.heading}
-            </Display>
+            </CmsDisplay>
 
             <DotLeader count={9} tone="paper" className="mt-5 block" />
 
             {meeting ? (
               <>
                 <div className="mt-7 rounded-[8px] border border-[var(--paper-white)]/25 bg-[var(--paper-white)]/5 p-5 sm:p-7 md:max-w-[520px]">
-                  <p className="font-display text-[1.25rem] leading-[1.3] text-paper sm:text-[1.45rem]">
+                  <CmsText
+                    kind="zoom"
+                    path="title"
+                    as="p"
+                    className="font-display text-[1.25rem] leading-[1.3] text-paper sm:text-[1.45rem]"
+                  >
                     {meeting.title}
-                  </p>
+                  </CmsText>
 
                   <div className="mt-5 grid gap-2">
                     {meetingRows.map((row) => (
@@ -65,7 +70,13 @@ export function Zoom({
                         <span className="w-[82px] shrink-0 text-base font-bold text-terra">
                           {row.label}
                         </span>
-                        <span className="text-[var(--paper-white)]/90">{row.value}</span>
+                        <CmsText
+                          kind="zoom"
+                          path={row.label === "DATE" ? "date" : row.label === "TIME" ? "time" : "zoomLength"}
+                          className="text-[var(--paper-white)]/90"
+                        >
+                          {row.value}
+                        </CmsText>
                       </div>
                     ))}
                   </div>
@@ -81,15 +92,27 @@ export function Zoom({
                   </ZoomInviteDialog>
                 </div>
 
-                <p className="mt-6 max-w-[60ch] text-[0.9rem] leading-[1.75] text-[var(--paper-white)]/82">
+                <CmsText
+                  kind="home"
+                  path="zoomSection.note"
+                  multiline
+                  as="p"
+                  className="mt-6 max-w-[60ch] text-[0.9rem] leading-[1.75] text-[var(--paper-white)]/82"
+                >
                   {note}
-                </p>
+                </CmsText>
               </>
             ) : (
               <>
-                <p className="mt-6 max-w-[60ch] text-base leading-[1.75] text-[var(--paper-white)]/90">
+                <CmsText
+                  kind="home"
+                  path="zoomSection.note"
+                  multiline
+                  as="p"
+                  className="mt-6 max-w-[60ch] text-base leading-[1.75] text-[var(--paper-white)]/90"
+                >
                   {note}
-                </p>
+                </CmsText>
                 <Button
                   asChild
                   variant="outline"
@@ -121,7 +144,7 @@ export function Zoom({
                 />
               </div>
               <figcaption className="mt-3 text-[0.9rem] leading-[1.7] text-[var(--paper-white)]/82">
-                {zoomSection.imageCaption}
+                <CmsText kind="home" path="zoomSection.imageCaption">{zoomSection.imageCaption}</CmsText>
               </figcaption>
             </figure>
           </Reveal>
