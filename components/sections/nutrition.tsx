@@ -73,11 +73,11 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
 
           <div className="mt-8">
             <DotRule />
-            <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6 sm:gap-y-1">
               <CmsText kind="home" path="nutrition.strip" className="text-base font-bold text-petrol">
                 {data.strip}
               </CmsText>
-              <CmsText kind="home" path="nutrition.plate" className="font-display text-[0.88rem] text-terra">
+              <CmsText kind="home" path="nutrition.plate" className="font-display text-[0.88rem] text-terra sm:text-right">
                 {data.plate}
               </CmsText>
             </div>

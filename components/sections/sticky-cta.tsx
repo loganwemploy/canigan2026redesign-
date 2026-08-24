@@ -41,35 +41,36 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
       }
     >
       <div className="mx-3 mb-3 rounded-[10px] border border-[var(--hairline)] bg-cream2/95 shadow-[0_-6px_30px_-12px_hsl(151_33%_13%/0.4)] backdrop-blur sm:mx-5">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <div className="min-w-0">
-            <p className="font-display text-base leading-[1.3] text-ink sm:text-[1.1rem]">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-3 px-4 py-3.5 sm:px-6 md:flex-row md:items-center md:justify-between md:gap-5 md:py-3">
+          <div className="min-w-0 md:flex-1 md:pr-2">
+            <p className="max-w-[28ch] font-display text-[1.05rem] leading-snug text-ink text-balance md:max-w-none md:text-[1.1rem] md:leading-[1.3]">
               Pull up a chair with Candy
             </p>
-            <p className="hidden text-[0.9rem] leading-snug text-petrol sm:block">
+            <p className="mt-1 max-w-[42ch] text-[0.85rem] leading-snug text-petrol md:mt-0.5 md:text-[0.9rem]">
               {meeting
                 ? `Next live Zoom · ${meeting.date}${meeting.time ? ` · ${meeting.time}` : ""} — save your seat.`
                 : "Join Candy live for wellness & business topics — free Zoom invite."}
             </p>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="flex w-full items-center gap-2 md:w-auto md:shrink-0 md:gap-3">
             <a
               href={ASSESSMENT_URL}
               target="_blank"
               rel="noreferrer"
-              className="hidden min-h-12 items-center text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline sm:inline-flex"
+              className="hidden min-h-12 items-center text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline lg:inline-flex"
             >
               Or take the free quiz
             </a>
             <ZoomInviteDialog meeting={meeting}>
               <Button
                 type="button"
-                className="h-12 rounded-full bg-terra px-5 text-base font-bold text-paper hover:bg-terradeep sm:px-7"
+                className="h-12 min-w-0 flex-1 rounded-full bg-terra px-4 text-[0.92rem] font-bold text-paper hover:bg-terradeep sm:px-5 md:flex-none md:px-7 md:text-base"
               >
-                <Video className="mr-1.5 size-4" aria-hidden />
-                Join Candy on Zoom
-                <ArrowRight className="ml-1.5 size-4" aria-hidden />
+                <Video className="mr-1.5 size-4 shrink-0" aria-hidden />
+                <span className="truncate sm:hidden">Join Zoom</span>
+                <span className="hidden truncate sm:inline">Join Candy on Zoom</span>
+                <ArrowRight className="ml-1.5 size-4 shrink-0" aria-hidden />
               </Button>
             </ZoomInviteDialog>
             <button
@@ -81,6 +82,15 @@ export function StickyCta({ meeting }: { meeting?: ZoomMeeting | null }) {
               <X className="size-4" />
             </button>
           </div>
+
+          <a
+            href={ASSESSMENT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-10 items-center text-[0.85rem] font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline md:hidden"
+          >
+            Or take the free health quiz
+          </a>
         </div>
       </div>
     </div>
