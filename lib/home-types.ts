@@ -31,6 +31,7 @@ export interface HomeData {
   science: {
     label: string;
     plate: string;
+    title: string;
     heading: string;
     cards: { title: string; body: string }[];
   };
@@ -39,6 +40,7 @@ export interface HomeData {
     strip: string;
     columns: { heading: string; paragraphs: { text: string }[] }[];
     image?: ImageSlot;
+    imageAlt?: string;
     ctaLabel: string;
     ctaUrl: string;
   };

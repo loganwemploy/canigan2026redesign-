@@ -562,9 +562,16 @@ export interface Home {
     goalHeading?: string | null;
     goalBody?: string | null;
   };
-  science?: {
+  science: {
     label?: string | null;
     plate?: string | null;
+    /**
+     * Large heading displayed above the cards, e.g. "Why Canigan feels different."
+     */
+    title: string;
+    /**
+     * Subheading / supporting sentence next to the title.
+     */
     heading?: string | null;
     /**
      * Numbered 01, 02, 03… automatically.
@@ -599,6 +606,10 @@ export interface Home {
       driveUrl?: string | null;
       upload?: (number | null) | Media;
     };
+    /**
+     * Describes the photo for screen readers.
+     */
+    imageAlt?: string | null;
     ctaLabel?: string | null;
     ctaUrl?: string | null;
   };
@@ -792,6 +803,7 @@ export interface HomeSelect<T extends boolean = true> {
     | {
         label?: T;
         plate?: T;
+        title?: T;
         heading?: T;
         cards?:
           | T
@@ -824,6 +836,7 @@ export interface HomeSelect<T extends boolean = true> {
               driveUrl?: T;
               upload?: T;
             };
+        imageAlt?: T;
         ctaLabel?: T;
         ctaUrl?: T;
       };

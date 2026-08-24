@@ -46,6 +46,7 @@ export const homeSeed: HomeData = {
   science: {
     label: "Scientific Integrity",
     plate: "Pl. XVII",
+    title: "Why Canigan feels different.",
     heading: "70 years of science people can trust — and sell with confidence.",
     cards: [
       {
@@ -100,6 +101,7 @@ export const homeSeed: HomeData = {
       },
     ],
     image: { driveUrl: "" },
+    imageAlt: "Women enjoying nutritious food, outdoor exercise, and a quiet wellness moment",
     ctaLabel: "Find your plan — take the free assessment",
     ctaUrl: ASSESSMENT_URL,
   },

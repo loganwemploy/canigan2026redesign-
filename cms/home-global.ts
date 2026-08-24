@@ -95,7 +95,8 @@ export const Home: GlobalConfig = {
               fields: [
                 { name: "label", type: "text", defaultValue: homeSeed.science.label },
                 { name: "plate", type: "text", defaultValue: homeSeed.science.plate },
-                { name: "heading", type: "textarea", defaultValue: homeSeed.science.heading },
+                { name: "title", label: "Section title", type: "text", required: true, defaultValue: homeSeed.science.title, admin: { description: "Large heading displayed above the cards, e.g. \"Why Canigan feels different.\"" } },
+                { name: "heading", type: "textarea", defaultValue: homeSeed.science.heading, admin: { description: "Subheading / supporting sentence next to the title." } },
                 {
                   name: "cards",
                   type: "array",
@@ -137,6 +138,7 @@ export const Home: GlobalConfig = {
                   ],
                 },
                 imageSlot("image", "Nutrition image"),
+                { name: "imageAlt", label: "Image alt text", type: "textarea", defaultValue: homeSeed.nutrition.imageAlt, admin: { description: "Describes the photo for screen readers." } },
                 { name: "ctaLabel", type: "text", defaultValue: homeSeed.nutrition.ctaLabel },
                 { name: "ctaUrl", type: "text", defaultValue: homeSeed.nutrition.ctaUrl },
               ],

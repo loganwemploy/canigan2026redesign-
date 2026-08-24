@@ -15,7 +15,7 @@ export function Science({ data }: { data: HomeData["science"] }) {
         <div>
           <span className="text-base font-bold text-inksoft">Step 2 · {data.label}</span>
           <h2 className="mt-5 max-w-[16ch] text-[clamp(2.5rem,4.5vw,4.6rem)] font-bold leading-[1.06] tracking-[-0.035em] text-ink">
-            Why Canigan feels different.
+            {data.title}
           </h2>
         </div>
         <p className="max-w-[52ch] text-xl leading-9 text-ink/90 lg:justify-self-end">{data.heading}</p>

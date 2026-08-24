@@ -71,8 +71,8 @@ export function HomeLive({
         <SocialUpdates />
         <Challenge data={home.challenge} audience={audience} />
         <Positioning audience={audience} />
-        <Science data={home.science} />
         <Nutrition data={home.nutrition} />
+        <Science data={home.science} />
         <Zoom zoomSection={home.zoomSection} meeting={meeting} />
         <Opportunity data={home.opportunity} />
         <Benchmarks data={home.benchmarks} />
