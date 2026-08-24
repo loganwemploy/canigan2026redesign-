@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
+  // Turbopack bundles sharp incorrectly for serverless Linux; load the native
+  // module from node_modules so Vercel gets the correct linux-x64 binaries.
+  serverExternalPackages: ["sharp"],
   images: {
     // Next 16 blocks query strings on local images unless the pattern is listed,
     // and declaring localPatterns opts every other local path out — so each
