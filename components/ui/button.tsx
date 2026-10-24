@@ -4,31 +4,33 @@ import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Buttons use the Emberleaf kit button (`.btn` in app/ember.css): an ink pill
+ * that fills with leaf green from below on hover, with the arrow nudging
+ * right. Variants only switch the kit modifiers (`ghost`, `sm`, `lg`, `icon`),
+ * so every button on the site shares one look.
+ */
 const buttonVariants = cva(
-  "inline-flex min-h-12 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md text-base font-bold whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 active:opacity-80 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5",
+  "btn [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
-        outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "",
+        destructive: "[--bg:var(--alert)] border-[var(--alert)]",
+        outline: "ghost",
+        secondary: "ghost",
+        ghost: "ghost border-transparent bg-transparent",
+        link: "h-auto border-0 bg-transparent p-0 text-[var(--leaf)] underline-offset-4 hover:underline [&::before]:hidden",
       },
       size: {
-        default: "h-12 px-5 py-3 has-[>svg]:px-4",
-        xs: "h-11 gap-1.5 rounded-md px-3 text-sm has-[>svg]:px-2.5 [&_svg:not([class*='size-'])]:size-4",
-        sm: "h-12 gap-2 rounded-md px-4 has-[>svg]:px-3.5",
-        lg: "h-14 rounded-md px-7 has-[>svg]:px-5",
-        icon: "size-12",
-        "icon-xs": "size-11 rounded-md [&_svg:not([class*='size-'])]:size-4",
-        "icon-sm": "size-12",
-        "icon-lg": "size-14",
+        default: "",
+        xs: "sm",
+        sm: "sm",
+        lg: "lg",
+        icon: "icon",
+        "icon-xs": "icon sm",
+        "icon-sm": "icon",
+        "icon-lg": "icon lg",
       },
     },
     defaultVariants: {

@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils";
 
-/** Tracked all-caps section label. */
+export { Display } from "@/components/site/display";
+
+/** Tracked all-caps section label with the Emberleaf leading rule. */
 export function PlateLabel({
   label,
   className,
@@ -15,7 +17,7 @@ export function PlateLabel({
       <span
         className={cn(
           "label-caps",
-          tone === "paper" ? "text-[var(--paper-white)]/90" : "text-ink/85",
+          tone === "paper" ? "text-[var(--lime)]" : "text-[var(--deep)]",
         )}
       >
         {label}
@@ -56,7 +58,7 @@ export function DotRule({ className, tone = "ink" }: { className?: string; tone?
       className={cn("h-px w-full", className)}
       style={{
         backgroundImage: `radial-gradient(circle, ${
-          tone === "paper" ? "hsl(48 30% 96% / 0.55)" : "hsl(96 17% 22% / 0.42)"
+          tone === "paper" ? "rgba(255, 255, 255, 0.5)" : "rgba(34, 83, 58, 0.42)"
         } 1px, transparent 1.2px)`,
         backgroundSize: "9px 1px",
         backgroundRepeat: "repeat-x",
@@ -65,7 +67,7 @@ export function DotRule({ className, tone = "ink" }: { className?: string; tone?
   );
 }
 
-/** The recurring rounded, hairline-framed "plate" that most sections sit inside. */
+/** The recurring frosted "plate" that most sections sit inside. */
 export function Plate({
   children,
   className,
@@ -75,54 +77,10 @@ export function Plate({
   className?: string;
   inner?: boolean;
 }) {
-  return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-[24px] border border-[var(--hairline-soft)] bg-cream2",
-        inner && "px-6 py-12 sm:px-10 sm:py-16",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn("plate", inner && "plate-inner", className)}>{children}</div>;
 }
 
-/**
- * Serif-italic display heading; preserves newlines from the CMS.
- * Line-height and inter-line gaps are intentionally open for older readers
- * ("silver fox") — large italic type needs air or it packs shut.
- */
-export function Display({
-  children,
-  className,
-  as: Tag = "h2",
-}: {
-  children: string;
-  className?: string;
-  as?: "h1" | "h2" | "h3";
-}) {
-  const lines = children.split("\n");
-  return (
-    <Tag
-      className={cn(
-        "font-display leading-[1.1] tracking-[-0.025em]",
-        className,
-      )}
-    >
-      {lines.map((line, i) => (
-        <span
-          key={i}
-          className={cn("block", i > 0 && "mt-[0.18em]")}
-        >
-          {line}
-        </span>
-      ))}
-    </Tag>
-  );
-}
-
-/** Section wrapper providing the page's consistent horizontal rhythm. */
+/** Section wrapper providing the page's consistent vertical and horizontal rhythm. */
 export function Section({
   id,
   children,
@@ -133,8 +91,8 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("px-4 py-7 sm:px-8 sm:py-10 lg:px-10", className)}>
-      <div className="section-shell">{children}</div>
+    <section id={id} className={cn("sec", className)}>
+      <div className="wrap">{children}</div>
     </section>
   );
 }

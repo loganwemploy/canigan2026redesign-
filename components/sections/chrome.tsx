@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, Phone, X } from "lucide-react";
+import { ArrowRight, Menu, Phone, X } from "lucide-react";
 import { DotRule } from "@/components/site/atoms";
 import { CmsText } from "@/components/site-editor/inline-edit";
 import { ZoomInviteDialog } from "@/components/sections/zoom-invite";
@@ -20,7 +20,10 @@ const NAV_LINKS: { label: string; href: string; external?: boolean }[] = [
 ];
 
 /**
- * Sticky masthead that remains available without covering the first section.
+ * Emberleaf-style masthead: a fixed bar with the brand on the left, a pill of
+ * section links in the middle (the dark pill glides to whichever section is on
+ * screen), and the actions on the right. On narrower screens the links move
+ * into a frosted menu.
  */
 export function SiteHeader({
   logo,
@@ -33,141 +36,171 @@ export function SiteHeader({
   audienceLabel?: string;
   phone?: string;
 }) {
-  const [shown, setShown] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+  const linksRef = useRef<HTMLElement>(null);
+  const pillRef = useRef<HTMLSpanElement>(null);
 
+  // One scroll listener drives both the bar's frosted state and the section pill.
   useEffect(() => {
+    const targets = NAV_LINKS.filter((link) => !link.external).map((link) => link.href);
     const onScroll = () => {
-      setShown(window.scrollY > 32);
+      setScrolled(window.scrollY > 32);
+      const line = window.innerHeight * 0.38;
+      let current: string | null = null;
+      for (const href of targets) {
+        const el = document.getElementById(href.slice(1));
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= line && rect.bottom > line) current = href;
+      }
+      setActive(current);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  const menuOpen = open;
+  // Slide the pill under the active link.
+  useEffect(() => {
+    const pill = pillRef.current;
+    const nav = linksRef.current;
+    if (!pill || !nav) return;
+    const place = () => {
+      const el = nav.querySelector<HTMLElement>('a[aria-current="location"]');
+      if (!el) {
+        pill.style.opacity = "0";
+        return;
+      }
+      pill.style.opacity = "1";
+      pill.style.width = `${el.offsetWidth}px`;
+      pill.style.transform = `translateX(${el.offsetLeft - 5}px)`;
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [active]);
+
   const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : null;
 
   return (
-    <header className="sticky inset-x-0 top-0 z-50 px-4 py-3 sm:px-8">
-      <div className={`mx-auto max-w-[1440px] rounded-[30px] bg-white/96 backdrop-blur transition-shadow duration-300 ${shown || menuOpen ? "shadow-[0_12px_40px_-26px_hsl(148_19%_12%/0.45)]" : "shadow-[0_8px_26px_-24px_hsl(148_19%_12%/0.4)]"}`}>
-        <div className="flex min-h-20 items-center justify-between px-4 sm:min-h-24 sm:px-5">
-          <a href="#top" aria-label="Canigan Health Options — back to top" className="flex items-center gap-2.5">
-            <span className="relative block size-16 shrink-0 sm:size-[92px]">
-              <Image
-                src={logo}
-                alt="Canigan Health Options"
-                fill
-                sizes="(min-width: 640px) 92px, 64px"
-                className="object-contain"
-              />
-            </span>
-            <span className="hidden leading-none sm:block">
-              <strong className="block text-[1.08rem] tracking-[-0.02em] text-ink">Canigan Health</strong>
-              <span className="mt-1 block text-[0.82rem] font-bold tracking-normal text-forest">Health Options</span>
-            </span>
-          </a>
+    <header className="nav site-nav" data-scrolled={scrolled || open ? "true" : "false"}>
+      <a href="#top" aria-label="Canigan Health Options — back to top" className="brand">
+        <span className="logo logo-img">
+          <Image
+            src={logo}
+            alt="Canigan Health Options"
+            fill
+            loading="eager"
+            sizes="48px"
+            className="object-contain p-[3px]"
+          />
+        </span>
+        <span className="brand-name">
+          <strong>Canigan Health</strong>
+          <small>Health Options</small>
+        </span>
+      </a>
 
-          <nav className="hidden rounded-full bg-white px-5 py-2 shadow-[0_8px_30px_-26px_hsl(148_19%_12%/0.5)] lg:flex lg:gap-2" aria-label="Section navigation">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="inline-flex min-h-12 items-center rounded-full px-3 text-base font-bold text-ink transition-colors hover:bg-parch hover:text-forest"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            {audienceLabel ? <Link href="/?choose=1" className="hidden min-h-12 items-center rounded-full bg-parch px-4 py-2 text-base font-bold text-forest xl:inline-flex">Change what I need</Link> : null}
-            {telHref ? <a href={telHref} className="inline-flex min-h-12 items-center rounded-full border border-terra px-4 text-base font-bold text-terra transition-colors hover:bg-parch sm:px-5">
-              <Phone className="mr-2 size-5" aria-hidden />
-              <span className="hidden sm:inline">Call Candy</span>
-              <span className="sm:hidden">Call</span>
-            </a> : null}
-            <ZoomInviteDialog meeting={meeting}>
-              <Button
-                type="button"
-                size="sm"
-                className="hidden h-12 rounded-full bg-terra px-5 text-base font-bold text-white hover:bg-terradeep md:inline-flex"
-              >
-                Join Candy live
-              </Button>
-            </ZoomInviteDialog>
-            <button
-              type="button"
-              className="grid size-12 cursor-pointer place-items-center rounded-full border border-[var(--hairline)] text-ink lg:hidden"
-              aria-expanded={menuOpen}
-              aria-controls="mobile-nav"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              onClick={() => setOpen((v) => !v)}
-            >
-              {menuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
-            </button>
-          </div>
-        </div>
-
-        {menuOpen ? (
-          <nav
-            id="mobile-nav"
-            className="rounded-b-[28px] border-t border-[var(--hairline-soft)] bg-white px-6 py-5 lg:hidden"
-            aria-label="Mobile section navigation"
+      <nav className="links" aria-label="Section navigation" ref={linksRef}>
+        <span className="pill" ref={pillRef} aria-hidden />
+        {NAV_LINKS.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            aria-current={active === link.href ? "location" : undefined}
+            {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
           >
-            <ul className="space-y-3">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                    className="flex min-h-12 items-center rounded-lg px-2 text-lg font-bold text-ink hover:bg-parch"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-              <li>
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div className="nav-actions">
+        {audienceLabel ? (
+          <Link href="/?choose=1" className="nav-text nav-change">
+            Change what I need
+          </Link>
+        ) : null}
+        {telHref ? (
+          <a href={telHref} className="nav-text nav-call">
+            <Phone className="size-4" aria-hidden />
+            <span className="nav-call-long">Call Candy</span>
+            <span className="nav-call-short">Call</span>
+          </a>
+        ) : null}
+        <ZoomInviteDialog meeting={meeting}>
+          <Button type="button" size="sm" className="nav-join">
+            Join Candy live
+          </Button>
+        </ZoomInviteDialog>
+        <button
+          type="button"
+          className="nav-menu-btn"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
+        </button>
+      </div>
+
+      {open ? (
+        <nav id="mobile-nav" className="nav-menu" aria-label="Mobile section navigation">
+          <ul>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
                 <a
-                  href={ASSESSMENT_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex min-h-12 items-center rounded-lg px-2 text-lg font-bold text-ink hover:bg-parch"
+                  href={link.href}
+                  {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
                   onClick={() => setOpen(false)}
                 >
-                  Take the free health quiz
+                  {link.label}
+                  <ArrowRight className="size-4" aria-hidden />
                 </a>
               </li>
-              {audienceLabel ? (
-                <li>
-                  <Link
-                    href="/?choose=1"
-                    className="flex min-h-12 items-center rounded-lg px-2 text-lg font-bold text-forest hover:bg-parch"
-                    onClick={() => setOpen(false)}
-                  >
-                    Change what I need help with
-                  </Link>
-                </li>
-              ) : null}
+            ))}
+            {audienceLabel ? (
               <li>
-                <ZoomInviteDialog meeting={meeting}>
-                  {/* No menu-close on click — closing would unmount the dialog with it. */}
-                  <button type="button" className="min-h-12 cursor-pointer text-lg font-bold text-terra">
-                    Join Candy on Zoom
-                  </button>
-                </ZoomInviteDialog>
+                <Link href="/?choose=1" onClick={() => setOpen(false)}>
+                  Change what I need help with
+                  <ArrowRight className="size-4" aria-hidden />
+                </Link>
               </li>
-            </ul>
-          </nav>
-        ) : null}
-      </div>
+            ) : null}
+          </ul>
+          <div className="nav-menu-actions">
+            <Button asChild>
+              <a
+                href={ASSESSMENT_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setOpen(false)}
+              >
+                Take the free health quiz
+                <ArrowRight aria-hidden />
+              </a>
+            </Button>
+            <ZoomInviteDialog meeting={meeting}>
+              {/* No menu-close on click — closing would unmount the dialog with it. */}
+              <Button type="button" variant="outline">
+                Join Candy on Zoom
+              </Button>
+            </ZoomInviteDialog>
+          </div>
+        </nav>
+      ) : null}
     </header>
   );
 }
 
-/** The pine colophon that closes the plate — identity, index, and the fine print. */
+/** The colophon that closes the page — identity, index, and the fine print. */
 export function SiteFooter({
   logo,
   tagline,
@@ -188,97 +221,72 @@ export function SiteFooter({
   const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
 
   return (
-    <footer className="dot-grid-dark mx-3 mt-3 mb-3 rounded-[10px] bg-pine p-10 text-paper sm:mx-5 sm:mb-4 md:p-12">
-      <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
-        <div>
-          <div className="inline-flex rounded-[24px] bg-white p-3">
-            <Image
-              src={logo}
-              alt="Canigan Health Options"
-              width={190}
-              height={190}
-              className="size-[150px] object-contain sm:size-[180px]"
-            />
+    <footer className="colophon">
+      <div className="colophon-inner">
+        <div className="colophon-grid">
+          <div className="colophon-brand">
+            <span className="colophon-logo">
+              <Image
+                src={logo}
+                alt="Canigan Health Options"
+                width={190}
+                height={190}
+                className="size-full object-contain"
+              />
+            </span>
+            <CmsText kind="home" path="footer.tagline" multiline as="p" className="colophon-tagline">
+              {tagline}
+            </CmsText>
           </div>
-          <CmsText
-            kind="home"
-            path="footer.tagline"
-            multiline
-            as="p"
-            className="mt-5 max-w-[38ch] text-base leading-[1.75] text-[var(--paper-white)]/90"
-          >
-            {tagline}
-          </CmsText>
-        </div>
 
-        <div>
-          <span className="label-caps text-[0.82rem] text-sage">Explore</span>
-          <ul className="mt-4 space-y-2">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
-                  className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
-                >
-                  {link.label}
+          <div>
+            <span className="label-caps">Explore</span>
+            <ul className="colophon-links">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <span className="label-caps">Reach Candy</span>
+            <ul className="colophon-links">
+              <li>
+                <a href={telHref}>{phone}</a>
+              </li>
+              <li>
+                <a href={`mailto:${email}`}>{email}</a>
+              </li>
+              <li>
+                <a href={assessmentUrl} target="_blank" rel="noreferrer">
+                  Free health assessment
                 </a>
               </li>
-            ))}
-          </ul>
+              <li>
+                <a href="#start">Get started</a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <span className="label-caps text-[0.82rem] text-sage">Reach Candy</span>
-          <ul className="mt-4 space-y-2">
-            <li>
-              <a
-                href={telHref}
-                className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
-              >
-                {phone}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`mailto:${email}`}
-                className="inline-flex min-h-12 items-center break-words text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
-              >
-                {email}
-              </a>
-            </li>
-            <li>
-              <a
-                href={assessmentUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
-              >
-                Free health assessment
-              </a>
-            </li>
-            <li>
-              <a
-                href="#start"
-                className="inline-flex min-h-12 items-center text-base text-[var(--paper-white)]/90 transition-colors hover:text-paper"
-              >
-                Get started
-              </a>
-            </li>
-          </ul>
+        <DotRule className="colophon-rule" />
+
+        <div className="colophon-legal">
+          <CmsText kind="home" path="footer.incomeDisclaimer" multiline as="p">
+            {incomeDisclaimer}
+          </CmsText>
+          <CmsText kind="home" path="footer.healthDisclaimer" multiline as="p">
+            {healthDisclaimer}
+          </CmsText>
+          <p suppressHydrationWarning>{`© ${new Date().getFullYear()} Canigan Health Options. All rights reserved.`}</p>
         </div>
-      </div>
-
-      <DotRule tone="paper" className="my-9" />
-
-      <div className="space-y-4 text-[0.88rem] leading-[1.75] text-[var(--paper-white)]/78">
-        <CmsText kind="home" path="footer.incomeDisclaimer" multiline as="p">
-          {incomeDisclaimer}
-        </CmsText>
-        <CmsText kind="home" path="footer.healthDisclaimer" multiline as="p">
-          {healthDisclaimer}
-        </CmsText>
-        <p suppressHydrationWarning>{`© ${new Date().getFullYear()} Canigan Health Options. All rights reserved.`}</p>
       </div>
     </footer>
   );

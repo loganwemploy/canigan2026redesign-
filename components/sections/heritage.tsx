@@ -20,41 +20,33 @@ export function Heritage({ data }: { data: HomeData["heritage"] }) {
   const timeline = resolveImage(data.image, FALLBACK_IMAGES.heritage);
 
   return (
-    <Section id="heritage">
-      <div className="dot-grid overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-parch px-6 py-16 sm:px-10 sm:py-24 md:py-32">
-        <div className="mx-auto grid max-w-[1100px] gap-12 md:grid-cols-[1fr_auto] md:items-center md:gap-16">
-          <Reveal variant="up" className="min-w-0">
-            <CmsPlateLabel kind="home" path="heritage.label" label={data.label} />
+    <Section id="heritage" className="heritage">
+      <div className="heritage-grid">
+        <Reveal variant="up" className="heritage-copy">
+          <CmsPlateLabel kind="home" path="heritage.label" label={data.label} />
 
-            <CmsDisplay kind="home" path="heritage.heading" as="h2" className="mt-6 text-[clamp(1.8rem,4vw,2.9rem)] text-ink">
-              {data.heading}
-            </CmsDisplay>
+          <CmsDisplay kind="home" path="heritage.heading" as="h2" className="heritage-title">
+            {data.heading}
+          </CmsDisplay>
 
-            <DotRule className="mt-7 max-w-[280px]" />
+          <DotRule className="heritage-rule" />
 
-            <CmsText
-              kind="home"
-              path="heritage.body"
-              multiline
-              as="p"
-              className="mt-7 max-w-[46ch] text-[1.05rem] leading-[1.8] text-petrol"
-            >
-              {data.body}
-            </CmsText>
-          </Reveal>
+          <CmsText kind="home" path="heritage.body" multiline as="p" className="lead heritage-body">
+            {data.body}
+          </CmsText>
+        </Reveal>
 
-          <Reveal variant="scale" className="min-w-0">
-            <div className="mx-auto w-full max-w-[353px] rounded-[8px] border border-[var(--hairline-soft)] bg-cream2 p-3 shadow-[0_18px_50px_-28px_hsl(151_33%_13%/0.55)]">
-              <Image
-                src={timeline}
-                alt={data.imageAlt}
-                width={353}
-                height={566}
-                className="h-auto w-full rounded-[4px] object-contain"
-              />
-            </div>
-          </Reveal>
-        </div>
+        <Reveal variant="scale" className="heritage-art">
+          <div className="heritage-frame">
+            <Image
+              src={timeline}
+              alt={data.imageAlt}
+              width={353}
+              height={566}
+              className="heritage-img"
+            />
+          </div>
+        </Reveal>
       </div>
     </Section>
   );

@@ -3,17 +3,21 @@
 import {
   useEffect,
   useRef,
+  useState,
   type ElementType,
-  type KeyboardEvent,
   type FocusEvent,
+  type KeyboardEvent,
+  type MouseEvent,
 } from "react";
 import { Display, PlateLabel } from "@/components/site/atoms";
 import { useSiteEditor } from "@/components/site-editor/editor-context";
 import { getByPath } from "@/lib/editor-fields";
 import { cn } from "@/lib/utils";
 
-const EDIT_RING =
-  "cursor-text rounded-[2px] outline-none transition-shadow hover:ring-1 hover:ring-terra/35 focus:ring-2 focus:ring-terra/55";
+const IDLE =
+  "cursor-text rounded-[2px] outline-none transition-[box-shadow,background-color] hover:bg-terra/8 hover:ring-1 hover:ring-terra/40";
+const ACTIVE =
+  "cursor-text rounded-[2px] bg-terra/10 outline-none ring-2 ring-terra/60";
 
 type FieldKind = "home" | "zoom";
 
@@ -23,15 +27,18 @@ function readValue(kind: FieldKind, path: string, home: unknown, meeting: unknow
   return typeof raw === "string" ? raw : "";
 }
 
-function renderLines(text: string, lineClassName?: string) {
+function renderLines(text: string) {
   return text.split("\n").map((line, i) => (
-    <span key={i} className={cn("block", i > 0 && lineClassName)}>
-      {line}
+    <span key={i} className={cn("block", i > 0 && "mt-[0.18em]")}>
+      {line || "\u00A0"}
     </span>
   ));
 }
 
-/** Inline text — the visible copy is the input. No separate form fields. */
+/**
+ * Pure visual edit: the page text itself becomes editable on click.
+ * No sidebar, no separate input — click → type → blur autosaves.
+ */
 export function CmsText({
   kind,
   path,
@@ -48,14 +55,22 @@ export function CmsText({
   children: string;
 }) {
   const { enabled, home, meeting, updateHome, updateMeeting } = useSiteEditor();
+  const [editing, setEditing] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const value = enabled ? readValue(kind, path, home, meeting) : children;
+  const display = multiline ? value : value.replace(/\n/g, " ");
 
   useEffect(() => {
+    if (!editing || !ref.current) return;
     const el = ref.current;
-    if (!enabled || !el || document.activeElement === el) return;
-    el.innerText = multiline ? value : value.replace(/\n/g, " ");
-  }, [enabled, value, multiline]);
+    el.focus();
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+  }, [editing]);
 
   if (!enabled) {
     if (multiline) {
@@ -65,9 +80,36 @@ export function CmsText({
   }
 
   function commit(next: string) {
-    const normalized = multiline ? next : next.replace(/\n/g, " ").trim();
+    const normalized = multiline ? next.replace(/\u00A0/g, " ") : next.replace(/\n/g, " ").trim();
     if (kind === "home") updateHome(path, normalized);
     else updateMeeting(path, normalized);
+    setEditing(false);
+  }
+
+  function startEdit(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    setEditing(true);
+  }
+
+  if (!editing) {
+    return (
+      <Tag
+        role="button"
+        tabIndex={0}
+        aria-label="Click to edit"
+        className={cn(className, IDLE)}
+        onClick={startEdit}
+        onKeyDown={(e: KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setEditing(true);
+          }
+        }}
+      >
+        {multiline ? renderLines(display) : display || "\u00A0"}
+      </Tag>
+    );
   }
 
   return (
@@ -75,19 +117,29 @@ export function CmsText({
       ref={ref as never}
       contentEditable
       suppressContentEditableWarning
-      className={cn(className, EDIT_RING)}
+      className={cn(className, ACTIVE, multiline && "whitespace-pre-wrap")}
+      onClick={(e: MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
       onBlur={(e: FocusEvent<HTMLElement>) => commit(e.currentTarget.innerText)}
       onKeyDown={(e: KeyboardEvent<HTMLElement>) => {
         if (!multiline && e.key === "Enter") {
           e.preventDefault();
           (e.currentTarget as HTMLElement).blur();
         }
+        if (e.key === "Escape") {
+          e.preventDefault();
+          setEditing(false);
+        }
       }}
-    />
+    >
+      {display}
+    </Tag>
   );
 }
 
-/** Serif display headings — preserves line breaks, editable in place. */
+/** Serif display headings — click to edit in place. */
 export function CmsDisplay({
   kind,
   path,
@@ -101,16 +153,7 @@ export function CmsDisplay({
   as?: "h1" | "h2" | "h3";
   children: string;
 }) {
-  const { enabled, home, meeting, updateHome, updateMeeting } = useSiteEditor();
-  const Tag = as;
-  const ref = useRef<HTMLElement>(null);
-  const value = enabled ? readValue(kind, path, home, meeting) : children;
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!enabled || !el || document.activeElement === el) return;
-    el.innerText = value;
-  }, [enabled, value]);
+  const { enabled } = useSiteEditor();
 
   if (!enabled) {
     return (
@@ -121,24 +164,19 @@ export function CmsDisplay({
   }
 
   return (
-    <Tag
-      ref={ref as never}
-      contentEditable
-      suppressContentEditableWarning
-      className={cn(
-        "font-display leading-[1.1] tracking-[-0.025em] whitespace-pre-wrap",
-        className,
-        EDIT_RING,
-      )}
-      onBlur={(e: FocusEvent<HTMLElement>) => {
-        if (kind === "home") updateHome(path, e.currentTarget.innerText);
-        else updateMeeting(path, e.currentTarget.innerText);
-      }}
-    />
+    <CmsText
+      kind={kind}
+      path={path}
+      multiline
+      as={as}
+      className={cn("font-display leading-[1.1] tracking-[-0.025em]", className)}
+    >
+      {children}
+    </CmsText>
   );
 }
 
-/** Tracked all-caps label — editable in place. */
+/** Tracked all-caps label — click to edit in place. */
 export function CmsPlateLabel({
   kind,
   path,
@@ -165,7 +203,7 @@ export function CmsPlateLabel({
         path={path}
         className={cn(
           "label-caps",
-          tone === "paper" ? "text-[var(--paper-white)]/90" : "text-ink/85",
+          tone === "paper" ? "text-[var(--lime)]" : "text-[var(--deep)]",
         )}
       >
         {label}

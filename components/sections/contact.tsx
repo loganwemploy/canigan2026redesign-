@@ -3,22 +3,16 @@
 import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { DotLeader, DotRule, Plate, Section } from "@/components/site/atoms";
+import { DotLeader, Plate, Section } from "@/components/site/atoms";
 import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import type { HomeData } from "@/lib/home-types";
 
 type Status = "idle" | "sending" | "sent" | "error";
-
-const FIELD =
-  "rounded-[8px] border-[var(--hairline)] bg-cream2 text-base text-ink shadow-none focus-visible:border-terra focus-visible:ring-terra placeholder:text-inksoft/80";
-
-const FIELD_LABEL = "text-base font-bold text-petrol";
 
 function slugify(value: string) {
   return (
@@ -60,36 +54,29 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
   }
 
   return (
-    <Section id="contact">
-      <Plate inner={false} className="dot-grid px-7 py-10 sm:px-10 sm:py-12">
-        <div className="grid gap-10 md:grid-cols-[0.85fr_1fr] md:gap-14">
+    <Section id="contact" className="contact">
+      <Plate inner={false} className="contact-plate">
+        <div className="contact-grid">
           {/* ——— left: the plate caption ——— */}
-          <Reveal variant="left">
+          <Reveal variant="left" className="contact-intro">
             <CmsPlateLabel kind="home" path="contact.label" label={data.label} />
-            <CmsDisplay as="h2" kind="home" path="contact.heading" className="mt-7 text-[clamp(1.65rem,2.8vw,2.2rem)] text-ink">
+            <CmsDisplay as="h2" kind="home" path="contact.heading" className="contact-title">
               {data.heading}
             </CmsDisplay>
-            <CmsText
-              kind="home"
-              path="contact.blurb"
-              multiline
-              as="p"
-              className="mt-6 text-[1.05rem] leading-[1.8] text-petrol"
-            >
+            <CmsText kind="home" path="contact.blurb" multiline as="p" className="lead contact-blurb">
               {data.blurb}
             </CmsText>
-            <DotLeader count={10} className="mt-6 block" />
+            <DotLeader count={10} className="contact-dots" />
           </Reveal>
 
           {/* ——— right: the form ——— */}
-          <Reveal variant="right">
+          <Reveal variant="right" className="contact-main">
             {status === "sent" ? (
-              <div
-                role="status"
-                className="flex flex-col items-center justify-center gap-3 rounded-[8px] border border-[var(--hairline-soft)] bg-parch p-8 text-center"
-              >
-                <Check className="size-5 text-pine" />
-                <p className="max-w-[38ch] text-base leading-[1.7] text-ink">
+              <div role="status" className="contact-sent">
+                <span className="contact-sent-ico">
+                  <Check aria-hidden />
+                </span>
+                <p>
                   {data.successMessage.split("\n").map((line, i) => (
                     <span key={i} className="block">
                       {line}
@@ -98,11 +85,9 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="space-y-1.5">
-                  <Label htmlFor="contact-name" className={FIELD_LABEL}>
-                    Name
-                  </Label>
+              <form onSubmit={handleSubmit} className="form contact-form">
+                <div className="field">
+                  <Label htmlFor="contact-name">Name</Label>
                   <Input
                     id="contact-name"
                     name="name"
@@ -111,14 +96,11 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="Your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="contact-email" className={FIELD_LABEL}>
-                    Email
-                  </Label>
+                <div className="field">
+                  <Label htmlFor="contact-email">Email</Label>
                   <Input
                     id="contact-email"
                     name="email"
@@ -128,13 +110,12 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="contact-phone" className={FIELD_LABEL}>
-                    Phone <span className="font-normal tracking-normal normal-case">(optional)</span>
+                <div className="field">
+                  <Label htmlFor="contact-phone">
+                    Phone <span className="field-opt">(optional)</span>
                   </Label>
                   <Input
                     id="contact-phone"
@@ -144,41 +125,32 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="(000) 000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
 
-                <fieldset className="space-y-3">
-                  <Label asChild className={FIELD_LABEL}>
+                <fieldset className="field persona-set">
+                  <Label asChild>
                     <legend>How would you describe yourself?</legend>
                   </Label>
-                  <div className="flex flex-wrap gap-x-6 gap-y-3">
+                  <div className="persona-grid">
                     {data.personas.map((p) => {
                       const id = slugify(p.label);
                       return (
-                        <div key={p.label} className="flex min-h-12 items-center gap-3">
+                        <div key={p.label} className="persona">
                           <Checkbox
                             id={id}
                             checked={personas.includes(p.label)}
                             onCheckedChange={(checked) => togglePersona(p.label, checked === true)}
-                            className="border-[var(--hairline)] bg-cream2 data-[state=checked]:border-terra data-[state=checked]:bg-terra data-[state=checked]:text-paper"
                           />
-                          <Label
-                            htmlFor={id}
-                            className="min-h-12 cursor-pointer items-center text-base font-normal leading-7 text-ink"
-                          >
-                            {p.label}
-                          </Label>
+                          <Label htmlFor={id}>{p.label}</Label>
                         </div>
                       );
                     })}
                   </div>
                 </fieldset>
 
-                <div className="space-y-1.5">
-                  <Label htmlFor="contact-message" className={FIELD_LABEL}>
-                    Message
-                  </Label>
+                <div className="field">
+                  <Label htmlFor="contact-message">Message</Label>
                   <Textarea
                     id="contact-message"
                     name="message"
@@ -186,20 +158,15 @@ export function Contact({ data }: { data: HomeData["contact"] }) {
                     placeholder="Tell Candy a little about what you're looking for…"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className={cn(FIELD, "min-h-[6.5rem] py-2.5 leading-[1.7]")}
                   />
                 </div>
 
-                <div className="space-y-3 pt-1">
-                  <Button
-                    type="submit"
-                    disabled={status === "sending"}
-                    className="h-12 rounded-full bg-terra px-8 text-base font-bold text-paper hover:bg-terradeep"
-                  >
+                <div className="contact-submit">
+                  <Button type="submit" size="lg" disabled={status === "sending"}>
                     {status === "sending" ? "Sending…" : "Send to Candy"}
                   </Button>
                   {status === "error" ? (
-                    <p role="alert" className="text-base text-destructive">
+                    <p role="alert" className="contact-error">
                       Something went wrong — please call or email Candy directly.
                     </p>
                   ) : null}

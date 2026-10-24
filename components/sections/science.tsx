@@ -4,57 +4,45 @@ import { ArrowRight, FlaskConical, HeartPulse, Repeat2, ShieldCheck } from "luci
 import { Reveal } from "@/components/motion/reveal";
 import { Section } from "@/components/site/atoms";
 import { Button } from "@/components/ui/button";
-import { CmsText } from "@/components/site-editor/inline-edit";
+import { CmsDisplay, CmsText } from "@/components/site-editor/inline-edit";
 import { ASSESSMENT_URL } from "@/cms/content";
 import type { HomeData } from "@/lib/home-types";
 
 const ICONS = [FlaskConical, ShieldCheck, HeartPulse, Repeat2] as const;
-const TONES = ["bg-white text-ink", "bg-forest-deep text-white", "bg-forest text-white", "bg-petrol text-white"] as const;
+const TONES = ["tone-paper", "tone-deep", "tone-leaf", "tone-ink"] as const;
 
 export function Science({ data }: { data: HomeData["science"] }) {
   return (
-    <Section id="science" className="pb-20 sm:pb-28">
-      <Reveal variant="up" className="mb-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-        <div>
-          <span className="text-base font-bold text-inksoft">
-            Step 2 · <CmsText kind="home" path="science.label">{data.label}</CmsText>
-          </span>
-          <CmsText
-            kind="home"
-            path="science.title"
-            multiline
-            as="h2"
-            className="mt-5 max-w-[16ch] text-[clamp(2.5rem,4.5vw,4.6rem)] font-bold leading-[1.06] tracking-[-0.035em] text-ink"
-          >
-            {data.title}
-          </CmsText>
-        </div>
-        <CmsText
-          kind="home"
-          path="science.heading"
-          multiline
-          as="p"
-          className="max-w-[52ch] text-xl leading-9 text-ink/90 lg:justify-self-end"
-        >
+    <Section id="science" className="science">
+      <Reveal variant="up" className="sec-head science-head">
+        <span className="eyebrow">
+          Step 2 · <CmsText kind="home" path="science.label">{data.label}</CmsText>
+        </span>
+        <CmsDisplay kind="home" path="science.title" as="h2" className="science-title">
+          {data.title}
+        </CmsDisplay>
+        <CmsText kind="home" path="science.heading" multiline as="p" className="lead science-lead">
           {data.heading}
         </CmsText>
       </Reveal>
 
-      <Reveal variant="up" stagger={0.1} className="grid gap-4 md:grid-cols-2">
+      <Reveal variant="up" stagger={0.1} className="cards sci-cards">
         {data.cards.map((card, index) => {
           const Icon = ICONS[index] ?? FlaskConical;
           return (
-            <article key={card.title} className={`${TONES[index] ?? TONES[0]} flex min-h-[330px] flex-col rounded-[24px] p-7 sm:p-9`}>
-              <div className="flex items-start justify-between">
-                <span className="grid size-12 place-items-center rounded-xl border border-current/15"><Icon className="size-6" aria-hidden /></span>
-                <span className="text-base font-bold opacity-80">0{index + 1}</span>
+            <article key={card.title} className={`sci-card ${TONES[index] ?? TONES[0]}`}>
+              <div className="sci-top">
+                <span className="sci-ico">
+                  <Icon aria-hidden />
+                </span>
+                <span className="sci-num">0{index + 1}</span>
               </div>
-              <div className="mt-auto max-w-[38rem]">
+              <div className="sci-body">
                 <CmsText
                   kind="home"
                   path={`science.cards.${index}.title`}
                   as="h3"
-                  className="text-[clamp(1.7rem,3vw,3rem)] font-bold leading-[1.08] tracking-[-0.025em]"
+                  className="sci-title"
                 >
                   {card.title}
                 </CmsText>
@@ -63,7 +51,7 @@ export function Science({ data }: { data: HomeData["science"] }) {
                   path={`science.cards.${index}.body`}
                   multiline
                   as="p"
-                  className="mt-5 max-w-[50ch] text-base leading-7 opacity-80"
+                  className="sci-text"
                 >
                   {card.body}
                 </CmsText>
@@ -73,9 +61,11 @@ export function Science({ data }: { data: HomeData["science"] }) {
         })}
       </Reveal>
 
-      <Reveal variant="up" className="mt-8 flex justify-center">
-        <Button asChild className="h-14 rounded-full bg-terra px-9 text-base font-bold text-white hover:bg-terradeep">
-          <a href={ASSESSMENT_URL} target="_blank" rel="noreferrer">Build your plan <ArrowRight className="ml-2 size-4" aria-hidden /></a>
+      <Reveal variant="up" className="science-cta">
+        <Button asChild size="lg">
+          <a href={ASSESSMENT_URL} target="_blank" rel="noreferrer">
+            Build your plan <ArrowRight aria-hidden />
+          </a>
         </Button>
       </Reveal>
     </Section>

@@ -62,7 +62,7 @@ export function HomeLive({
       <RefreshRouteOnSave />
       <ScrollProgress />
       <SiteHeader logo={FALLBACK_IMAGES.logo} meeting={meeting} audienceLabel={audience?.navLabel} phone={home.about.phone} />
-      <main id="main-content" tabIndex={-1} className="overflow-hidden bg-cream outline-none">
+      <main id="main-content" tabIndex={-1}>
         <h1 className="sr-only">Canigan Health Options — personal wellness guidance with Candy</h1>
         <div id="top">
           <About about={home.about} />

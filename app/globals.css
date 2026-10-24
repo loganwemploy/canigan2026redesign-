@@ -1,8 +1,13 @@
 @import "tailwindcss";
+@import "./ember.css";
+@import "./site.css";
+@import "./sections.css";
+@import "./gateway.css";
 
 /* ————————————————————————————————————————————————
-   Canigan Health Options — editorial "plate" design system
-   Warm paper, deep forest ink, lichen accents, moss labels
+   Canigan Health Options — palette + shadcn token mapping.
+   The look itself (grain, leaf wreath, pill nav, display type, buttons,
+   cards, bands) lives in ember.css, a green port of the Emberleaf kit.
    ———————————————————————————————————————————————— */
 
 :root {
@@ -90,8 +95,8 @@
   --color-lichen: var(--lichen);
   --color-gateway-paper: var(--gateway-paper);
 
-  --font-sans: var(--font-pt-sans), "PT Sans", "Segoe UI", sans-serif;
-  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-fraunces), "Fraunces", Georgia, "Times New Roman", serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -130,13 +135,12 @@
     font-size: 18px;
   }
   body {
-    background: var(--cream);
+    /* The paper background is painted by ember.css. */
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     line-height: 1.65;
-    transition: background-color 0.5s ease;
   }
   a:focus-visible,
   button:focus-visible,
@@ -153,21 +157,17 @@
 }
 
 @layer utilities {
-  /* museum-plate serif italic display — open tracking for silver-fox readability */
+  /* Emberleaf display type: Fraunces at medium weight, optical sizing on.
+     Headings built with <Display> italicise + tint their last line (see
+     .display-lines in ember.css). The tracked label (.label-caps) is an
+     alias of .eyebrow and also lives in ember.css. */
   .font-display {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-style: normal;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.08;
-  }
-  /* tracked small-caps label */
-  .label-caps {
-    font-family: var(--font-sans);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 700;
-    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+    font-optical-sizing: auto;
   }
   /* faint dot-grid paper texture */
   .dot-grid {
@@ -308,13 +308,22 @@
 .audience-shell[data-audience] {
   --forest: var(--audience-accent);
   --parch: var(--audience-soft);
+  /* ember.css tokens follow the audience too, so each page keeps its own tint. */
+  --leaf: var(--audience-accent);
+  --fill: var(--audience-soft);
 }
 
-.audience-shell[data-text-scale="silver-fox"] main p,
-.audience-shell[data-text-scale="silver-fox"] main li,
-.audience-shell[data-text-scale="silver-fox"] main label {
-  font-size: max(1rem, 1em);
-  line-height: 1.7;
+/* The "silver fox" text-scale contract: body copy never drops below 1rem and keeps
+   a generous line height. It lives in the base layer so the section styles can still
+   set their own size and leading for display statements, lead paragraphs and card
+   text (every size they set is at least 1rem). Unlayered, it beat all of them. */
+@layer base {
+  .audience-shell[data-text-scale="silver-fox"] main p,
+  .audience-shell[data-text-scale="silver-fox"] main li,
+  .audience-shell[data-text-scale="silver-fox"] main label {
+    font-size: max(1rem, 1em);
+    line-height: 1.7;
+  }
 }
 
 .audience-shell :where(a, button, input, textarea, select) {

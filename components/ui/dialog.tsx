@@ -56,7 +56,7 @@ function DialogContent({
         data-slot="dialog-content"
         className={cn(
           "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-1.5rem)] max-w-[520px] -translate-x-1/2 -translate-y-1/2 gap-0",
-          "max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[12px] border border-[var(--hairline)] bg-cream2 p-0 shadow-[0_30px_80px_-20px_hsl(151_33%_13%/0.55)]",
+          "max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[28px] border border-[var(--line)] bg-[var(--paper)] p-0 shadow-[0_30px_80px_-20px_hsl(151_33%_13%/0.55)]",
           "data-[state=open]:animate-dialog-in",
           className
         )}
@@ -67,7 +67,7 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             aria-label="Close"
-            className="absolute top-4 right-4 grid size-12 cursor-pointer place-items-center rounded-full border border-[var(--hairline)] bg-cream2 text-ink transition-colors hover:bg-parch focus-visible:ring-3 focus-visible:ring-terra focus-visible:outline-none"
+            className="absolute top-4 right-4 grid size-12 cursor-pointer place-items-center rounded-full border border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] transition-colors hover:bg-[var(--fill)] focus-visible:ring-3 focus-visible:ring-[var(--leaf)] focus-visible:outline-none"
           >
             <XIcon className="size-4" />
           </DialogPrimitive.Close>
@@ -94,7 +94,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-base leading-[1.75] text-petrol", className)}
+      className={cn("text-base leading-[1.75] text-[var(--mid)]", className)}
       {...props}
     />
   )

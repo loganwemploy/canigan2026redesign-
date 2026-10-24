@@ -1,0 +1,493 @@
+/* ==========================================================================
+   Canigan section styles
+   --------------------------------------------------------------------------
+   Page-specific layouts built from the Emberleaf kit (see ember.css for the
+   kit itself). Class names are plain and semantic; sections compose them with
+   the kit's .eyebrow / .btn / .card / .band / .list / .chip classes.
+   ========================================================================== */
+
+@layer components {
+
+  /* ======================================================================
+     Shared building blocks used by the React components
+     ====================================================================== */
+
+  /* Falling leaves: fewer on phones */
+  @media (max-width: 700px) {
+    .leaf:nth-child(n + 10) {
+      display: none;
+    }
+  }
+
+  /* Frosted plate (the card every section content sits on) */
+  .plate {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    background: rgba(250, 252, 242, 0.8);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow);
+  }
+  .plate-inner {
+    padding: clamp(26px, 5vw, 64px);
+  }
+
+  /* Display headings: the last line of a multi-line title is the italic accent */
+  [data-multi] > span:last-child {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--leaf);
+  }
+  .band [data-multi] > span:last-child,
+  .on-dark [data-multi] > span:last-child {
+    color: var(--lime);
+  }
+  /* Word-reveal wrappers (see Display): hidden until the script lets them in */
+  .w {
+    display: inline-block;
+    will-change: transform;
+  }
+  @media (scripting: enabled) {
+    .w {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .w {
+      opacity: 1;
+    }
+  }
+}
+
+@layer components {
+
+  /* ======================================================================
+     Header
+     ====================================================================== */
+
+  .site-nav {
+    gap: 14px;
+    transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .site-nav[data-scrolled="true"] {
+    background: rgba(246, 248, 236, 0.92);
+    box-shadow: 0 14px 30px -26px rgba(30, 80, 50, 0.55);
+  }
+
+  /* Brand lockup: the Canigan portrait mark in the kit's rounded logo tile */
+  .logo.logo-img {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: 0 8px 18px -12px rgba(30, 80, 50, 0.55);
+  }
+  .brand-name {
+    display: none;
+    line-height: 1;
+  }
+  .brand-name strong {
+    display: block;
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+  .brand-name small {
+    display: block;
+    margin-top: 5px;
+    font-family: var(--f-ui);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--leaf);
+  }
+  @media (min-width: 480px) {
+    .brand-name {
+      display: block;
+    }
+  }
+
+  /* Section links only on wide screens; the menu button covers the rest */
+  .site-nav .links {
+    display: none;
+  }
+  .pill {
+    opacity: 0;
+    transition:
+      transform 0.5s var(--ease),
+      width 0.5s var(--ease),
+      opacity 0.3s;
+  }
+  @media (min-width: 1100px) {
+    .site-nav .links {
+      display: flex;
+    }
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: var(--l-m);
+    line-height: var(--l-m-lh);
+    font-weight: 500;
+    color: var(--mid);
+    white-space: nowrap;
+    transition:
+      color 0.25s,
+      background 0.25s;
+  }
+  .nav-text:hover {
+    color: var(--ink);
+    background: rgba(252, 253, 246, 0.85);
+  }
+  .nav-change {
+    display: none;
+  }
+  .nav-call-long {
+    display: none;
+  }
+  @media (min-width: 1360px) {
+    .nav-change {
+      display: inline-flex;
+    }
+  }
+  @media (min-width: 1280px) {
+    .nav-call-long {
+      display: inline;
+    }
+    .nav-call-short {
+      display: none;
+    }
+  }
+  .site-nav .nav-join {
+    display: none;
+    white-space: nowrap;
+  }
+  @media (min-width: 640px) {
+    .site-nav .nav-join {
+      display: inline-flex;
+    }
+  }
+
+  .nav-menu-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(252, 253, 246, 0.85);
+    color: var(--ink);
+    cursor: pointer;
+    transition:
+      background 0.3s,
+      border-color 0.3s,
+      transform 0.4s var(--ease);
+  }
+  .nav-menu-btn:hover {
+    border-color: var(--ink);
+  }
+  .nav-menu-btn[aria-expanded="true"] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  /* Frosted mobile menu */
+  .nav-menu {
+    position: absolute;
+    top: calc(var(--nav-h) - 10px);
+    right: clamp(12px, 4vw, 56px);
+    left: clamp(12px, 4vw, 56px);
+    margin-left: auto;
+    max-width: 460px;
+    padding: 10px;
+    border-radius: 24px;
+    background: rgba(252, 253, 246, 0.97);
+    border: 1px solid var(--line);
+    box-shadow:
+      var(--shadow),
+      0 34px 60px -32px rgba(30, 80, 50, 0.45);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    animation: menu-in 0.35s var(--ease) both;
+  }
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .nav-menu ul {
+    display: grid;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-menu li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 52px;
+    padding: 0 16px;
+    border-radius: 16px;
+    font-size: var(--b-m);
+    font-weight: 500;
+    color: var(--ink);
+    transition: background 0.25s;
+  }
+  .nav-menu li a svg {
+    color: var(--leaf);
+    transition: transform 0.35s var(--ease);
+  }
+  .nav-menu li a:hover {
+    background: var(--fill);
+  }
+  .nav-menu li a:hover svg {
+    transform: translateX(4px);
+  }
+  .nav-menu-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 12px 6px 6px;
+    border-top: 1px solid var(--line);
+  }
+  .nav-menu-actions .btn {
+    width: 100%;
+  }
+  @media (min-width: 1100px) {
+    .nav-menu-btn,
+    .nav-menu {
+      display: none;
+    }
+  }
+
+  /* ======================================================================
+     Footer colophon
+     ====================================================================== */
+
+  footer.colophon {
+    padding-top: 0;
+  }
+  .colophon-inner {
+    width: min(1180px, 100% - clamp(32px, 7vw, 120px));
+    margin-inline: auto;
+    padding-top: 48px;
+    border-top: 1px solid var(--line);
+  }
+  .colophon-grid {
+    display: grid;
+    gap: 40px;
+    grid-template-columns: 1.5fr 1fr 1fr;
+  }
+  @media (max-width: 760px) {
+    .colophon-grid {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+  }
+  .colophon-logo {
+    display: block;
+    width: 92px;
+    height: 92px;
+    padding: 4px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .colophon-tagline {
+    margin-top: 20px;
+    max-width: 36ch;
+    font-family: var(--f-display);
+    font-size: var(--h-s);
+    line-height: var(--h-s-lh);
+    color: var(--ink);
+  }
+  .colophon-links {
+    display: grid;
+    gap: 2px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .colophon-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    font-size: var(--b-s);
+    line-height: var(--b-s-lh);
+    color: var(--mid);
+    overflow-wrap: anywhere;
+    transition: color 0.25s;
+  }
+  .colophon-links a:hover {
+    color: var(--leaf);
+  }
+  .colophon-rule {
+    margin: 38px 0 24px;
+  }
+  .colophon-legal {
+    display: grid;
+    gap: 14px;
+    max-width: 96ch;
+    font-size: var(--l-s);
+    line-height: 1.7;
+    color: var(--mid);
+  }
+}
+
+@layer components {
+
+  /* ======================================================================
+     Hero
+     ====================================================================== */
+
+  .hero-canigan {
+    min-height: 0;
+    align-content: start;
+    padding: clamp(30px, 5vw, 72px) 0 0;
+  }
+  .hero-copy {
+    text-align: center;
+  }
+  .hero-copy .eyebrow {
+    margin-bottom: 26px;
+  }
+  /* A two-line eyebrow would leave the rule stranded at the far left */
+  @media (max-width: 560px) {
+    .hero-copy .eyebrow {
+      text-align: center;
+    }
+    .hero-copy .eyebrow::before {
+      display: none;
+    }
+  }
+  .hero-title {
+    font-size: clamp(42px, 7.2vw, 104px);
+    line-height: 0.98;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  @media (max-width: 760px) {
+    .hero-title {
+      font-size: clamp(40px, 12.6vw, 60px);
+    }
+  }
+  .hero-copy .lead {
+    margin: 28px auto 0;
+  }
+
+  .hero-stage {
+    display: grid;
+    gap: 22px;
+    margin-top: clamp(44px, 6vw, 80px);
+    text-align: left;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .hero-photo {
+    position: relative;
+    isolation: isolate;
+    min-height: 540px;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    background: var(--fill);
+    box-shadow: var(--shadow);
+  }
+  .hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: url(/ember/grain.webp) center / 420px auto;
+    mix-blend-mode: multiply;
+    opacity: 0.28;
+  }
+  .hero-tasks {
+    align-content: center;
+  }
+  .hero-tasks .li h3 {
+    margin-top: 2px;
+    font-size: var(--h-s);
+    line-height: var(--h-s-lh);
+  }
+  .hero-tasks .li:nth-child(1) .av {
+    --bgc: hsl(109 24% 86%);
+  }
+  .hero-tasks .li:nth-child(2) .av {
+    --bgc: hsl(83 25% 86%);
+  }
+  .hero-tasks .li:nth-child(3) .av {
+    --bgc: hsl(48 30% 89%);
+  }
+  .hero-tasks .chev {
+    background: var(--leaf);
+    border-color: var(--leaf);
+    color: #fff;
+  }
+  @media (max-width: 900px) {
+    .hero-stage {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .hero-photo {
+      min-height: 0;
+      aspect-ratio: 5 / 4;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero-photo {
+      aspect-ratio: 4 / 5;
+      border-radius: 22px;
+    }
+  }
+
+  /* The ticker loops by -50%, so the track needs one trailing gap to land exactly */
+  .marquee {
+    margin-top: clamp(54px, 7vw, 104px);
+  }
+  .marquee .track {
+    padding-right: 44px;
+  }
+
+  /* A kit list whose rows are informational rather than links */
+  .list.static .li {
+    cursor: default;
+  }
+  .list.static .li:hover::before {
+    transform: scaleY(0);
+  }
+  .list.static .li:hover .av {
+    transform: none;
+  }
+  .list.static .li:hover .chev {
+    transform: none;
+  }
+}

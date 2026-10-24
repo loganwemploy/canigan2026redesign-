@@ -35,120 +35,89 @@ export function Zoom({
   const note = zoomSection.note;
 
   return (
-    <Section id="zoom">
-      <div className="dot-grid-dark relative overflow-hidden rounded-[10px] bg-pine p-6 text-paper sm:p-10 md:p-12">
-        <div className="grid gap-10 md:grid-cols-[1fr_0.66fr] md:items-start md:gap-12">
-          <Reveal variant="up" className="min-w-0">
-            <CmsPlateLabel kind="home" path="zoomSection.label" label={zoomSection.label} tone="paper" />
+    <Section id="zoom" className="zoom">
+      <div className="band band-split zoom-band">
+        <span className="orb" aria-hidden />
 
-            <CmsDisplay
-              kind="home"
-              path="zoomSection.heading"
-              as="h2"
-              className="mt-6 max-w-[22ch] text-[clamp(1.5rem,2.9vw,2.2rem)] text-paper"
-            >
-              {zoomSection.heading}
-            </CmsDisplay>
+        <Reveal variant="up" className="zoom-copy">
+          <CmsPlateLabel kind="home" path="zoomSection.label" label={zoomSection.label} tone="paper" />
 
-            <DotLeader count={9} tone="paper" className="mt-5 block" />
+          <CmsDisplay kind="home" path="zoomSection.heading" as="h2" className="zoom-title">
+            {zoomSection.heading}
+          </CmsDisplay>
 
-            {meeting ? (
-              <>
-                <div className="mt-7 rounded-[8px] border border-[var(--paper-white)]/25 bg-[var(--paper-white)]/5 p-5 sm:p-7 md:max-w-[520px]">
-                  <CmsText
-                    kind="zoom"
-                    path="title"
-                    as="p"
-                    className="font-display text-[1.25rem] leading-[1.3] text-paper sm:text-[1.45rem]"
-                  >
-                    {meeting.title}
-                  </CmsText>
+          <DotLeader count={9} tone="paper" className="zoom-dots" />
 
-                  <div className="mt-5 grid gap-2">
-                    {meetingRows.map((row) => (
-                      <div key={row.label} className="flex gap-3 text-base">
-                        <span className="w-[82px] shrink-0 text-base font-bold text-terra">
-                          {row.label}
-                        </span>
-                        <CmsText
-                          kind="zoom"
-                          path={row.label === "DATE" ? "date" : row.label === "TIME" ? "time" : "zoomLength"}
-                          className="text-[var(--paper-white)]/90"
-                        >
-                          {row.value}
-                        </CmsText>
-                      </div>
-                    ))}
-                  </div>
+          {meeting ? (
+            <>
+              <div className="zoom-meeting">
+                <CmsText kind="zoom" path="title" as="p" className="zoom-meeting-title">
+                  {meeting.title}
+                </CmsText>
 
-                  <ZoomInviteDialog meeting={meeting}>
-                    <Button
-                      type="button"
-                      className="mt-7 h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:w-auto"
-                    >
-                      <Video className="mr-2 size-4" aria-hidden />
-                      Get the Zoom invite
-                    </Button>
-                  </ZoomInviteDialog>
+                <div className="zoom-rows">
+                  {meetingRows.map((row) => (
+                    <div key={row.label} className="zoom-row">
+                      <span className="zoom-row-label">{row.label}</span>
+                      <CmsText
+                        kind="zoom"
+                        path={row.label === "DATE" ? "date" : row.label === "TIME" ? "time" : "zoomLength"}
+                        className="zoom-row-value"
+                      >
+                        {row.value}
+                      </CmsText>
+                    </div>
+                  ))}
                 </div>
 
-                <CmsText
-                  kind="home"
-                  path="zoomSection.note"
-                  multiline
-                  as="p"
-                  className="mt-6 max-w-[60ch] text-[0.9rem] leading-[1.75] text-[var(--paper-white)]/82"
-                >
-                  {note}
-                </CmsText>
-              </>
-            ) : (
-              <>
-                <CmsText
-                  kind="home"
-                  path="zoomSection.note"
-                  multiline
-                  as="p"
-                  className="mt-6 max-w-[60ch] text-base leading-[1.75] text-[var(--paper-white)]/90"
-                >
-                  {note}
-                </CmsText>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="mt-7 h-12 w-full rounded-full border-[var(--paper-white)]/70 bg-transparent px-7 text-base font-bold text-[var(--paper-white)] hover:bg-[var(--paper-white)] hover:text-ink sm:w-auto"
-                >
-                  <a href="#contact">
-                    Ask Candy about the next session
-                    <ArrowRight className="ml-2 size-4" aria-hidden />
-                  </a>
-                </Button>
-              </>
-            )}
-          </Reveal>
-
-          {/* the evidence plate */}
-          <Reveal variant="right" className="min-w-0">
-            <figure className="mx-auto w-full max-w-[420px] md:ml-auto md:mr-0">
-              <div className="overflow-hidden rounded-[8px] border border-[var(--paper-white)]/25">
-                {/* Served straight from /public: the source is already small
-                    (554px, 33KB) so there is nothing to optimize, and Next's
-                    optimizer stalls on this particular file. */}
-                <Image
-                  src={studyImage}
-                  alt="Shaklee users have optimal nutrient levels and better biomarkers of health, per seven clinical studies."
-                  width={554}
-                  height={554}
-                  unoptimized
-                  className="h-auto w-full object-cover"
-                />
+                <ZoomInviteDialog meeting={meeting}>
+                  <Button type="button" size="lg" className="on-dark">
+                    <Video aria-hidden />
+                    Get the Zoom invite
+                  </Button>
+                </ZoomInviteDialog>
               </div>
-              <figcaption className="mt-3 text-[0.9rem] leading-[1.7] text-[var(--paper-white)]/82">
-                <CmsText kind="home" path="zoomSection.imageCaption">{zoomSection.imageCaption}</CmsText>
-              </figcaption>
-            </figure>
-          </Reveal>
-        </div>
+
+              <CmsText kind="home" path="zoomSection.note" multiline as="p" className="zoom-note">
+                {note}
+              </CmsText>
+            </>
+          ) : (
+            <>
+              <CmsText kind="home" path="zoomSection.note" multiline as="p" className="zoom-note">
+                {note}
+              </CmsText>
+              <Button asChild variant="outline" size="lg" className="on-dark">
+                <a href="#contact">
+                  Ask Candy about the next session
+                  <ArrowRight aria-hidden />
+                </a>
+              </Button>
+            </>
+          )}
+        </Reveal>
+
+        {/* the evidence plate */}
+        <Reveal variant="right" className="zoom-art">
+          <figure className="zoom-figure">
+            <div className="zoom-plate">
+              {/* Served straight from /public: the source is already small
+                  (554px, 33KB) so there is nothing to optimize, and Next's
+                  optimizer stalls on this particular file. */}
+              <Image
+                src={studyImage}
+                alt="Shaklee users have optimal nutrient levels and better biomarkers of health, per seven clinical studies."
+                width={554}
+                height={554}
+                unoptimized
+                className="zoom-img"
+              />
+            </div>
+            <figcaption className="zoom-caption">
+              <CmsText kind="home" path="zoomSection.imageCaption">{zoomSection.imageCaption}</CmsText>
+            </figcaption>
+          </figure>
+        </Reveal>
       </div>
     </Section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { DotLeader, Section } from "@/components/site/atoms";
 import { CmsDisplay, CmsText } from "@/components/site-editor/inline-edit";
@@ -15,42 +15,32 @@ import type { HomeData } from "@/lib/home-types";
 
 export function Business({ data }: { data: HomeData["business"] }) {
   return (
-    <Section id="business">
-      <div className="hidden overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-cream2 md:block">
-        <Reveal
-          variant="up"
-          stagger={0.08}
-          className="-mr-px -mb-px grid grid-cols-3 [&>*]:border-r [&>*]:border-b [&>*]:border-[var(--hairline-soft)]"
-        >
-          <div className="dot-grid flex min-h-[270px] flex-col p-7">
-            <CmsText kind="home" path="business.plate" className="font-display text-[0.88rem] text-terra">
+    <Section id="business" className="business">
+      {/* ── wide screens: every pillar laid out in a grid ── */}
+      <div className="biz-desktop">
+        <Reveal variant="up" stagger={0.08} className="biz-grid">
+          <div className="biz-cell biz-intro">
+            <CmsText kind="home" path="business.plate" className="label-caps">
               {data.plate}
             </CmsText>
-            <CmsDisplay
-              kind="home"
-              path="business.heading"
-              as="h2"
-              className="mt-5 text-[clamp(1.65rem,2.6vw,2.25rem)] text-ink"
-            >
+            <CmsDisplay kind="home" path="business.heading" as="h2" className="biz-title">
               {data.heading}
             </CmsDisplay>
-            <DotLeader count={9} className="mt-4 block" />
-            <Button
-              asChild
-              className="mt-auto h-12 self-start rounded-full bg-terra px-6 text-base font-bold text-paper hover:bg-terradeep"
-            >
-              <a href="#contact">Ask Candy how it works</a>
+            <DotLeader count={9} className="biz-dots" />
+            <Button asChild size="lg">
+              <a href="#contact">
+                Ask Candy how it works
+                <ArrowRight aria-hidden />
+              </a>
             </Button>
           </div>
 
           {data.items.map((item, i) => (
-            <div key={i} className="min-h-[270px] p-7">
-              <CmsText
-                kind="home"
-                path={`business.items.${i}.title`}
-                as="h3"
-                className="font-display text-[1.12rem] leading-[1.3] text-ink"
-              >
+            <div key={i} className="biz-cell">
+              <span className="biz-num" aria-hidden>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <CmsText kind="home" path={`business.items.${i}.title`} as="h3" className="biz-name">
                 {item.title}
               </CmsText>
               <CmsText
@@ -58,7 +48,7 @@ export function Business({ data }: { data: HomeData["business"] }) {
                 path={`business.items.${i}.body`}
                 multiline
                 as="p"
-                className="mt-3.5 text-base leading-[1.75] text-petrol"
+                className="biz-body"
               >
                 {item.body}
               </CmsText>
@@ -67,38 +57,30 @@ export function Business({ data }: { data: HomeData["business"] }) {
         </Reveal>
       </div>
 
-      <div className="overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] md:hidden">
-        <Reveal variant="up">
-          <div className="dot-grid bg-cream2 p-7">
-            <CmsText kind="home" path="business.plate" className="font-display text-[0.88rem] text-terra">
-              {data.plate}
-            </CmsText>
-            <CmsDisplay kind="home" path="business.heading" as="h2" className="mt-5 text-[clamp(1.65rem,7vw,2.15rem)] text-ink">
-              {data.heading}
-            </CmsDisplay>
-            <DotLeader count={9} className="mt-4 block" />
-          </div>
+      {/* ── phones: the same pillars as an accordion ── */}
+      <div className="biz-mobile">
+        <Reveal variant="up" className="biz-head">
+          <CmsText kind="home" path="business.plate" className="label-caps">
+            {data.plate}
+          </CmsText>
+          <CmsDisplay kind="home" path="business.heading" as="h2" className="biz-title">
+            {data.heading}
+          </CmsDisplay>
+          <DotLeader count={9} className="biz-dots" />
         </Reveal>
 
-        <Accordion type="single" collapsible className="bg-cream2">
+        <Accordion type="single" collapsible className="biz-acc">
           {data.items.map((item, i) => (
-            <AccordionItem
-              key={i}
-              value={`pillar-${i}`}
-              className="border-t border-b-0 border-[var(--hairline-soft)] px-7"
-            >
-              <AccordionTrigger className="group py-5 text-left font-display text-[1.12rem] leading-[1.3] text-ink hover:no-underline [&>svg]:hidden">
-                <span className="pr-4">
+            <AccordionItem key={i} value={`pillar-${i}`} className="biz-item">
+              <AccordionTrigger className="biz-trigger items-center py-5 font-medium no-underline hover:no-underline">
+                <span className="biz-trigger-label">
                   <CmsText kind="home" path={`business.items.${i}.title`}>{item.title}</CmsText>
                 </span>
-                <span
-                  aria-hidden
-                  className="mt-1 shrink-0 text-terra transition-transform duration-200 group-data-[state=open]:rotate-45"
-                >
-                  <Plus className="size-4" strokeWidth={1.5} />
+                <span aria-hidden className="biz-plus">
+                  <Plus strokeWidth={1.75} />
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pb-6 text-base leading-[1.75] text-petrol">
+              <AccordionContent className="biz-content">
                 <CmsText kind="home" path={`business.items.${i}.body`} multiline>
                   {item.body}
                 </CmsText>
@@ -107,12 +89,12 @@ export function Business({ data }: { data: HomeData["business"] }) {
           ))}
         </Accordion>
 
-        <div className="border-t border-[var(--hairline-soft)] bg-cream2 px-7 py-6">
-          <Button
-            asChild
-            className="h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
-          >
-            <a href="#contact">Ask Candy how it works</a>
+        <div className="biz-foot">
+          <Button asChild size="lg">
+            <a href="#contact">
+              Ask Candy how it works
+              <ArrowRight aria-hidden />
+            </a>
           </Button>
         </div>
       </div>

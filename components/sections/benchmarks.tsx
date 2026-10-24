@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { DotRule, Plate, Section } from "@/components/site/atoms";
 import { CmsDisplay, CmsText } from "@/components/site-editor/inline-edit";
@@ -32,50 +32,50 @@ const PROGRAM_DETAILS = [
 
 export function Benchmarks({ data }: { data: HomeData["benchmarks"] }) {
   return (
-    <Section id="benchmarks" data-claims-mode="verified-program-details" data-source-label={data.label}>
-      <Plate inner={false} className="dot-grid px-6 py-10 sm:px-9 sm:py-12">
-        <Reveal variant="up">
-          <div className="flex items-center gap-4">
-            <span className="label-caps whitespace-nowrap text-[0.82rem] text-ink">Current program details</span>
-            <DotRule className="flex-1" />
+    <Section id="benchmarks" data-claims-mode="verified-program-details" data-source-label={data.label} className="benchmarks">
+      <Plate inner={false} className="bench-plate">
+        <Reveal variant="up" className="bench-head">
+          <div className="bench-label">
+            <span className="label-caps">Current program details</span>
+            <DotRule className="bench-rule" />
           </div>
-          <CmsDisplay as="h2" kind="home" path="benchmarks.heading" className="mt-6 max-w-[28ch] text-[clamp(1.85rem,3vw,2.45rem)] text-ink">
+          <CmsDisplay as="h2" kind="home" path="benchmarks.heading" className="bench-title">
             {data.heading}
           </CmsDisplay>
-          <CmsText
-            kind="home"
-            path="benchmarks.disclaimer"
-            multiline
-            as="p"
-            className="mt-4 max-w-[68ch] text-base leading-8 text-inksoft"
-          >
+          <CmsText kind="home" path="benchmarks.disclaimer" multiline as="p" className="lead bench-lead">
             {data.disclaimer}
           </CmsText>
         </Reveal>
 
-        <Reveal variant="up" stagger={0.08} className="mt-10 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <Reveal variant="up" stagger={0.08} className="bench-grid">
           {PROGRAM_DETAILS.map((detail) => (
-            <article key={detail.label} data-program-detail className="flex min-h-[250px] flex-col rounded-[18px] border border-[var(--hairline-soft)] bg-cream2 p-6">
-              <span className="text-[clamp(2rem,3.5vw,3.25rem)] font-bold tracking-[-0.055em] text-forest">{detail.value}</span>
-              <h3 className="mt-2 text-lg font-bold text-ink">{detail.label}</h3>
-              <p className="mt-5 text-base leading-8 text-petrol">{detail.body}</p>
-              <Check className="mt-auto size-4 text-forest" aria-hidden />
+            <article key={detail.label} data-program-detail className="bench-card">
+              <span className="bench-value">{detail.value}</span>
+              <h3 className="bench-name">{detail.label}</h3>
+              <p className="bench-body">{detail.body}</p>
+              <Check className="bench-check" aria-hidden />
             </article>
           ))}
         </Reveal>
 
-        <Reveal variant="fade" className="mt-8 block">
-          <p className="max-w-[74ch] text-[0.9rem] leading-[1.75] italic text-inksoft">
+        <Reveal variant="fade" className="bench-foot">
+          <p className="bench-fine">
             Member value and Ambassador compensation are separate. Product points are not cash. Ambassador earnings depend on qualifying customer product sales, expenses, skill, and effort and are not guaranteed. Terms can change.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Button asChild className="h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep">
+          <div className="bench-actions">
+            <Button asChild size="lg">
               <a href={data.cta.url}>
                 <CmsText kind="home" path="benchmarks.cta.label">{data.cta.label}</CmsText>
+                <ArrowRight aria-hidden />
               </a>
             </Button>
-            <a href="https://images.shaklee.com/ShakleeCompPlanENG.pdf" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center rounded-full border border-forest/30 px-5 text-base font-bold text-forest hover:bg-white">
-              Official compensation summary <ArrowUpRight className="ml-2 size-3.5" aria-hidden />
+            <a
+              href="https://images.shaklee.com/ShakleeCompPlanENG.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="text-link"
+            >
+              Official compensation summary <ArrowUpRight aria-hidden />
             </a>
           </div>
         </Reveal>

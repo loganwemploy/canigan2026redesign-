@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, PT_Sans } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "../globals.css";
+import { EmberAmbient } from "@/components/site/ambient";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+/* Emberleaf's type pairing: Fraunces for display, Inter for everything else. */
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
+  axes: ["opsz"],
   display: "swap",
 });
 
-const ptSans = PT_Sans({
-  variable: "--font-pt-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -32,8 +32,11 @@ export const metadata: Metadata = {
 
 export default function FrontendLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${ptSans.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
+      <body>
+        <EmberAmbient />
+        {children}
+      </body>
     </html>
   );
 }

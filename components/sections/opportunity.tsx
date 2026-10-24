@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { DotLeader, Section } from "@/components/site/atoms";
 import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
@@ -14,100 +15,72 @@ export function Opportunity({ data }: { data: HomeData["opportunity"] }) {
   const ambPhoto = resolveImage(data.ambImage, FALLBACK_IMAGES.ambassador);
 
   return (
-    <Section id="opportunity">
-      <div className="overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-cream2">
-        {/* ── BLOCK 1 · headline (matches supplied mobile plate) ─────── */}
-        <div className="bg-cream2 px-6 pt-8 pb-7 sm:px-10 sm:pt-10 sm:pb-9">
-          <div className="grid gap-8 md:grid-cols-[1.35fr_1fr] md:items-start md:gap-10">
-            <Reveal variant="up" duration={0.95}>
-              <CmsPlateLabel kind="home" path="opportunity.label" label={data.label} />
-              <DotLeader count={16} className="mt-3 block" />
-              <CmsDisplay
-                kind="home"
-                path="opportunity.heading"
-                as="h2"
-                className="mt-7 max-w-[18ch] text-[clamp(1.85rem,7.2vw,2.4rem)] text-pine md:max-w-[20ch] md:text-[clamp(2.05rem,4.2vw,3.2rem)]"
-              >
-                {data.heading}
-              </CmsDisplay>
-            </Reveal>
-
-            <Reveal variant="right" delay={0.12} duration={0.95} className="md:pt-10 md:text-right">
-              <div>
-                {data.bullets.map((bullet, i) => (
-                  <CmsText
-                    key={i}
-                    kind="home"
-                    path={`opportunity.bullets.${i}.text`}
-                    as="p"
-                    className="text-[0.95rem] leading-[2] text-ink"
-                  >
-                    {bullet.text}
-                  </CmsText>
-                ))}
-                <DotLeader count={8} className="mt-3 block md:ml-auto" />
-              </div>
-            </Reveal>
-          </div>
-        </div>
-
-        {/* ── BLOCK 2 · photograph with portal arch ──────────────────── */}
-        <Reveal
-          variant="curtain"
-          duration={1.15}
-          className="relative aspect-[5/4] w-full sm:aspect-[16/10] md:aspect-[2.4/1]"
-        >
-          <Image
-            src={photo}
-            alt="A woman working from her phone at home"
-            fill
-            sizes="100vw"
-            className="object-cover object-[center_30%]"
-          />
-          {/* tombstone / portal arch overlay */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-[8%] top-[6%] bottom-[-35%] rounded-t-[50%] border border-[var(--paper-white)]/45 md:inset-x-[22%] md:top-[4%] md:bottom-[-55%]"
-          />
+    <Section id="opportunity" className="opportunity">
+      {/* ── BLOCK 1 · headline and the plain-language bullets ─────── */}
+      <div className="opp-head">
+        <Reveal variant="up" duration={0.95} className="opp-title-wrap">
+          <CmsPlateLabel kind="home" path="opportunity.label" label={data.label} />
+          <CmsDisplay kind="home" path="opportunity.heading" as="h2" className="opp-title">
+            {data.heading}
+          </CmsDisplay>
         </Reveal>
 
-        {/* ── BLOCK 3 · ambassador band ──────────────────────────────── */}
-        <div className="relative grid min-h-[320px] place-items-center overflow-hidden p-7 text-center sm:min-h-[420px] sm:p-10">
-          <Image
-            src={ambPhoto}
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover object-[center_35%]"
-          />
-          <div aria-hidden className="absolute inset-0 bg-[hsl(151_33%_13%/0.76)]" />
-          <div aria-hidden className="dot-grid-dark absolute inset-0 opacity-60" />
-
-          <Reveal variant="up" delay={0.1} duration={0.95} className="relative z-10 max-w-[62ch]">
-            <div>
-              <CmsDisplay kind="home" path="opportunity.ambHeading" as="h3" className="text-[clamp(1.65rem,3vw,2.35rem)] text-paper">
-                {data.ambHeading}
-              </CmsDisplay>
+        <Reveal variant="right" delay={0.12} duration={0.95} className="opp-bullets">
+          <div>
+            {data.bullets.map((bullet, i) => (
               <CmsText
+                key={i}
                 kind="home"
-                path="opportunity.ambBody"
-                multiline
+                path={`opportunity.bullets.${i}.text`}
                 as="p"
-                className="mt-5 text-[0.92rem] leading-[1.85] text-[var(--paper-white)]/85 sm:mt-6 sm:text-[0.95rem] sm:leading-[1.95]"
+                className="opp-bullet"
               >
-                {data.ambBody}
+                {bullet.text}
               </CmsText>
-              <Button
-                asChild
-                className="mt-6 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep sm:mt-8"
-              >
-                <a href="#contact">
-                  <CmsText kind="home" path="opportunity.ambCtaLabel">{data.ambCtaLabel}</CmsText>
-                </a>
-              </Button>
-            </div>
-          </Reveal>
-        </div>
+            ))}
+            <DotLeader count={8} className="opp-dots" />
+          </div>
+        </Reveal>
+      </div>
+
+      {/* ── BLOCK 2 · photograph ───────────────────────────────────── */}
+      <Reveal variant="curtain" duration={1.15} className="opp-photo">
+        <Image
+          src={photo}
+          alt="A woman working from her phone at home"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div aria-hidden className="opp-arch" />
+      </Reveal>
+
+      {/* ── BLOCK 3 · ambassador band ──────────────────────────────── */}
+      <div className="band band-split opp-band">
+        <Image
+          src={ambPhoto}
+          alt=""
+          fill
+          sizes="100vw"
+          className="opp-band-img"
+        />
+        <div aria-hidden className="opp-band-shade" />
+        <span className="orb" aria-hidden />
+
+        <Reveal variant="up" delay={0.1} duration={0.95} className="opp-band-copy">
+          <CmsDisplay kind="home" path="opportunity.ambHeading" as="h3" className="opp-band-title">
+            {data.ambHeading}
+          </CmsDisplay>
+          <CmsText kind="home" path="opportunity.ambBody" multiline as="p" className="opp-band-text">
+            {data.ambBody}
+          </CmsText>
+          <Button asChild size="lg" className="on-dark">
+            <a href="#contact">
+              <CmsText kind="home" path="opportunity.ambCtaLabel">{data.ambCtaLabel}</CmsText>
+              <ArrowRight aria-hidden />
+            </a>
+          </Button>
+        </Reveal>
       </div>
     </Section>
   );

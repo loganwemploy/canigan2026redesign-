@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { ArrowRight, X } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -68,7 +67,7 @@ export function AudienceGateway({ phone }: { phone: string }) {
       const timeline = gsap.timeline({ defaults: { ease: "power3.out" }, onComplete: () => setPhase("choosing") });
       timeline
         .fromTo("[data-gateway-botanical]", { scale: 1.06, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.65 })
-        .to("[data-gateway-botanical]", { opacity: 0.24, scale: 1.015, duration: 0.3, delay: 0.12 })
+        .to("[data-gateway-botanical]", { opacity: 1, scale: 1.015, duration: 0.3, delay: 0.12 })
         .fromTo("[data-gateway-panel]", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, "-=0.2")
         .fromTo("[data-gateway-copy]", { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, "-=0.25")
         .fromTo("[data-choice]", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.04 }, "-=0.16")
@@ -133,73 +132,73 @@ export function AudienceGateway({ phone }: { phone: string }) {
       data-phase={phase}
       data-selected={selected}
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[100] overflow-y-auto bg-gateway-paper text-ink data-[phase=booting]:pointer-events-none data-[phase=booting]:opacity-0 data-[phase=exiting]:pointer-events-none"
+      className="gw"
     >
-      <div data-gateway-botanical className="pointer-events-none fixed inset-0 opacity-0" aria-hidden>
-        <Image src="/images/botanical-swoosh.png" alt="" fill priority sizes="100vw" className="object-cover" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(48_24%_97%/0.04),hsl(48_24%_97%/0.36))]" />
+      <div data-gateway-botanical className="gw-wreath" aria-hidden>
+        <div className="gw-wreath-img" />
       </div>
+      <div className="gw-grain" aria-hidden />
 
-      <div className="relative mx-auto flex min-h-full w-full max-w-[1320px] flex-col px-4 py-4 sm:px-9 sm:py-5 lg:px-12">
-        <div className="ml-auto flex items-center gap-2">
-          <button
-            data-skip
-            type="button"
-            onClick={closeGateway}
-            className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-forest/30 bg-white/90 px-4 text-sm font-bold text-forest opacity-0 shadow-sm backdrop-blur hover:bg-white sm:text-base"
-          >
+      <div className="gw-shell">
+        <div className="gw-top">
+          <button data-skip type="button" onClick={closeGateway} className="btn ghost gw-skip">
             Skip and show the full site
           </button>
           <button
             type="button"
             onClick={closeGateway}
-            className="grid size-11 place-items-center rounded-full border border-forest/25 bg-white/80 text-forest backdrop-blur hover:bg-white"
+            className="btn ghost icon gw-close"
             aria-label="Close this question and show the full site"
           >
-            <X className="size-4" aria-hidden />
+            <X aria-hidden />
           </button>
         </div>
 
-        <div className="mx-auto flex w-full max-w-[1120px] flex-1 flex-col items-center justify-start py-4 text-center sm:py-6 lg:py-8">
-          <div data-gateway-panel className="w-full rounded-[28px] border border-forest/15 bg-[hsl(48_28%_99%/0.93)] p-4 opacity-0 shadow-[0_34px_90px_-55px_hsl(150_44%_18%/0.6)] backdrop-blur-xl sm:p-6 lg:p-7">
-          <div data-gateway-copy className="opacity-0">
-            <p className="label-caps text-forest">Choose what you would like help with</p>
-            <h2 id="audience-gateway-title" className="mt-2 text-[clamp(1.8rem,3.5vw,3.15rem)] font-bold leading-[1.06] tracking-[-0.03em] sm:mt-3">
-              Which best describes you?
-            </h2>
-            <p id="audience-gateway-description" className="sr-only mx-auto mt-3 max-w-[58ch] text-lg leading-7 text-inksoft sm:not-sr-only">
-              Choose one option. We will show the information that is most useful to you. You can change this later.
-            </p>
-          </div>
+        <div className="gw-main">
+          <div data-gateway-panel className="gw-panel">
+            <div data-gateway-copy className="gw-copy">
+              <p className="eyebrow">Choose what you would like help with</p>
+              <h2 id="audience-gateway-title" className="gw-title">
+                Which best <em>describes you?</em>
+              </h2>
+              <p id="audience-gateway-description" className="gw-lede">
+                Choose one option. We will show the information that is most useful to you. You can change this later.
+              </p>
+            </div>
 
-          <div className="mt-5 grid w-full grid-cols-2 gap-2 sm:mt-6 sm:gap-3 md:grid-cols-3" data-choice-grid>
-            {AUDIENCE_KEYS.map((key) => {
-              const profile = AUDIENCES[key];
-              return (
-                <a
-                  key={key}
-                  href={`/for/${key}`}
-                  data-choice
-                  data-audience-choice={key}
-                  data-active={selected === key ? "true" : "false"}
-                  onMouseEnter={() => setSelected(key)}
-                  onMouseLeave={() => setSelected("none")}
-                  onFocus={() => setSelected(key)}
-                  onBlur={() => setSelected("none")}
-                  onClick={() => rememberAudience(key)}
-                  className="group flex min-h-[126px] cursor-pointer flex-col rounded-[18px] border-2 border-forest/25 bg-white/90 p-4 text-left opacity-0 shadow-[0_20px_55px_-42px_hsl(147_42%_16%/0.5)] backdrop-blur-sm transition-[border-color,background-color] duration-200 hover:border-forest hover:bg-white focus-visible:border-forest md:min-h-[154px] md:p-5 lg:min-h-[160px]"
-                >
-                  <span className="text-base font-bold leading-6 text-ink sm:text-lg sm:leading-7">{profile.chooserTitle}</span>
-                  <span className="sr-only mt-2 text-base leading-7 text-inksoft md:not-sr-only">{profile.chooserBody}</span>
-                  <ArrowRight className="mt-auto hidden size-5 text-forest md:block" aria-hidden />
-                </a>
-              );
-            })}
-          </div>
+            <div className="gw-grid" data-choice-grid>
+              {AUDIENCE_KEYS.map((key, index) => {
+                const profile = AUDIENCES[key];
+                return (
+                  <a
+                    key={key}
+                    href={`/for/${key}`}
+                    data-choice
+                    data-audience-choice={key}
+                    data-active={selected === key ? "true" : "false"}
+                    onMouseEnter={() => setSelected(key)}
+                    onMouseLeave={() => setSelected("none")}
+                    onFocus={() => setSelected(key)}
+                    onBlur={() => setSelected("none")}
+                    onClick={() => rememberAudience(key)}
+                    className="gw-choice"
+                  >
+                    <span className="gw-num" aria-hidden>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="gw-choice-title">{profile.chooserTitle}</span>
+                    <span className="gw-choice-body">{profile.chooserBody}</span>
+                    <span className="gw-go" aria-hidden>
+                      <ArrowRight />
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
 
-          <a href={telHref} className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink sm:text-base">
-            Not sure? Call Candy at {phone}
-          </a>
+            <a href={telHref} className="gw-call">
+              Not sure? Call Candy at <span className="gw-tel">{phone}</span>
+            </a>
           </div>
         </div>
       </div>

@@ -2,14 +2,12 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/** Multi-line input. Styled by `[data-slot="textarea"]` in app/sections.css. */
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (
     <textarea
       data-slot="textarea"
-      className={cn(
-        "flex field-sizing-content min-h-28 w-full rounded-md border border-input bg-transparent px-4 py-3 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-base dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
-        className
-      )}
+      className={cn("selection:bg-[var(--leaf)] selection:text-white", className)}
       {...props}
     />
   )

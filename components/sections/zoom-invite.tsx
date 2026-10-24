@@ -15,20 +15,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 import type { ZoomMeeting } from "@/lib/home-types";
 
 type Status = "idle" | "sending" | "sent" | "error";
-
-const FIELD =
-  "rounded-[8px] border-[var(--hairline)] bg-parch text-base text-ink shadow-none focus-visible:border-terra focus-visible:ring-terra placeholder:text-inksoft/80";
-
-const FIELD_LABEL = "text-base font-bold text-petrol";
 
 /**
  * The Zoom call-to-action opens this modal rather than jumping straight to Zoom,
  * so people see what the session actually is and can either join the live link
  * or reserve a seat. RSVPs land in Payload (Zoom → Zoom RSVPs).
+ *
+ * Skin: the dark ink header, paper body, kit buttons and form fields are all
+ * styled in app/sections.css (`.zoom-dialog-*` and the `data-slot` rules).
  */
 export function ZoomInviteDialog({
   meeting,
@@ -97,69 +94,58 @@ export function ZoomInviteDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent>
-        <div className="border-b border-[var(--hairline-soft)] bg-pine px-6 py-6 text-paper sm:px-8">
-          <span className="text-base font-bold text-terra">Join Candy live on Zoom</span>
-          <DialogTitle className="mt-3 pr-10 text-[1.4rem] text-paper sm:text-[1.55rem]">
+        <div className="zoom-dialog-head">
+          <span className="eyebrow">Join Candy live on Zoom</span>
+          <DialogTitle className="zoom-dialog-title">
             {meeting?.title ?? "Live wellness & business sessions with Candy"}
           </DialogTitle>
-          <DialogDescription className="mt-2 text-base text-[var(--paper-white)]/90">
+          <DialogDescription className="zoom-dialog-lede">
             {meeting
               ? "Free to attend, no obligation. Join the live link or reserve a seat and Candy will send the details."
               : "A new session is being scheduled. Reserve a seat and Candy will email you the invite as soon as it's set."}
           </DialogDescription>
         </div>
 
-        <div className="px-6 py-6 sm:px-8">
+        <div className="zoom-dialog-body">
           {details.length ? (
-            <dl className="mb-6 grid gap-2.5 rounded-[8px] border border-[var(--hairline-soft)] bg-parch px-4 py-4">
+            <dl className="zoom-dialog-facts">
               {details.map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex items-center gap-3 text-base">
-                  <Icon className="size-4 shrink-0 text-terra" aria-hidden />
-                  <dt className="w-[76px] shrink-0 text-base font-bold text-petrol">
-                    {label}
-                  </dt>
-                  <dd className="font-semibold text-ink">{value}</dd>
+                <div key={label} className="zoom-dialog-fact">
+                  <Icon aria-hidden />
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
                 </div>
               ))}
             </dl>
           ) : null}
 
           {status === "sent" ? (
-            <div
-              role="status"
-              className="flex flex-col items-center gap-3 rounded-[8px] border border-[var(--hairline-soft)] bg-parch p-6 text-center"
-            >
-              <Check className="size-5 text-pine" aria-hidden />
-              <p className="max-w-[38ch] text-base leading-[1.75] text-ink">
+            <div role="status" className="zoom-dialog-sent">
+              <span className="zoom-dialog-check">
+                <Check aria-hidden />
+              </span>
+              <p>
                 Your seat is reserved — Candy will be in touch with the details before the call.
               </p>
               {meeting?.link ? (
-                <Button
-                  asChild
-                  className="mt-1 h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
-                >
+                <Button asChild size="lg">
                   <a href={meeting.link} target="_blank" rel="noreferrer">
-                    <Video className="mr-2 size-4" aria-hidden />
+                    <Video aria-hidden />
                     Join the Zoom now
                   </a>
                 </Button>
               ) : null}
               <DialogClose asChild>
-                <button
-                  type="button"
-                  className="min-h-12 text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline"
-                >
+                <button type="button" className="text-link">
                   Close
                 </button>
               </DialogClose>
             </div>
           ) : showForm ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label htmlFor="rsvp-name" className={FIELD_LABEL}>
-                    Name
-                  </Label>
+            <form onSubmit={handleSubmit} className="zoom-dialog-form">
+              <div className="zoom-dialog-grid">
+                <div className="field">
+                  <Label htmlFor="rsvp-name">Name</Label>
                   <Input
                     id="rsvp-name"
                     required
@@ -167,13 +153,10 @@ export function ZoomInviteDialog({
                     placeholder="Your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="rsvp-email" className={FIELD_LABEL}>
-                    Email
-                  </Label>
+                <div className="field">
+                  <Label htmlFor="rsvp-email">Email</Label>
                   <Input
                     id="rsvp-email"
                     type="email"
@@ -182,13 +165,12 @@ export function ZoomInviteDialog({
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="rsvp-phone" className={FIELD_LABEL}>
+                <div className="field">
+                  <Label htmlFor="rsvp-phone">
                     Phone{" "}
-                    <span className="font-normal tracking-normal normal-case">(optional)</span>
+                    <span className="field-opt">(optional)</span>
                   </Label>
                   <Input
                     id="rsvp-phone"
@@ -197,13 +179,10 @@ export function ZoomInviteDialog({
                     placeholder="(000) 000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="rsvp-guests" className={FIELD_LABEL}>
-                    Seats
-                  </Label>
+                <div className="field">
+                  <Label htmlFor="rsvp-guests">Seats</Label>
                   <Input
                     id="rsvp-guests"
                     type="number"
@@ -212,15 +191,14 @@ export function ZoomInviteDialog({
                     inputMode="numeric"
                     value={guests}
                     onChange={(e) => setGuests(e.target.value)}
-                    className={cn(FIELD, "h-12")}
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="rsvp-notes" className={FIELD_LABEL}>
+              <div className="field">
+                <Label htmlFor="rsvp-notes">
                   Anything you&apos;d like Candy to cover?{" "}
-                  <span className="font-normal tracking-normal normal-case">(optional)</span>
+                  <span className="field-opt">(optional)</span>
                 </Label>
                 <Textarea
                   id="rsvp-notes"
@@ -228,57 +206,42 @@ export function ZoomInviteDialog({
                   placeholder="A question or health goal you'd like addressed…"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className={cn(FIELD, "min-h-[5rem] py-2.5 leading-[1.7]")}
+                  className="min-h-[104px]"
                 />
               </div>
 
-              <div className="flex min-h-12 items-center gap-3">
+              <div className="zoom-dialog-remind">
                 <Checkbox
                   id="rsvp-reminder"
                   checked={reminder}
                   onCheckedChange={(checked) => setReminder(checked === true)}
-                  className="border-[var(--hairline)] bg-parch data-[state=checked]:border-terra data-[state=checked]:bg-terra data-[state=checked]:text-paper"
                 />
-                <Label
-                  htmlFor="rsvp-reminder"
-                  className="min-h-12 cursor-pointer items-center text-base font-normal leading-7 text-ink"
-                >
+                <Label htmlFor="rsvp-reminder" className="cursor-pointer font-normal">
                   Send me a reminder before the call
                 </Label>
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-3 pt-1">
-                <Button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="h-12 rounded-full bg-terra px-8 text-base font-bold text-paper hover:bg-terradeep"
-                >
+              <div className="zoom-dialog-actions">
+                <Button type="submit" size="lg" disabled={status === "sending"}>
                   {status === "sending" ? "Reserving…" : "Reserve my seat"}
                 </Button>
-                <button
-                  type="button"
-                  onClick={() => setShowForm(false)}
-                  className="min-h-12 text-base font-bold text-inksoft underline-offset-4 hover:text-ink hover:underline"
-                >
+                <button type="button" onClick={() => setShowForm(false)} className="text-link">
                   Back
                 </button>
               </div>
 
               {status === "error" ? (
-                <p role="alert" className="text-base text-destructive">
+                <p role="alert" className="contact-error">
                   Something went wrong — please call or email Candy directly.
                 </p>
               ) : null}
             </form>
           ) : (
-            <div className="space-y-3">
+            <div className="zoom-dialog-choice">
               {meeting?.link ? (
-                <Button
-                  asChild
-                  className="h-12 w-full rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
-                >
+                <Button asChild size="lg" className="w-full">
                   <a href={meeting.link} target="_blank" rel="noreferrer">
-                    <Video className="mr-2 size-4" aria-hidden />
+                    <Video aria-hidden />
                     Join the Zoom now
                   </a>
                 </Button>
@@ -287,13 +250,14 @@ export function ZoomInviteDialog({
               <Button
                 type="button"
                 variant="outline"
+                size="lg"
                 onClick={() => setShowForm(true)}
-                className="h-12 w-full rounded-full border-[var(--hairline)] bg-transparent px-7 text-base font-bold text-ink hover:bg-parch"
+                className="w-full"
               >
                 RSVP & save my seat
               </Button>
 
-              <p className="pt-1 text-center text-[0.9rem] leading-[1.7] text-inksoft">
+              <p className="zoom-dialog-note">
                 Can&apos;t make it live? RSVP anyway and Candy will follow up with a recap.
               </p>
             </div>

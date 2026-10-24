@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { Drift } from "@/components/motion/effects";
 import { DotLeader, DotRule, Section } from "@/components/site/atoms";
@@ -15,26 +16,22 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
   const isExternal = /^https?:\/\//i.test(data.ctaUrl);
 
   return (
-    <Section id="nutrition">
-      <div className="grid grid-cols-1 overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] md:min-h-[620px] md:grid-cols-[1fr_0.85fr]">
+    <Section id="nutrition" className="nutrition">
+      <div className="nutri-grid">
         {/* ── left: the two text columns, CTA, and footer strip ── */}
-        <div className="flex flex-col bg-cream2 p-6 sm:p-8 md:p-10">
-          <Reveal
-            variant="up"
-            stagger={0.12}
-            className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10"
-          >
+        <div className="nutri-panel">
+          <Reveal variant="up" stagger={0.12} className="nutri-cols">
             {data.columns.map((column, i) => (
-              <div key={i}>
+              <div key={i} className="nutri-col">
                 <CmsText
                   kind="home"
                   path={`nutrition.columns.${i}.heading`}
                   as="h3"
-                  className="font-display text-[1.45rem] leading-[1.3] text-ink"
+                  className="nutri-heading"
                 >
                   {column.heading}
                 </CmsText>
-                <DotLeader count={9} className="mt-1.5 block" />
+                <DotLeader count={9} className="nutri-dots" />
                 {column.paragraphs.map((paragraph, j) => (
                   <CmsText
                     key={j}
@@ -42,7 +39,7 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
                     path={`nutrition.columns.${i}.paragraphs.${j}.text`}
                     multiline
                     as="p"
-                    className="mt-5 text-base leading-[1.75] text-petrol"
+                    className="nutri-text"
                   >
                     {paragraph.text}
                   </CmsText>
@@ -51,33 +48,32 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
             ))}
           </Reveal>
 
-          {/* pushes the strip to the plate's lower edge on desktop */}
-          <div className="flex-1" />
+          {/* pushes the strip to the panel's lower edge on desktop */}
+          <div className="nutri-spacer" aria-hidden />
 
-          <Reveal variant="up" delay={0.15} className="mt-10 flex">
-            <Button
-              asChild
-              className="h-12 self-start rounded-full bg-terra px-6 text-base font-bold text-paper hover:bg-terradeep"
-            >
+          <Reveal variant="up" delay={0.15} className="nutri-cta">
+            <Button asChild size="lg">
               {isExternal ? (
                 <a href={data.ctaUrl} target="_blank" rel="noreferrer">
                   <CmsText kind="home" path="nutrition.ctaLabel">{data.ctaLabel}</CmsText>
+                  <ArrowRight aria-hidden />
                 </a>
               ) : (
                 <a href={data.ctaUrl}>
                   <CmsText kind="home" path="nutrition.ctaLabel">{data.ctaLabel}</CmsText>
+                  <ArrowRight aria-hidden />
                 </a>
               )}
             </Button>
           </Reveal>
 
-          <div className="mt-8">
+          <div className="nutri-foot">
             <DotRule />
-            <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-x-6 sm:gap-y-1">
-              <CmsText kind="home" path="nutrition.strip" className="text-base font-bold text-petrol">
+            <div className="nutri-strip">
+              <CmsText kind="home" path="nutrition.strip" className="nutri-strip-text">
                 {data.strip}
               </CmsText>
-              <CmsText kind="home" path="nutrition.plate" className="font-display text-[0.88rem] text-terra sm:text-right">
+              <CmsText kind="home" path="nutrition.plate" className="label-caps">
                 {data.plate}
               </CmsText>
             </div>
@@ -85,23 +81,25 @@ export function Nutrition({ data }: { data: HomeData["nutrition"] }) {
         </div>
 
         {/* ── right: full-height photograph with a decorative arc ── */}
-        <Reveal
-          variant="curtain"
-          duration={1.1}
-          className="relative aspect-[4/3] w-full overflow-hidden bg-parch md:aspect-auto md:h-full"
-        >
-          <Drift className="absolute inset-0" amount={6}>
+        <Reveal variant="curtain" duration={1.1} className="nutri-photo">
+          <Drift className="nutri-drift" amount={3}>
+            {/* decorative blurred copy so the whole infographic can show without letterbox bars */}
+            <Image
+              src={src}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(min-width:768px) 45vw, 100vw"
+              className="nutri-fill"
+            />
             <Image
               src={src}
               alt={data.imageAlt || "Women enjoying nutritious food, outdoor exercise, and a quiet wellness moment"}
               fill
               sizes="(min-width:768px) 45vw, 100vw"
-              className="scale-110 object-cover object-center"
+              className="nutri-img"
             />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute top-[8%] left-1/2 aspect-square w-[130%] -translate-x-1/2 rounded-full border border-[var(--paper-white)]/30"
-            />
+            <div aria-hidden className="nutri-arc" />
           </Drift>
         </Reveal>
       </div>

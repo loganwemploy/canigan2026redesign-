@@ -12,81 +12,40 @@ export function GetStarted({ data }: { data: HomeData["getStarted"] }) {
   const lastIndex = steps.length - 1;
 
   return (
-    <Section id="start">
-      <Plate inner={false} className="dot-grid px-7 py-10 sm:px-10 sm:py-12">
-        <Reveal variant="up">
+    <Section id="start" className="start">
+      <Plate inner={false} className="start-plate">
+        <Reveal variant="up" className="start-head">
           <CmsPlateLabel kind="home" path="getStarted.label" label={data.label} />
-          <CmsDisplay
-            kind="home"
-            path="getStarted.heading"
-            as="h2"
-            className="mt-7 max-w-[40ch] text-[clamp(1.65rem,2.9vw,2.2rem)] leading-[1.38] text-ink"
-          >
+          <CmsDisplay kind="home" path="getStarted.heading" as="h2" className="start-title">
             {data.heading}
           </CmsDisplay>
         </Reveal>
 
-        {/* Deliberate void. Generous on desktop where the plate has width to
-            balance it; on a phone that much dead height just reads as a bug. */}
-        <div aria-hidden className="min-h-[72px] sm:min-h-[140px] md:min-h-[240px]" />
+        <DotRule className="start-rule" />
 
-        <DotRule />
+        {/* One list: a row of four on wide screens, a column on phones. */}
+        <Reveal as="ol" variant="up" stagger={0.1} className="start-steps">
+          {steps.map((step, i) => (
+            <li key={i} className="start-step">
+              <span className="start-num">{String(i + 1).padStart(2, "0")}</span>
+              <CmsText kind="home" path={`getStarted.steps.${i}.label`} className="start-label">
+                {step.label}
+              </CmsText>
+              {i !== lastIndex ? (
+                <>
+                  <ArrowRight aria-hidden className="start-arrow start-arrow-x" />
+                  <ArrowDown aria-hidden className="start-arrow start-arrow-y" />
+                </>
+              ) : null}
+            </li>
+          ))}
+        </Reveal>
 
-        <div className="mt-7">
-          {/* desktop rail */}
-          <Reveal
-            variant="up"
-            stagger={0.1}
-            className="hidden gap-6 md:grid md:grid-cols-4"
-          >
-            {steps.map((step, i) => (
-              <div key={i} className="relative pr-7">
-                <span className="font-display block text-[2.1rem] leading-none text-terra">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <CmsText
-                  kind="home"
-                  path={`getStarted.steps.${i}.label`}
-                  className="mt-3 block text-base font-bold leading-7 text-petrol"
-                >
-                  {step.label}
-                </CmsText>
-                {i !== lastIndex ? (
-                  <ArrowRight aria-hidden className="absolute right-0 top-3 size-4 text-inksoft" />
-                ) : null}
-              </div>
-            ))}
-          </Reveal>
-
-          {/* mobile rail */}
-          <Reveal variant="up" stagger={0.1} className="space-y-5 md:hidden">
-            {steps.map((step, i) => (
-              <div key={i}>
-                <span className="font-display block text-[2.1rem] leading-none text-terra">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <CmsText
-                  kind="home"
-                  path={`getStarted.steps.${i}.label`}
-                  className="mt-3 block text-base font-bold leading-7 text-petrol"
-                >
-                  {step.label}
-                </CmsText>
-                {i !== lastIndex ? (
-                  <ArrowDown aria-hidden className="mt-3 size-4 text-inksoft" />
-                ) : null}
-              </div>
-            ))}
-          </Reveal>
-        </div>
-
-        <Reveal variant="up" className="mt-10">
-          <Button
-            asChild
-            className="h-12 rounded-full bg-terra px-7 text-base font-bold text-paper hover:bg-terradeep"
-          >
+        <Reveal variant="up" className="start-cta">
+          <Button asChild size="lg">
             <a href={data.primaryCta.url} target="_blank" rel="noreferrer">
               <CmsText kind="home" path="getStarted.primaryCta.label">{data.primaryCta.label}</CmsText>
+              <ArrowRight aria-hidden />
             </a>
           </Button>
         </Reveal>

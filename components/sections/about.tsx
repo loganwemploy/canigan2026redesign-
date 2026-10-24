@@ -5,73 +5,83 @@ import { Mail, Phone } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { DotRule, Section } from "@/components/site/atoms";
 import { CmsDisplay, CmsPlateLabel, CmsText } from "@/components/site-editor/inline-edit";
+import { useSiteEditor } from "@/components/site-editor/editor-context";
+import { Button } from "@/components/ui/button";
 import { resolveImage } from "@/lib/drive";
 import { FALLBACK_IMAGES } from "@/cms/content";
 import type { HomeData } from "@/lib/home-types";
+
+/**
+ * Email addresses have no natural line break, so a narrow pill would split one mid-word.
+ * Offer a single break after the "@". The editor keeps the plain editable text, so what
+ * gets saved is never touched.
+ */
+function AboutEmail({ value }: { value: string }) {
+  const { enabled } = useSiteEditor();
+  if (enabled) {
+    return (
+      <CmsText kind="home" path="about.email" className="about-email">
+        {value}
+      </CmsText>
+    );
+  }
+  const at = value.indexOf("@");
+  if (at < 0) return <span className="about-email">{value}</span>;
+  return (
+    <span className="about-email">
+      {value.slice(0, at + 1)}
+      <wbr />
+      {value.slice(at + 1)}
+    </span>
+  );
+}
 
 export function About({ about }: { about: HomeData["about"] }) {
   const portrait = resolveImage(about.image, FALLBACK_IMAGES.about);
   const telHref = `tel:${about.phone.replace(/[^0-9+]/g, "")}`;
 
   return (
-    <Section id="about">
-        <div className="grid overflow-hidden rounded-[10px] border border-[var(--hairline-soft)] bg-cream2 md:grid-cols-[1fr_0.8fr]">
-          <Reveal variant="left" className="p-7 sm:p-10 lg:p-12">
-            <CmsPlateLabel kind="home" path="about.label" label={about.label} />
+    <Section id="about" className="about">
+      <div className="about-grid">
+        <Reveal variant="left" className="about-copy">
+          <CmsPlateLabel kind="home" path="about.label" label={about.label} />
 
-            <CmsDisplay
-              kind="home"
-              path="about.heading"
-              as="h2"
-              className="mt-7 text-[clamp(1.65rem,2.9vw,2.25rem)] text-ink"
-            >
-              {about.heading}
-            </CmsDisplay>
+          <CmsDisplay kind="home" path="about.heading" as="h2" className="about-title">
+            {about.heading}
+          </CmsDisplay>
 
-            <CmsText
-              kind="home"
-              path="about.body"
-              multiline
-              as="p"
-              className="mt-7 max-w-[58ch] text-[1.05rem] leading-[1.8] text-petrol"
-            >
-              {about.body}
-            </CmsText>
+          <CmsText kind="home" path="about.body" multiline as="p" className="lead about-body">
+            {about.body}
+          </CmsText>
 
-            <DotRule className="mt-8 max-w-[62ch]" />
+          <DotRule className="about-rule" />
 
-            <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
-              <a
-                href={telHref}
-                className="inline-flex min-h-12 items-center gap-2 text-base font-bold text-terra hover:text-terradeep"
-              >
-                <Phone className="size-3.5" aria-hidden />
+          <div className="about-contact">
+            <Button asChild variant="outline">
+              <a href={telHref}>
+                <Phone aria-hidden />
                 <CmsText kind="home" path="about.phone">{about.phone}</CmsText>
               </a>
-              <a
-                href={`mailto:${about.email}`}
-                className="inline-flex min-h-12 items-center gap-2 text-base font-bold text-terra hover:text-terradeep"
-              >
-                <Mail className="size-3.5" aria-hidden />
-                <CmsText kind="home" path="about.email">{about.email}</CmsText>
+            </Button>
+            <Button asChild variant="outline">
+              <a href={`mailto:${about.email}`}>
+                <Mail aria-hidden />
+                <AboutEmail value={about.email} />
               </a>
-            </div>
-          </Reveal>
+            </Button>
+          </div>
+        </Reveal>
 
-          <Reveal
-            variant="right"
-            className="relative aspect-[4/3] min-h-[240px] md:aspect-auto md:min-h-[380px]"
-          >
-            <Image
-              src={portrait}
-              alt="Candy, founder of Canigan Health Options"
-              fill
-              sizes="(min-width: 768px) 45vw, 100vw"
-              className="object-cover object-[62%_22%] md:object-[center_25%]"
-            />
-            <div className="pointer-events-none absolute inset-4 rounded-[6px] border border-[var(--paper-white)]/40" />
-          </Reveal>
-        </div>
-      </Section>
+        <Reveal variant="right" className="about-photo">
+          <Image
+            src={portrait}
+            alt="Candy, founder of Canigan Health Options"
+            fill
+            sizes="(min-width: 768px) 45vw, 100vw"
+            className="object-cover"
+          />
+        </Reveal>
+      </div>
+    </Section>
   );
 }
