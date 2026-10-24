@@ -51,7 +51,7 @@
     pointer-events: none;
     background: url(/ember/grain.webp) center / 700px auto;
     mix-blend-mode: multiply;
-    opacity: 0.28;
+    opacity: 0.14;
   }
 
   .gw-shell {

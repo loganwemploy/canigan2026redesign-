@@ -429,7 +429,7 @@
     pointer-events: none;
     background: url(/ember/grain.webp) center / 420px auto;
     mix-blend-mode: multiply;
-    opacity: 0.28;
+    opacity: 0.14;
   }
   .hero-tasks {
     align-content: center;

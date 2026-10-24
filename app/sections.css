@@ -23,7 +23,7 @@
     pointer-events: none;
     background: url(/ember/grain.webp) center / 420px auto;
     mix-blend-mode: multiply;
-    opacity: 0.28;
+    opacity: 0.14;
   }
 
   /* An ink band in two columns (social updates, Zoom): the kit band, left aligned.
@@ -594,7 +594,7 @@
     pointer-events: none;
     background: url(/ember/grain.webp) center / 420px auto;
     mix-blend-mode: multiply;
-    opacity: 0.22;
+    opacity: 0.11;
   }
   .sci-card:hover {
     translate: 0 -8px;

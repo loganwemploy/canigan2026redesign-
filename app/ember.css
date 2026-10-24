@@ -83,7 +83,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   
   /* ───────── Grain (your grunge texture) + leaf wreath frame ───────── */
-  .grain{position:fixed;inset:0;z-index:60;pointer-events:none;background:url(/ember/grain.webp) center/700px auto;mix-blend-mode:multiply;opacity:.55}
+  .grain{position:fixed;inset:0;z-index:60;pointer-events:none;background:url(/ember/grain.webp) center/700px auto;mix-blend-mode:multiply;opacity:.28}
   .frame{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
   .frame .bg{position:absolute;inset:-2%;background:url(/ember/leaves.webp) center/cover no-repeat;transform:scale(var(--sc,1));opacity:var(--fo,1);will-change:transform,opacity}
   @media (max-aspect-ratio:1/1){.frame .bg{background-image:url(/ember/leaves-portrait.webp)}}
